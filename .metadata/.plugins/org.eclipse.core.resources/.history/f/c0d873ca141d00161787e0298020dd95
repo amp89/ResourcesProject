@@ -1,0 +1,8 @@
+addEventListner('load',function(e){
+	console.log('signUp.js loaded');
+});
+
+
+
+
+

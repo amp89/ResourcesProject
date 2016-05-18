@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="javax.persistence.Entity"/>
+<fullyQualifiedTypeName name="javax.persistence.Table"/>
+<fullyQualifiedTypeName name="javax.persistence.OneToMany"/>
+<fullyQualifiedTypeName name="javax.persistence.Persistence"/>
+<fullyQualifiedTypeName name="org.junit.Assert"/>
+<fullyQualifiedTypeName name="javax.annotation.Resource"/>
+<fullyQualifiedTypeName name="org.apache.catalina.realm.JNDIRealm.User"/>
+<fullyQualifiedTypeName name="entities.Resources"/>
+<fullyQualifiedTypeName name="entities.Resource"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="entities.UserResource"/>
+<fullyQualifiedTypeName name="entities.User"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMethod"/>
+<fullyQualifiedTypeName name="entities.UserType"/>
+<fullyQualifiedTypeName name="javax.persistence.FetchType"/>
+</qualifiedTypeNameHistroy>

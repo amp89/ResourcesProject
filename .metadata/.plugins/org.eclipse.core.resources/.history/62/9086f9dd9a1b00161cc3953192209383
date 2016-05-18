@@ -1,0 +1,51 @@
+package data;
+
+import java.util.List;
+
+import entities.User;
+
+public interface ResourcesDAO {
+
+	//TODO: test method
+	public List<User> getAllUsers();
+	
+	//Get users
+		//all
+		//by user parameters
+	
+	//modify users
+		//change own stuff
+		//delete own account
+			//cascade
+	
+	//user self stuff
+		//change password
+		//submit resource
+	
+	//get resources
+		
+		//TODO: build a dynamic search
+		//by search terms
+		//by topic
+		//by category
+		//review y/n
+	
+	
+	//dev
+		//add categories (shouldn't be able to select and add)
+		//at topics ""
+		
+		//posts
+			//modify OWN posts
+			//TODO this should be on the normal search
+			//ADMIN: change review status
+			//ADMIN: modify all posts
+			//ADMIN: delete
+			//ADMIN: lock post //TODO TODO TODO TODO TODO TODO  add locked/finalized/something status to database
+		//add categoreis / topics
+		//users
+			//modify
+				//delete - call other delete method - cascade delete logic
+	
+	
+}

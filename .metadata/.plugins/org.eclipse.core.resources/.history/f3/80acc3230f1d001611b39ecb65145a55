@@ -1,0 +1,10 @@
+package data;
+
+public class LoginReturnObject {
+
+	CurrentUser currentUser;
+	
+	
+	public LoginReturnObject();
+	
+}

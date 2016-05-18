@@ -1,0 +1,7 @@
+package controllers;
+
+
+@Controller
+public class ResourcesController {
+
+}

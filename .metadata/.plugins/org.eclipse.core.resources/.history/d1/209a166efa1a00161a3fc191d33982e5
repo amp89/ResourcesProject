@@ -1,0 +1,8 @@
+package data;
+
+@Transactional
+public class ResourcesSQLDAO implements ResourcesDAO{
+
+	@PersistenceContext
+	private EntityManager em;
+}

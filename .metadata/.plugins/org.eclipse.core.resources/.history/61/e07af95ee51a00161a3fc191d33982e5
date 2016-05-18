@@ -1,0 +1,29 @@
+package entityTesting;
+
+import static org.junit.Assert.fail;
+
+import javax.persistence.Persistence;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+public class EntityTest {
+
+	@Before
+	public void setUp(){
+		EntityManagerFacotry emf = Persistence.createEntityManagerFactory(resources);
+		EntityManager em = emf.createEntityManager();
+	}
+	
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+	
+	@After
+	public void tearDown(){
+		
+	}
+
+}

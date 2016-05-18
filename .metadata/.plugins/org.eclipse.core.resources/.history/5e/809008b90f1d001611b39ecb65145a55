@@ -1,0 +1,142 @@
+package entities;
+
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="users")
+public class User{
+
+	@Id
+	@Column(name="id")
+	private int id;
+	
+	@Column(name="username")
+	private String userName;
+	
+	@Column(name="firstname")
+	private String firstName;
+	
+	@Column(name="lastname")
+	private String lastName;
+	
+	@Column(name="email")
+	private String email;
+	
+	@Column(name="password")
+	private String password;
+	
+	@Column(name="user_confirmation_key")
+	private String userConfirmationKey;
+	
+	@ManyToOne
+	@JoinColumn(name="user_type_id")
+	private UserType userType;
+	
+	@Column(name="dateJoined")
+	private long dateJoined;
+	
+	@JsonBackReference
+	@OneToMany(mappedBy="user")
+	private List<UserResource> userResources;
+
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getUserConfirmationKey() {
+		return userConfirmationKey;
+	}
+
+	public void setUserConfirmationKey(String userConfirmationKey) {
+		this.userConfirmationKey = userConfirmationKey;
+	}
+
+	public UserType getUserType() {
+		return userType;
+	}
+
+	public void setUserType(UserType userType) {
+		this.userType = userType;
+	}
+
+	public long getDateJoined() {
+		return dateJoined;
+	}
+
+	public void setDateJoined(long dateJoined) {
+		this.dateJoined = dateJoined;
+	}
+
+
+	public List<UserResource> getUserResources() {
+		return userResources;
+	}
+
+	public void setUserResources(List<UserResource> userResources) {
+		this.userResources = userResources;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", userName=" + userName + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", email=" + email + ", password=" + password + ", userConfirmationKey=" + userConfirmationKey
+				+ ", userType=" + userType + ", dateJoined=" + dateJoined + ", userResources=" + userResources + "]";
+	}
+	
+	
+	
+	
+}

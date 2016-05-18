@@ -1,0 +1,11 @@
+package data;
+
+public class LoginReturnObject {
+
+	CurrentUser currentUser;
+	String message;
+	String errorMessage;
+	
+	public LoginReturnObject(){}
+	
+}

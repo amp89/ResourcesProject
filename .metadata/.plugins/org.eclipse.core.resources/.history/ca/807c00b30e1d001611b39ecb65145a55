@@ -1,0 +1,68 @@
+package data;
+
+import entities.CodeResource;
+
+public class ResultObject {
+
+	private String viewMessage;
+	private String consoleMessage;
+	private String errorMessage;
+	
+	private CodeResource codeResource;
+	
+	private CurrentUser currentUser;
+	
+	private String userKey;
+
+	public String getViewMessage() {
+		return viewMessage;
+	}
+
+	public void setViewMessage(String viewMessage) {
+		this.viewMessage = viewMessage;
+	}
+
+	public String getConsoleMessage() {
+		return consoleMessage;
+	}
+
+	public void setConsoleMessage(String consoleMessage) {
+		this.consoleMessage = consoleMessage;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
+	public CodeResource getCodeResource() {
+		return codeResource;
+	}
+
+	public void setCodeResource(CodeResource codeResource) {
+		this.codeResource = codeResource;
+	}
+
+	public CurrentUser getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(CurrentUser currentUser) {
+		this.currentUser = currentUser;
+	}
+
+	public String getUserKey() {
+		return userKey;
+	}
+
+	public void setUserKey(String userKey) {
+		this.userKey = userKey;
+	}
+	
+	
+	
+	
+}

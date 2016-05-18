@@ -1,0 +1,14 @@
+addEventListener('load',function(e){
+	console.log('signUp.js loaded');
+})
+
+var signUpButton = document.getElementById("signUpButton");
+
+signUpButton.addEventListener('click',function(e){
+	e.preventDefault();
+})
+
+
+
+
+

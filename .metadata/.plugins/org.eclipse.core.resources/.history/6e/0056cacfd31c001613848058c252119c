@@ -1,0 +1,20 @@
+package data;
+
+import entities.CodeResource;
+
+public class ResultObject {
+
+	private String viewMessage;
+	private String consoleMessage;
+	private String errorMessage;
+	
+	private CodeResource codeResource;
+	
+	private CurrentUser currentUser;
+	
+	private String userKey;
+	
+	
+	
+	
+}

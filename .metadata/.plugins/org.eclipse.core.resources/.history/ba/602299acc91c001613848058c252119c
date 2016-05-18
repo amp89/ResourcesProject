@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script src="/js/login.js"></script>
+</head>
+<body>
+
+<form id="loginForm">
+	<input id="user" type="text" placeholder="username or email"/>
+	<input id="password" type="password" placeholder="password" />
+	<button id="submitButton" type="submit">Login</button>
+</form>
+
+</body>
+</html>

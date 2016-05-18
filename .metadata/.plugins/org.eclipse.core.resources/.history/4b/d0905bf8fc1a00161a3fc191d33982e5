@@ -1,0 +1,14 @@
+package controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import data.ResourcesDAO;
+
+@Controller
+public class ResourcesController {
+
+	@Autowired
+	private ResourcesDAO dao;
+	
+}

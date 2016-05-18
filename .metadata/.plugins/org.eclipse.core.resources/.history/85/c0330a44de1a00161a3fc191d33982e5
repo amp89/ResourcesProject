@@ -1,0 +1,8 @@
+package entities;
+
+
+@Entity
+@Table(name="resources")
+public class Resources {
+
+}

@@ -1,0 +1,18 @@
+package data;
+
+import entities.CodeResource;
+
+public class ResultObject {
+
+	private String message;
+	private String errorMessage;
+	
+	private CodeResource codeResource;
+	
+	private CurrentUser currentUser;
+	
+	private String userKey;
+
+	
+	
+}

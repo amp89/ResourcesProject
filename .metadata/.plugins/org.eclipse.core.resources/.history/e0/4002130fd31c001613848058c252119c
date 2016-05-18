@@ -1,0 +1,186 @@
+package data;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import entities.CodeResource;
+import entities.User;
+
+@Transactional
+public class ResourcesSQLDAO implements ResourcesDAO{
+
+	@PersistenceContext(name="resources")
+	private EntityManager em;
+
+	@Override
+	public List<User> getAllUsers() {
+		List<User> ul = em.createQuery("SELECT u FROM User",User.class).getResultList();
+		return ul;
+	}
+
+	@Override
+	public ResultObject signUpUser(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CurrentUser signInUser(User user){ 
+		User u = null;
+		if(user.getEmail().length() > 1){
+			//check email and password
+			u = em.createQuery("SELECT u FROM User u WHERE u.email = :email AND u.password = :password",User.class).setParameter("email",user.getEmail()).setParameter("password",user.getPassword()).getSingleResult();
+		}else if(user.getUserName().length() > 1){
+			u = em.createQuery("SELECT u FROM User u WHERE u.userName = :un AND u.password = :password",User.class).setParameter("un",user.getUserName()).setParameter("password",user.getPassword()).getSingleResult();
+			//check username and password
+		}
+	//it is getting a user object, so now i'll put it in a CurrentUser so the password won't get thrown all over the place
+	CurrentUser loggedInUser = new CurrentUser(u.getId(),u.getFirstName(),u.getLastName(),u.getEmail(),u.getUserType(),u.getDateJoined(),u.getUserResources());
+
+	System.out.println("signIn dao " + loggedInUser);
+//		
+		return loggedInUser;
+
+	return null;
+	}
+
+	@Override
+	public ResultObject sendConfirmation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject confirmAccount() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<User> getUsers(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject updateUser(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject removeUser(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject submitResource(User user, CodeResource codeResource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject getResources(CodeResource codeResource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject modifyResource(CodeResource codeResource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject removeResource(CodeResource codeResource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject saveResource(User user, CodeResource codeResource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject deleteSavedResource(CodeResource codeResource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CodeResource> getSavedResources(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject addCategories() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject removeCategories() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject modifyCategories() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject addTopics() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject removeTopics() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject modifyTopics() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject modifyPosts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject changeReviewStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject deletePost() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject lockPost() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+}
