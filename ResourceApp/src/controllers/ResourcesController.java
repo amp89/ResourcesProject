@@ -71,7 +71,7 @@ public class ResourcesController {
 		if(result.getErrorMessage() == null){
 			currentUser = result.getCurrentUser();
 			mv.addObject("currentUser",currentUser);
-			mv.setViewName("views/userMenu.jsp");
+			mv.setViewName("userMenu.jsp");
 		}else{
 			String errorMessage = result.getErrorMessage();
 			mv.addObject("errorMessage",errorMessage);
@@ -85,7 +85,7 @@ public class ResourcesController {
 		public ModelAndView setUpSignUp(){
 			ModelAndView mv = new ModelAndView();
 			mv.addObject("user",new User());
-			mv.setViewName("views/signUp.jsp");
+			mv.setViewName("signUp.jsp");
 			return mv;
 		}
 	
@@ -99,12 +99,12 @@ public class ResourcesController {
 		if(result.getErrorMessage() == null){
 			
 			mv.addObject("currentUser",result.getCurrentUser());
-			mv.setViewName("views/signUpConf.jsp");
+			mv.setViewName("signUpConf.jsp");
 		
 		}else{
 			mv.addObject("user",result.getFullUser());
 			mv.addObject("errorMessage",result.getErrorMessage());
-			mv.setViewName("views/signUp.jsp");
+			mv.setViewName("signUp.jsp");
 		}
 		return mv;
 	}
@@ -122,11 +122,11 @@ public class ResourcesController {
 			//if failed...e tc
 			if(result.getErrorMessage() == null){
 				mv.addObject("message","Thanks for confirming your account!");
-				mv.setViewName("views/thankYou.jsp");
+				mv.setViewName("thankYou.jsp");
 				
 			}else{
 				mv.addObject("errorMessage",result.getErrorMessage());
-				mv.setViewName("views/thankYou.jsp");
+				mv.setViewName("thankYou.jsp");
 				
 				
 			}
@@ -137,7 +137,7 @@ public class ResourcesController {
 	public ModelAndView selfManage(@ModelAttribute("currentUser") CurrentUser currentUser){
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("currentUser",currentUser);
-		mv.setViewName("views/selfManage.jsp");
+		mv.setViewName("selfManage.jsp");
 		return mv;
 		
 	}
@@ -164,7 +164,7 @@ public class ResourcesController {
 	public ModelAndView manageMyAccount(@ModelAttribute("currentUser") CurrentUser currentUser){
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("currentUser",currentUser);
-		mv.setViewName("views/userMenu.jsp");
+		mv.setViewName("userMenu.jsp");
 		
 		
 		return mv;
@@ -173,24 +173,54 @@ public class ResourcesController {
 	@RequestMapping("setUpChangePassword.do")
 	public ModelAndView setUpChnagePassword(){
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("views/changePassword.jsp");
+		mv.setViewName("changePassword.jsp");
 		return mv;
 		
 	}
-	
 	@RequestMapping("changePassword.do")
 	public ModelAndView changePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword, @ModelAttribute("currentUser") CurrentUser currentUser){
 		ModelAndView mv = new ModelAndView();
 		System.out.println("old pwd: " + oldPassword);
 		System.out.println("new pwd: " + newPassword);
 		System.out.println("changing");
-		dao.updatePassword(newPassword, oldPassword, currentUser);
+		ResultObject result = dao.updatePassword(newPassword, oldPassword, currentUser);
+		if(result.getErrorMessage() == null){
+			mv.addObject("errorMessage",result.getErrorMessage());
+		}
 		//TODO update current user session attribute?  probaly not actually, doesn't carry password
-		mv.setViewName("views/selfManage.jsp");
+		mv.setViewName("selfManage.jsp");
 		mv.addObject("currentUser",currentUser);
 		return mv;
 		
 	}
+	@RequestMapping("setUpChangeEmail.do")
+	public ModelAndView setUpChangeEmail(){
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("changeEmail.jsp");
+		return mv;
+		
+	}
+	@RequestMapping("changeEmail.do")
+	public ModelAndView changeEmail(@RequestParam("password") String password, @RequestParam("newEmail") String newEmail, @ModelAttribute("currentUser") CurrentUser currentUser){
+		ModelAndView mv = new ModelAndView();
+		User newParams = new User();
+		newParams.setPassword(password);
+		newParams.setEmail(newEmail);
+		ResultObject result = dao.updateEmail(currentUser, newParams);
+		if(result.getErrorMessage() == null){
+			mv.addObject("message",result.getMessage());
+			mv.setViewName("selfManage.jsp");
+		}else{
+			mv.addObject("errorMessage",result.getErrorMessage());
+			mv.setViewName("changeEmail.jsp");
+			
+		}
+		
+		return mv;
+		
+	}
+	
+	
 
 }
 

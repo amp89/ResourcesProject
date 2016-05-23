@@ -45,7 +45,7 @@ public interface ResourcesDAO {
 	//delete own account
 	public ResultObject updatePassword(String newPassword, String oldPassword, CurrentUser currentUser);
 		
-
+	public ResultObject updateEmail(CurrentUser CurrentUser, User newParams);
 	
 	public ResultObject removeUser(User user);
 	//cascade

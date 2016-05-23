@@ -279,6 +279,7 @@ public class ResourcesSQLDAO implements ResourcesDAO{
 		return null;
 	}
 
+	@Override
 	public ResultObject updatePassword(String newPassword, String oldPassword, CurrentUser currentUser){
 		User user = em.find(User.class,currentUser.getId());		
 		ResultObject result = new ResultObject();
@@ -297,4 +298,27 @@ public class ResourcesSQLDAO implements ResourcesDAO{
 	}
 
 
+	@Override
+	public ResultObject updateEmail(CurrentUser currentUser, User newParams){
+		ResultObject result = new ResultObject();
+		boolean emailInUse = true;
+		try{
+			em.createQuery("SELECT u FROM User u WHERE email = :email",User.class).setParameter("email", newParams.getEmail()).getSingleResult();
+			result.setErrorMessage("That email is already in use.");
+		}catch(NoResultException nre){
+			emailInUse = false;
+		}
+		if(!emailInUse){			
+			User userToChange = em.find(User.class,currentUser.getId());
+			if(userToChange.getPassword().equals(newParams.getPassword())){
+				userToChange.setEmail(newParams.getEmail());
+				result.setErrorMessage(null);
+				result.setMessage("Email Updated");				
+			}else{
+				result.setErrorMessage("Incorrect Password");
+			}
+		}
+		
+		return result;
+	}
 }
