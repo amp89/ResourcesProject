@@ -11,8 +11,10 @@
 <fullyQualifiedTypeName name="entities.Resource"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="entities.UserResource"/>
-<fullyQualifiedTypeName name="entities.User"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMethod"/>
 <fullyQualifiedTypeName name="entities.UserType"/>
 <fullyQualifiedTypeName name="javax.persistence.FetchType"/>
+<fullyQualifiedTypeName name="org.springframework.ui.Model"/>
+<fullyQualifiedTypeName name="entities.User"/>
+<fullyQualifiedTypeName name="javax.inject.Scope"/>
 </qualifiedTypeNameHistroy>

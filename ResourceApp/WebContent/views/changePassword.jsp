@@ -1,0 +1,33 @@
+
+<%@ include file="/includes/header.jsp"%>
+
+${currentUser.userName}
+
+Change password
+
+<form action="changePassword.do" method="POST">
+	<table>
+		<tr>
+			<td>Old Password:</td>
+			<td><input type=text name="oldPassword"/></td>
+		</tr>
+		<tr>
+			<td>New Password</td>
+			<td><input type=text name="newPassword"/></td>
+		</tr>
+		<tr>
+			<td>New Password again</td>
+			<td></td>
+		</tr>
+	
+	</table>
+	
+<!-- 	<input name="oldPassword"></input>
+	<input name="newPassword"><input> -->
+	<button type="submit">Change Password</button>
+</form>
+
+
+
+
+<%@ include file="/includes/footer.jsp"%>

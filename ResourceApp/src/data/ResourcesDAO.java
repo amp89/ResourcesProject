@@ -24,7 +24,7 @@ public interface ResourcesDAO {
 	
 	public ResultObject sendConfirmation();
 	
-	public ResultObject confirmAccount();
+	public ResultObject confirmAccount(User user);
 	//confirm account
 		//check key to generated key
 		//populate sign up (?)
@@ -43,6 +43,10 @@ public interface ResourcesDAO {
 				//change generated key
 				//confirm account
 	//delete own account
+	public ResultObject updatePassword(String newPassword, String oldPassword, CurrentUser currentUser);
+		
+
+	
 	public ResultObject removeUser(User user);
 	//cascade
 	

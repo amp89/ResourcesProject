@@ -8,6 +8,7 @@ import entities.UserType;
 public class CurrentUser {
 
 	private int id;
+	private String userName;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -19,7 +20,7 @@ public class CurrentUser {
 	public CurrentUser(){}
 	
 	
-	public CurrentUser(int id, String firstName, String lastName, String email, UserType userType, long dateJoined,
+	public CurrentUser(int id, String userName, String firstName, String lastName, String email, UserType userType, long dateJoined,
 			List<UserResource> userResources) {
 		super();
 		this.id = id;
@@ -78,6 +79,16 @@ public class CurrentUser {
 	public String toString() {
 		return "CurrentUser [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", userType=" + userType + ", dateJoined=" + dateJoined + ", userResources=" + userResources + "]";
+	}
+
+
+	public String getUserName() {
+		return userName;
+	}
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 	

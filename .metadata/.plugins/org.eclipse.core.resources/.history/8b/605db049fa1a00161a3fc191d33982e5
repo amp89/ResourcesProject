@@ -1,7 +1,0 @@
-package controllers;
-
-
-@Controlelr
-public class ResourcesController {
-
-}

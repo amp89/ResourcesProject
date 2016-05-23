@@ -1,0 +1,13 @@
+
+<%@ include file="/includes/header.jsp"%>
+
+
+DEBUG - currentUser: ${currentUser.firstName}
+
+<form action="confirm.do" method="post">
+
+
+
+</form>
+
+<%@ include file="/includes/footer.jsp"%>

@@ -1,0 +1,30 @@
+
+<%@ include file="/includes/header.jsp"%>
+
+
+DEBUG - currentUser: ${currentUser.firstName}
+
+<form action="confirm.do" method="post">
+	
+	
+<table>
+	<tr>
+		<td>Username</td>
+
+		<td>	<input type="text" name="userName"></td>
+	</tr>
+	<tr>
+		<td>Confirmation Key</td>
+		<td><input type="text" name="confirmation key"></td>
+	</tr>
+	<tr>
+		<td>Password</td>
+		<td><input type="text" name="password"></td>
+	</tr>
+	<button type="submit">Confirm Account</button>
+</table>
+
+
+</form>
+
+<%@ include file="/includes/footer.jsp"%>
