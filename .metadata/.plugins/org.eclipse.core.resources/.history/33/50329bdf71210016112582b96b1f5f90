@@ -1,0 +1,25 @@
+
+<%@ include file="/includes/header.jsp"%>
+<%@ include file="/includes/debugInfo.jsp"%>
+
+<form:form modelAttribute="searchParam" action="search.do">
+	<form:form action="signIn.do" modelAttribute="user">
+	<table>
+		<tr>
+			<td>Username</td>
+			<td><form:input type="text" path="userName"/></td>
+		</tr>
+		<tr>
+			<td>Password</td>
+			<td><form:input type="text" path="password" /></td>
+		</tr>
+		<tr>
+			<td colspan="2"><button type="submit">Sign in</button></td>
+		</tr>
+	</table>
+
+</form:form>
+</form:form>
+
+
+<%@ include file="/includes/footer.jsp"%>

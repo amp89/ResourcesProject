@@ -2,7 +2,9 @@ package data;
 
 import java.util.List;
 
+import entities.Category;
 import entities.CodeResource;
+import entities.Topic;
 import entities.User;
 
 public interface ResourcesDAO {
@@ -118,7 +120,9 @@ public interface ResourcesDAO {
 			//now lsdjfdlsa;f can't modify their own posts
 			//ADMIN: lock post //TODO TODO TODO TODO TODO TODO  add locked/finalized/something status to database
 
+	public List<Category> getCategoryList();
 	
+	public List<Topic> getTopicList();
 
 	
 }

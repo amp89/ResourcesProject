@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import data.CurrentUser;
 import data.ResourcesDAO;
 import data.ResultObject;
+import data.SearchParam;
 import entities.User;
 
 @Controller
@@ -278,6 +279,18 @@ public class ResourcesController {
 	/*
 	 * SEARCH METHODS
 	 */
+	@RequestMapping("setUpSearch.do")
+	public ModelAndView setUpSearch(@ModelAttribute("currentUser") CurrentUser currentUser){
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("search.jsp");
+		mv.addObject("currentUser",currentUser);
+		mv.addObject("searchParam",new SearchParam());
+		mv.addObject("categoryList",dao.getCategoryList());
+		mv.addObject("topicList",dao.getTopicList());
+		return mv;
+	}
+	
 	
 //	@RequestMapping("searchMethods")
 

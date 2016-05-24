@@ -1,0 +1,40 @@
+
+<%@ include file="/includes/header.jsp"%>
+<%@ include file="/includes/debugInfo.jsp"%>
+
+<form:form modelAttribute="searchParam" action="search.do">
+	<table>
+		<tr>
+			<td>Search Keywords:</td>
+			<td><form:input type="text" path="userName"/></td>
+		</tr>
+		<tr>
+			<td>Include Unconfirmed Resources</td>
+			<td><form:select path="minimumStatus">
+				<option value="2" selected="selected">No</option>
+				<option value="1">Yes</option>
+			</form:select></td>
+		</tr>
+		
+		
+		
+		<tr>
+			<td>Category:</td>
+			<td><form:select path="categoryId">
+				<option selected="selected">Andy</option>
+				<option value="${categoryList.id}">${categoryList.name}</option>
+			</form:select></td>
+		</tr>
+		
+		
+		
+		
+		<tr>
+			<td colspan="2"><button type="submit">Sign in</button></td>
+		</tr>
+	</table>
+
+</form:form>
+
+
+<%@ include file="/includes/footer.jsp"%>

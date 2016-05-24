@@ -5,3 +5,7 @@
 1463986564665	Move 'index.jsp' to 'views'
 1463986568490	Move 'confirm.jsp' to 'views'
 1464062300664	Rename resource 'resetPassword'
+1464068066659	Encapsulate field 'searchParam'
+1464068126389	Encapsulate field 'minimumStatus'
+1464068505206	Encapsulate field 'categoryId'
+1464068512093	Encapsulate field 'topicId'

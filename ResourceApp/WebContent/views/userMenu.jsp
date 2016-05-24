@@ -14,6 +14,9 @@ currentUser = ${currentUser.firstName}
 <form action="selfManage.do">
 <button type="submit">Manage Account</button>
 </form>
+<form action="setUpSearch.do">
+<button type="submit">Search for resources</button>
+</form>
 
 
 
