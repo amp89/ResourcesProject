@@ -312,7 +312,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		List<CodeResource> resourceList = em
 				.createQuery(
 						"SELECT cr FROM CodeResource cr WHERE"
-								+ " (LOWER(name) LIKE :name OR LOWER(description) LIKE :description) AND status.id > :statusId",
+								+ " (LOWER(name) LIKE :name AND LOWER(description) LIKE :description) AND status.id > :statusId",
 						CodeResource.class)
 				.setParameter("name", nameParamsLowerCase).setParameter("description", nameParamsLowerCase)
 				.setParameter("statusId", statusIdParam).getResultList();
