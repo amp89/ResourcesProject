@@ -4,3 +4,4 @@
 1463982546701	Encapsulate field 'userName'
 1463986564665	Move 'index.jsp' to 'views'
 1463986568490	Move 'confirm.jsp' to 'views'
+1464062300664	Rename resource 'resetPassword'

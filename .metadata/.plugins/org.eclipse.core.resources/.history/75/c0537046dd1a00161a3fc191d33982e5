@@ -1,7 +1,0 @@
-package entities;
-
-@Entity
-@Table(name="topic")
-public class Topic {
-
-}

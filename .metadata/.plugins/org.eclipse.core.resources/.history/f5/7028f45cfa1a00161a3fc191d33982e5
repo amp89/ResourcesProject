@@ -1,5 +1,0 @@
-package data;
-
-public class ResourcesSQLDAO implements ResourcesDAO{
-
-}

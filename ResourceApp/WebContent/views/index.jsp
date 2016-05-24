@@ -20,12 +20,16 @@ DEBUG - currentUser: ${currentUser.firstName}
 	</table>
 
 </form:form>
-${errorMessage}
+message: ${message}
+error message: ${errorMessage}
 <button>Forgot password</button>
 
 <form:form action="setUpSignUp.do">
 <button>Sign Up</button>
 </form:form>
+<form action="setUpRetrieveForgottenLogin.do" method="POST">
+<button type="submit" >I forgot my password :(</button>
+</form>
 
 
 <%@ include file="/includes/footer.jsp"%>

@@ -25,6 +25,20 @@ public class ResourcesSQLDAO implements ResourcesDAO{
 		return ul;
 	}
 
+	//TODO make this a class
+	private String createConfKey(){
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$%^&*()-_=+|}{[]1234567890";
+		//TODO:  conf key.  if exists, then what?
+		StringBuilder confKey = new StringBuilder();
+		System.out.println(characters.length());
+		for(int i = 0; i < 180; i++){
+			
+			int randomCharKey = (int)(Math.random()*characters.length());
+			confKey.append(characters.charAt(randomCharKey));
+		}
+		System.out.println(confKey.toString());
+		return (confKey.toString());
+	}
 	
 	@Override
 	public ResultObject signUpUser(User user) {
@@ -36,6 +50,7 @@ public class ResourcesSQLDAO implements ResourcesDAO{
 		UserType userTypeOne = em.find(UserType.class,1); 
 		user.setUserType(userTypeOne);
 		//set confirmation key
+		//TODO change conf key to method call
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$%^&*()-_=+|}{[]1234567890";
 		//TODO:  conf key.  if exists, then what?
 		StringBuilder confKey = new StringBuilder();
@@ -74,7 +89,7 @@ public class ResourcesSQLDAO implements ResourcesDAO{
 			Date d = new Date();
 			user.setDateJoined(d.getTime());
 			//send confirmation email
-			sendEmail(user);
+			sendConfirmationEmail(user);
 			
 			System.out.println(user);
 			//makes 
@@ -94,15 +109,68 @@ public class ResourcesSQLDAO implements ResourcesDAO{
 		return result;
 	}
 
-	private void sendEmail(User user){
+	private void sendConfirmationEmail(User user){
 		EMail email = new EMail();
 		email.setSubject("Confirmation for resources app!");
 		email.setTextMessage("Go to conf page and enter: " + user.getUserConfirmationKey() + " to sign up.  Thanks!");
 		email.setToEmailAddress(user.getEmail());
 		boolean success = email.sendEMail();
 		//TODO what if email fails?
+
+		
 		
 	}
+	
+	//TODO 
+	@Override
+	public ResultObject retrieveLogin(User user){
+		ResultObject result = new ResultObject();
+		User userToReset = new User();
+		try{
+			userToReset = em.createQuery("SELECT u FROM User u WHERE LOWER(userName) = :userName AND LOWER(email) = :email",User.class).setParameter("userName", user.getUserName().toLowerCase()).setParameter("email", user.getEmail().toLowerCase()).getSingleResult();
+			result.setErrorMessage(null);
+			//reset confirmation code
+			//new conf code
+			String newConfirmationKey = createConfKey();
+			System.out.println(newConfirmationKey);
+			userToReset.setUserConfirmationKey(newConfirmationKey);
+			
+			//send reset email
+			EMail resetEmail = new EMail();
+			resetEmail.setSubject("Reset your password");
+			resetEmail.setTextMessage("Go to the confirmation page.\nEnter "+ userToReset.getUserConfirmationKey() +" to reset your password");
+			resetEmail.setToEmailAddress(userToReset.getEmail());
+			boolean success = resetEmail.sendEMail();
+		}catch(NoResultException nre){
+			System.out.println(nre);
+			result.setErrorMessage("The username or email address does not match any records");
+		}
+		
+		//TODO what if email fails?
+		return result;
+	}
+	
+	@Override
+	public ResultObject resetLogin(User user){
+		ResultObject result = new ResultObject();
+		User userToReset = new User();
+		try{
+			userToReset = em.createQuery("SELECT u FROM User u WHERE LOWER(userName) = :userName AND LOWER(email) = :email AND userConfirmationKey = :userConfirmationKey",User.class).setParameter("userName", user.getUserName().toLowerCase()).setParameter("email", user.getEmail().toLowerCase()).setParameter("userConfirmationKey", user.getUserConfirmationKey()).getSingleResult();
+			result.setErrorMessage(null);
+		}catch(NoResultException nre){
+			System.out.println(nre);
+			result.setErrorMessage("The username or email address does not match any records");
+		}
+		
+		userToReset.setPassword(user.getPassword());
+		System.out.println("New password:" + userToReset);
+		CurrentUser currentUser = new CurrentUser(userToReset.getId(),userToReset.getUserName(),userToReset.getFirstName(),userToReset.getLastName(),userToReset.getEmail(),userToReset.getUserType(),userToReset.getDateJoined(),userToReset.getUserResources());
+		result.setCurrentUser(currentUser);
+		return result;
+	}
+	
+	
+	
 	
 	@Override
 	public ResultObject signInUser(User user){ 

@@ -29,6 +29,9 @@ public interface ResourcesDAO {
 		//check key to generated key
 		//populate sign up (?)
 	
+	public ResultObject retrieveLogin(User user);
+	public ResultObject resetLogin(User user);
+	
 	public List<User> getAllUsers();
 	//Get users
 		//all

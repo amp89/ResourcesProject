@@ -1,8 +1,0 @@
-package entities;
-
-import javax.persistence.Table;
-
-@Table(name="user_resources")
-public class UserType {
-
-}
