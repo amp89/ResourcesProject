@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,6 +15,7 @@ import data.CurrentUser;
 import data.ResourcesDAO;
 import data.ResultObject;
 import data.SearchParam;
+import entities.CodeResource;
 import entities.User;
 
 @Controller
@@ -291,6 +294,16 @@ public class ResourcesController {
 		return mv;
 	}
 	
+	@RequestMapping("search.do")
+	public ModelAndView search(@ModelAttribute("currentUser") CurrentUser currentUser, SearchParam searchParam){
+		ModelAndView mv = new ModelAndView();
+		List<CodeResource> resourceList = dao.getResources(searchParam);
+		
+		mv.addObject("currentUser",currentUser);
+		mv.addObject("resultList",resourceList);
+		mv.setViewName("searchResults.jsp");
+		return mv;
+	}
 	
 //	@RequestMapping("searchMethods")
 

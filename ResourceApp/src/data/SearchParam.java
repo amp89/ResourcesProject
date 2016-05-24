@@ -2,7 +2,7 @@ package data;
 
 public class SearchParam {
 	
-	private String searchParam;
+	private String queryString;
 	
 	private Integer minimumStatus;
 	
@@ -10,12 +10,12 @@ public class SearchParam {
 	
 	private Integer topicId;
 
-	public String getSearchParam() {
-		return searchParam;
+	public String getQueryString() {
+		return queryString;
 	}
 
-	public void setSearchParam(String searchParam) {
-		this.searchParam = searchParam;
+	public void setQueryString(String queryString) {
+		this.queryString = queryString;
 	}
 
 	public Integer getMinimumStatus() {
@@ -41,7 +41,13 @@ public class SearchParam {
 	public void setTopicId(Integer topicId) {
 		this.topicId = topicId;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "SearchParam [queryString=" + queryString + ", minimumStatus=" + minimumStatus + ", categoryId="
+				+ categoryId + ", topicId=" + topicId + "]";
+	}
+
 	
 	
 }

@@ -1,5 +1,6 @@
 package data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -271,9 +272,30 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
-	public ResultObject getResources(CodeResource codeResource) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CodeResource> getResources(SearchParam searchParam) {
+		// List<CodeResource> resourceList = em.createQuery(arg0)
+		String[] queryWords = searchParam.getQueryString().split(" ");
+		List<String> nameParamsLowerCase = new ArrayList<>();
+		
+		for (String string : queryWords) {
+			nameParamsLowerCase.add("%" + string.trim().toLowerCase() + "%");
+			System.out.println(string);
+		}
+
+		// TODO logic for these
+
+		int statusIdParam = 0;
+		// TODO FOREACH KEYWORD ARRAY
+		System.out.println(searchParam);
+		List<CodeResource> resourceList = em
+				.createQuery(
+						"SELECT cr FROM CodeResource cr WHERE"
+								+ " (LOWER(name) LIKE :name AND LOWER(description) LIKE :description) AND status.id > :statusId",
+						CodeResource.class)
+				.setParameter("name", nameParamsLowerCase).setParameter("description", nameParamsLowerCase)
+				.setParameter("statusId", statusIdParam).getResultList();
+
+		return resourceList;
 	}
 
 	@Override
@@ -303,6 +325,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	@Override
 	public List<CodeResource> getSavedResources(User user) {
 		// TODO Auto-generated method stub
+
 		return null;
 	}
 

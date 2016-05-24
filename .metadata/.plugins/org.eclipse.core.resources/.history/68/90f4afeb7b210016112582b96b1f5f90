@@ -1,0 +1,14 @@
+package data;
+
+public class SearchParam {
+	
+	private String queryString;
+	
+	private Integer minimumStatus;
+	
+	private Integer categoryId;
+	
+	private Integer topicId;
+
+	
+}
