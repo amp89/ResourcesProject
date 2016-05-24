@@ -6,6 +6,7 @@ search result.jsp
 <c:forEach var="result" items="${resultList}">
 	${result.name} ${result.description} <br> 
 
+	manage save edit whatever here<br>
 </c:forEach>
 
 

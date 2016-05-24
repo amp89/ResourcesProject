@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import data.CodeResourceToAdd;
 import data.CurrentUser;
 import data.ResourcesDAO;
 import data.ResultObject;
@@ -305,6 +306,34 @@ public class ResourcesController {
 		return mv;
 	}
 	
+	/*
+	 * Add stuff method
+	 */
+	
+	@RequestMapping("setUpContribute.do")
+	public ModelAndView search(@ModelAttribute("currentUser") CurrentUser currentUser){
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("codeResourceToAdd", new CodeResourceToAdd());
+		mv.addObject("currentUser",currentUser);
+		mv.addObject("categoryList",dao.getCategoryList());
+		mv.addObject("topicList",dao.getTopicList());
+		mv.setViewName("addResource.jsp");
+		return mv;
+	}
+	
+	@RequestMapping("contribute.do")
+	public ModelAndView search(@ModelAttribute("currentUser") CurrentUser currentUser, CodeResourceToAdd codeResourceToAdd){
+		ModelAndView mv = new ModelAndView();
+		System.out.println("resource to submit: " + codeResourceToAdd);
+		ResultObject result = dao.submitResource(currentUser, codeResourceToAdd);
+		//TODO Finish this
+		//TODO in dao, autoadd source to user that made it
+		mv.setViewName("userMenu.jsp");
+		mv.addObject("currentUser",currentUser);
+		mv.addObject("message",result.getMessage());
+		return mv;
+	}
 //	@RequestMapping("searchMethods")
 
 	// @RequestMapping("deleteAccount.do"){

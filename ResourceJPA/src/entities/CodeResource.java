@@ -31,7 +31,7 @@ public class CodeResource {
 	private String link;
 	
 	@Column(name="date_added")
-	private long dateAdded;
+	private Long dateAdded;
 	
 	@ManyToOne
 	@JoinColumn(name="status_id")

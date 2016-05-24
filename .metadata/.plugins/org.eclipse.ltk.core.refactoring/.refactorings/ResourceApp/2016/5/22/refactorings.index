@@ -9,3 +9,4 @@
 1464068126389	Encapsulate field 'minimumStatus'
 1464068505206	Encapsulate field 'categoryId'
 1464068512093	Encapsulate field 'topicId'
+1464076408969	Rename type 'CodeResultToAdd'

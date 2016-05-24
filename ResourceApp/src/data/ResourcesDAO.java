@@ -58,7 +58,7 @@ public interface ResourcesDAO {
 	
 	
 	//submit resource
-	public ResultObject submitResource(User user, CodeResource codeResource);
+	public ResultObject submitResource(CurrentUser CurrentUser, CodeResourceToAdd codeResourceToAdd);
 	
 	public List<CodeResource> getResources(SearchParam searchParam);
 	//get resources

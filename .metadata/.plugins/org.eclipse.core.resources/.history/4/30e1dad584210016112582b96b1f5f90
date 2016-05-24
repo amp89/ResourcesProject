@@ -1,0 +1,41 @@
+package data;
+
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import entities.Category;
+import entities.Status;
+import entities.Topic;
+import entities.UserResource;
+
+public class CodeResourceToAdd {
+	private int id;
+
+	private String name;
+
+	private String description;
+
+	private String linkTitle;
+	
+	private String link;
+	
+	private Long dateAdded;
+	
+	private Status status;
+	
+	private Integer topicId;
+	
+	private Integer categoryId;
+
+	private List<UserResource> userResources;
+
+	private String codeSnippet;
+	
+	
+
+}

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import entities.Category;
 import entities.CodeResource;
+import entities.Status;
 import entities.Topic;
 import entities.User;
 import entities.UserType;
@@ -266,9 +267,30 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
-	public ResultObject submitResource(User user, CodeResource codeResource) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResultObject submitResource(CurrentUser currentUser, CodeResourceToAdd codeResourceToAdd) {
+		CodeResource codeResource = new CodeResource();
+		codeResource.setName(codeResourceToAdd.getName());
+		codeResource.setDescription(codeResourceToAdd.getDescription());
+		codeResource.setLinkTitle(codeResourceToAdd.getLinkTitle());
+		codeResource.setLink(codeResourceToAdd.getLink());
+		Date d = new Date();
+		codeResource.setDateAdded(d.getTime());
+		int statusId = 0;
+		if(currentUser.getUserType().getAccessLevel() == 2){
+			statusId = 1;
+		}else if(currentUser.getUserType().getAccessLevel() >= 3){
+			statusId = 2;
+		}
+		codeResource.setStatus(em.find(Status.class,statusId));
+		codeResource.setTopic(em.find(Topic.class,codeResourceToAdd.getTopicId()));
+		codeResource.setCategory(em.find(Category.class,codeResourceToAdd.getCategoryId()));
+		codeResource.setCodeSnippet(codeResourceToAdd.getCodeSnippet());
+		
+		em.persist(codeResource);
+		ResultObject result = new ResultObject();
+		result.setMessage("Thank you for contributing!");
+		//TODO map to adding user by userresources
+		return result;
 	}
 
 	@Override

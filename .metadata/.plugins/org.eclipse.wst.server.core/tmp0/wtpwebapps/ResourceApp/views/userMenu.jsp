@@ -17,6 +17,10 @@ currentUser = ${currentUser.firstName}
 <form action="setUpSearch.do">
 <button type="submit">Search for resources</button>
 </form>
+<form action="setUpContribute.do">
+<button type="submit">Contribute resources</button>
+</form>
+
 
 
 
