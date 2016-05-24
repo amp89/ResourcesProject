@@ -1,6 +1,6 @@
 
 <%@ include file="/includes/header.jsp"%>
-<%@ include file="/includes/debugInfo.jsp"%>
+
 ${currentUser.userName}
 
 ${errorMessage}

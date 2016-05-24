@@ -273,13 +273,6 @@ public class ResourcesController {
 
 		return mv;
 	}
-	
-	
-	/*
-	 * SEARCH METHODS
-	 */
-	
-//	@RequestMapping("searchMethods")
 
 	// @RequestMapping("deleteAccount.do"){
 	// //TODO unfinished method

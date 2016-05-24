@@ -1,6 +1,8 @@
 
 <%@ include file="/includes/header.jsp"%>
 
+<%@ include file="/includes/debugInfo.jsp"%>
+
 
 userMenu.jsp
 

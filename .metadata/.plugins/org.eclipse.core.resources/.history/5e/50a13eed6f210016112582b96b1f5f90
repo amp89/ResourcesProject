@@ -195,7 +195,7 @@ public class ResourcesController {
 
 		System.out.println("Print current user " + currentUser);
 		mv.addObject("user", new User());
-		mv.addObject("currentUser", currentUser);
+		mv.addObject("currentUser", new User());
 		mv.setViewName("index.jsp");
 		return mv;
 	}
@@ -273,13 +273,6 @@ public class ResourcesController {
 
 		return mv;
 	}
-	
-	
-	/*
-	 * SEARCH METHODS
-	 */
-	
-//	@RequestMapping("searchMethods")
 
 	// @RequestMapping("deleteAccount.do"){
 	// //TODO unfinished method
