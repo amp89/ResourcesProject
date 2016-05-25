@@ -6,15 +6,11 @@ search result.jsp
 <c:forEach var="result" items="${resultList}">
 	${result.name} ${result.description} <br> 
 
-	<form path="saveResource.do" method="POST">
-		<button>save</button>
-		THIS SHOULD GO ON THE RESOUCRE, NOT IN THE LIST (UNTIL JAVASCRIPT)
-		<input type="hidden" name="resourceId" value="${result.name}"/>
-	</form>
+	<button>save</button>
 	<button>edit</button>
 	<button>?</button>
 	<button>?</button>
-	manage save edit whatever here<br><br><br>
+	manage save edit whatever here<br>
 </c:forEach>
 
 

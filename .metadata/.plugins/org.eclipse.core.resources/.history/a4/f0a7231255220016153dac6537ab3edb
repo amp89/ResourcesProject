@@ -8,7 +8,6 @@ search result.jsp
 
 	<form path="saveResource.do" method="POST">
 		<button>save</button>
-		THIS SHOULD GO ON THE RESOUCRE, NOT IN THE LIST (UNTIL JAVASCRIPT)
 		<input type="hidden" name="resourceId" value="${result.name}"/>
 	</form>
 	<button>edit</button>

@@ -24,30 +24,6 @@ public class UserResource {
 	@JoinColumn(name="resources_id")
 	private CodeResource resource;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public CodeResource getResource() {
-		return resource;
-	}
-
-	public void setResource(CodeResource resource) {
-		this.resource = resource;
-	}
-
 	
 	
 	

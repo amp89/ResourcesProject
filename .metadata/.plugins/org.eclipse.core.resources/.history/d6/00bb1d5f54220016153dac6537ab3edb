@@ -74,7 +74,7 @@ public interface ResourcesDAO {
 	
 	public ResultObject removeResource(CodeResource codeResource);
 	
-	public ResultObject saveResource(CurrentUser currentUser, CodeResource codeResource);
+	public ResultObject saveResource(User user, CodeResource codeResource);
 	//save resources
 		
 		//get parameters

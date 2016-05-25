@@ -466,12 +466,9 @@ public class ResourcesController {
 		ModelAndView mv = new ModelAndView();
 		CodeResource cr = new CodeResource();
 		cr.setId(resourceId);
-		dao.saveResource(currentUser, cr);
+		dao.saveResource(user, codeResource)
 		
-		//TODO add  a more sensible view name (returning to that page or something)
-		mv.setViewName("userMenu.jsp");
-		mv.addObject("currentUser",currentUser);
-//		mv.addObject("message",result.getMessage());
+		
 		return mv;
 	}
 	

@@ -15,7 +15,6 @@ import entities.CodeResource;
 import entities.Status;
 import entities.Topic;
 import entities.User;
-import entities.UserResource;
 import entities.UserType;
 
 @Transactional
@@ -334,12 +333,8 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
-	public ResultObject saveResource(CurrentUser currentUser, CodeResource codeResource) {
+	public ResultObject saveResource(User user, CodeResource codeResource) {
 		// TODO Auto-generated method stub
-		UserResource userResource = new UserResource();
-		userResource.setUser(em.find(User.class, currentUser.getId()));
-		userResource.setResource(em.find(CodeResource.class, codeResource.getId()));
-		em.persist(userResource);
 		return null;
 	}
 

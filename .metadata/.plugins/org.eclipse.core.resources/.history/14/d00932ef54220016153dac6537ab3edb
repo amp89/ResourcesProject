@@ -338,8 +338,8 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		// TODO Auto-generated method stub
 		UserResource userResource = new UserResource();
 		userResource.setUser(em.find(User.class, currentUser.getId()));
-		userResource.setResource(em.find(CodeResource.class, codeResource.getId()));
-		em.persist(userResource);
+		
+		
 		return null;
 	}
 

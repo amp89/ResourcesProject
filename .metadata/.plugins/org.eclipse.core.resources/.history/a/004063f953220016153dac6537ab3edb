@@ -457,24 +457,6 @@ public class ResourcesController {
 		return mv;
 	}
 	
-	/*
-	 * saving user resources
-	 */
-	
-	@RequestMapping("saveResource.do")
-	public ModelAndView saveResource(@ModelAttribute("currentUser") CurrentUser currentUser, @RequestParam("resourceId") Integer resourceId){
-		ModelAndView mv = new ModelAndView();
-		CodeResource cr = new CodeResource();
-		cr.setId(resourceId);
-		dao.saveResource(currentUser, cr);
-		
-		//TODO add  a more sensible view name (returning to that page or something)
-		mv.setViewName("userMenu.jsp");
-		mv.addObject("currentUser",currentUser);
-//		mv.addObject("message",result.getMessage());
-		return mv;
-	}
-	
 	
 //	@RequestMapping("searchMethods")
 
