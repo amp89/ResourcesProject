@@ -368,8 +368,7 @@ public class ResourcesController {
 				dao.removeCategories(c);
 			}else{
 				System.out.println("mod cat");
-				c.setName(newCategory);
-				dao.modifyCategories(c);
+				//TODO add modify method
 			}
 			
 		}
@@ -398,11 +397,9 @@ public class ResourcesController {
 			t.setId(topicId);
 			if(newTopic.equals("")){
 				System.out.println("delete top");
-				dao.removeTopics(t);
+				dao.removeTopics(t)
 			}else{
 				System.out.println("mod top");
-				t.setName(newTopic);
-				dao.modifyTopics(t);
 				//TODO add mod meothod
 			}
 			

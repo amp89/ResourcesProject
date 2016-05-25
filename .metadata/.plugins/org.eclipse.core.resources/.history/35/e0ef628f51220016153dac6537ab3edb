@@ -401,8 +401,6 @@ public class ResourcesController {
 				dao.removeTopics(t);
 			}else{
 				System.out.println("mod top");
-				t.setName(newTopic);
-				dao.modifyTopics(t);
 				//TODO add mod meothod
 			}
 			

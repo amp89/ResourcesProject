@@ -104,7 +104,7 @@ public interface ResourcesDAO {
 		//dev and up, shouldn't select and add
 	public ResultObject removeTopics(Topic t);
 		//admin only
-	public ResultObject modifyTopics(Topic t);
+	public ResultObject modifyTopics();
 	//admin only
 	
 	public ResultObject modifyPosts();

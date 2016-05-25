@@ -363,6 +363,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 
 	@Override
 	public ResultObject removeCategories(Category c) {
+		// TODO Auto-generated method stub
 		Category categoryToRemove = em.find(Category.class,c.getId());
 		System.out.println("DAO. Cat to remove: " + categoryToRemove);
 		List<CodeResource> resourcesWithCategory;
@@ -392,11 +393,9 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
-	public ResultObject modifyCategories(Category c) {
-		Category categoryToModify = em.find(Category.class, c.getId());
-		categoryToModify.setName(c.getName());
-		//TODO needed?
-		return new ResultObject();
+	public ResultObject modifyCategories() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -409,43 +408,16 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
-	public ResultObject removeTopics(Topic t) {
-		Topic topicToRemove = em.find(Topic.class, t.getId());
-		System.out.println("DAO. top to remove: " + topicToRemove);
-		List<CodeResource> resourcesWithTopic;
-		try {
-			resourcesWithTopic = em
-					.createQuery("SELECT cr FROM CodeResource cr WHERE topic = :topic",
-							CodeResource.class)
-					.setParameter("topic", topicToRemove).getResultList();
-			
-			for(int i = 0; i < resourcesWithTopic.size(); i++){
-				System.out.println(resourcesWithTopic.get(i));
-			}
-			for(int i = 0; i < resourcesWithTopic.size(); i++){
-				resourcesWithTopic.get(i).setTopic(em.find(Topic.class,1));
-			}
-			
-		} catch (NoResultException nre) {
-			System.out.println("NO RESULT:" + nre);
-		}
-		
-		em.remove(topicToRemove);
-		
-		// select all resource with this cateogry
-		// change them to id one, which should be a default value
-		// remove category
-		
-		
-		return new ResultObject();
+	public ResultObject removeTopics() {
+		// TODO Auto-generated method stub
+
+		return null;
 	}
 
 	@Override
-	public ResultObject modifyTopics(Topic t) {
-		Topic topicToModify = em.find(Topic.class, t.getId());
-		topicToModify.setName(t.getName());
-		//TODO needed?
-		return new ResultObject();
+	public ResultObject modifyTopics() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

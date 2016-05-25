@@ -442,8 +442,9 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 
 	@Override
 	public ResultObject modifyTopics(Topic t) {
-		Topic topicToModify = em.find(Topic.class, t.getId());
-		topicToModify.setName(t.getName());
+		Category categoryToModify = em.find(Category.class, c.getId());
+		Topic topicToModify = em.find(Category.class, c.getId())
+		categoryToModify.setName(c.getName());
 		//TODO needed?
 		return new ResultObject();
 	}

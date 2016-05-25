@@ -98,13 +98,13 @@ public interface ResourcesDAO {
 		//at topics ""
 	public ResultObject removeCategories(Category c);
 		//admin only
-	public ResultObject modifyCategories(Category c);
+	public ResultObject modifyCategories();
 	//admin only
 	public ResultObject addTopics(Topic t);
 		//dev and up, shouldn't select and add
-	public ResultObject removeTopics(Topic t);
+	public ResultObject removeTopics();
 		//admin only
-	public ResultObject modifyTopics(Topic t);
+	public ResultObject modifyTopics();
 	//admin only
 	
 	public ResultObject modifyPosts();
