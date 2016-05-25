@@ -5,6 +5,5 @@ INDEX VERSION 1.3+/Users/alex/SD/ResourceProject/.metadata/.plugins/org.eclipse.
 401823272.index
 3795571431.index
 1125383067.index
-1737960491.index
 400933199.index
 3942275791.index

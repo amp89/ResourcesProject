@@ -30,7 +30,7 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 
 		<tr>
 			<td>Category</td>
-			<td><form:select path="categoryId">
+			<td><form:select path="categoryId" required="required">
 						<option>select one</option>
 					<c:forEach var="category" items="${categoryList}">
 						<option value="${category.id}">${category.name}</option>
@@ -39,7 +39,7 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 		</tr>
 		<tr>
 			<td>Topic</td>
-			<td><form:select path="topicId">
+			<td><form:select path="topicId" required="required">
 						<option>select one</option>
 					<c:forEach var="topic" items="${topicList}">
 						<option value="${topic.id}">${topic.name}</option>

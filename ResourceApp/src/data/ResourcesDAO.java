@@ -92,15 +92,15 @@ public interface ResourcesDAO {
 	
 	//dev
 	//call this explicity, or call when a new category is added
-	public ResultObject addCategories();
+	public ResultObject addCategories(Category c);
 		//dev and up
 		//add categories (shouldn't be able to select and add)
 		//at topics ""
-	public ResultObject removeCategories();
+	public ResultObject removeCategories(Category c);
 		//admin only
 	public ResultObject modifyCategories();
 	//admin only
-	public ResultObject addTopics();
+	public ResultObject addTopics(Topic t);
 		//dev and up, shouldn't select and add
 	public ResultObject removeTopics();
 		//admin only

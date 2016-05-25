@@ -10,3 +10,6 @@
 1464068505206	Encapsulate field 'categoryId'
 1464068512093	Encapsulate field 'topicId'
 1464076408969	Rename type 'CodeResultToAdd'
+1464156718200	Delete element
+1464156995377	Rename resource 'addCategoryAndTopic'
+1464157197170	Rename resource 'manageCategoriesAndTopics'

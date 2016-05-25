@@ -16,7 +16,9 @@ import data.CurrentUser;
 import data.ResourcesDAO;
 import data.ResultObject;
 import data.SearchParam;
+import entities.Category;
 import entities.CodeResource;
+import entities.Topic;
 import entities.User;
 
 @Controller
@@ -334,6 +336,121 @@ public class ResourcesController {
 		mv.addObject("message",result.getMessage());
 		return mv;
 	}
+	
+	/*
+	 * category / topics
+	 */
+	
+	@RequestMapping("setUpManageCategoriesAndTopics.do")
+	public ModelAndView setUpManageCategoriesAndTopics(@ModelAttribute("currentUser") CurrentUser currentUser){
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("topicList",dao.getTopicList());
+		mv.addObject("categoryList",dao.getCategoryList());
+		mv.setViewName("manageCategoriesAndTopics.jsp");	
+		return mv;
+	}
+	
+	@RequestMapping("modifyCategory.do")
+	public ModelAndView modifyCategory(@RequestParam("categoryId") Integer categoryId,
+			@RequestParam("newCategory") String newCategory){
+		ModelAndView mv = new ModelAndView();
+		System.out.println("CAT ID: " + categoryId + ", NEW CAT: " + newCategory);
+		//if catid is null, attach an error
+		if(categoryId == null){
+			mv.addObject("message","Please select a cateogry and try again");
+		}else{
+			//TODO add delete / modify
+			Category c = new Category();
+			c.setId(categoryId);
+			
+			if(newCategory.equals("")){
+				System.out.println("delete cat");
+				dao.removeCategories(c);
+			}else{
+				System.out.println("mod cat");
+			}
+			
+		}
+
+		//dao method should change all resources to category 1
+		mv.addObject("topicList",dao.getTopicList());
+		mv.addObject("categoryList",dao.getCategoryList());
+		mv.setViewName("manageCategoriesAndTopics.jsp");
+		return mv;
+	}
+	
+	
+	
+	@RequestMapping("modifyTopic.do")
+	public ModelAndView modifyTopic(@RequestParam("topicId") Integer topicId,
+			@RequestParam("newTopic") String newTopic){
+		
+		ModelAndView mv = new ModelAndView();
+		System.out.println("TOP ID: " + topicId + ", NEW CAT: " + newTopic);
+		//if top id is null, attach an error
+		if(topicId == null){
+			mv.addObject("message","Please select a topic and try again");
+		}else{
+			//TODO add delete / modify
+			if(newTopic.equals("")){
+				System.out.println("delete top");
+			}else{
+				System.out.println("mod top");
+			}
+			//TODO add delete / modify
+			
+		}
+		
+		//dao method should change all resources to category 1
+		mv.addObject("topicList",dao.getTopicList());
+		mv.addObject("categoryList",dao.getCategoryList());
+		mv.setViewName("manageCategoriesAndTopics.jsp");
+		return mv;
+	}
+	
+	
+	@RequestMapping("addCategory.do")
+	public ModelAndView addCategory(@RequestParam("categoryName") String categoryName){
+		ModelAndView mv = new ModelAndView();
+		
+		System.out.println("New category will be:" + categoryName);
+		Category c = new Category();
+		c.setName(categoryName);
+		ResultObject result = dao.addCategories(c);
+		if(result.getErrorMessage() == null){
+			mv.addObject("message","Category added");
+		}else{
+			mv.addObject("errorMessage",result.getErrorMessage());
+		}
+		mv.addObject("topicList",dao.getTopicList());
+		mv.addObject("categoryList",dao.getCategoryList());
+		mv.setViewName("manageCategoriesAndTopics.jsp");
+			
+		return mv;
+	}
+	
+	
+	@RequestMapping("addTopic.do")
+	public ModelAndView addTopic(@RequestParam("topicName") String topicName){
+		ModelAndView mv = new ModelAndView();
+		
+		System.out.println("New topic will be:" + topicName);
+		Topic t = new Topic();
+		t.setName(topicName);
+		ResultObject result = dao.addTopics(t);
+		if(result.getErrorMessage() == null){
+			mv.addObject("message","Topci added");
+		}else{
+			mv.addObject("errorMessage",result.getErrorMessage());
+		}
+		mv.addObject("topicList",dao.getTopicList());
+		mv.addObject("categoryList",dao.getCategoryList());
+		mv.setViewName("manageCategoriesAndTopics.jsp");
+	
+		return mv;
+	}
+	
+	
 //	@RequestMapping("searchMethods")
 
 	// @RequestMapping("deleteAccount.do"){

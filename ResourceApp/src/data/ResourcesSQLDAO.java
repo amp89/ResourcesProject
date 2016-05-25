@@ -276,20 +276,20 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		Date d = new Date();
 		codeResource.setDateAdded(d.getTime());
 		int statusId = 0;
-		if(currentUser.getUserType().getAccessLevel() == 2){
+		if (currentUser.getUserType().getAccessLevel() == 2) {
 			statusId = 1;
-		}else if(currentUser.getUserType().getAccessLevel() >= 3){
+		} else if (currentUser.getUserType().getAccessLevel() >= 3) {
 			statusId = 2;
 		}
-		codeResource.setStatus(em.find(Status.class,statusId));
-		codeResource.setTopic(em.find(Topic.class,codeResourceToAdd.getTopicId()));
-		codeResource.setCategory(em.find(Category.class,codeResourceToAdd.getCategoryId()));
+		codeResource.setStatus(em.find(Status.class, statusId));
+		codeResource.setTopic(em.find(Topic.class, codeResourceToAdd.getTopicId()));
+		codeResource.setCategory(em.find(Category.class, codeResourceToAdd.getCategoryId()));
 		codeResource.setCodeSnippet(codeResourceToAdd.getCodeSnippet());
-		
+
 		em.persist(codeResource);
 		ResultObject result = new ResultObject();
 		result.setMessage("Thank you for contributing!");
-		//TODO map to adding user by userresources
+		// TODO map to adding user by userresources
 		return result;
 	}
 
@@ -298,7 +298,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		// List<CodeResource> resourceList = em.createQuery(arg0)
 		String[] queryWords = searchParam.getQueryString().split(" ");
 		List<String> nameParamsLowerCase = new ArrayList<>();
-		
+
 		for (String string : queryWords) {
 			nameParamsLowerCase.add("%" + string.trim().toLowerCase() + "%");
 			System.out.println(string);
@@ -306,13 +306,13 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 
 		// TODO logic for these
 
-		int statusIdParam = 0;
+		int statusIdParam = searchParam.getMinimumStatus();
 		// TODO FOREACH KEYWORD ARRAY
 		System.out.println(searchParam);
 		List<CodeResource> resourceList = em
 				.createQuery(
 						"SELECT cr FROM CodeResource cr WHERE"
-								+ " (LOWER(name) LIKE :name OR LOWER(description) LIKE :description) AND status.id > :statusId",
+								+ " (LOWER(name) LIKE :name OR LOWER(description) LIKE :description) AND status.id >= :statusId",
 						CodeResource.class)
 				.setParameter("name", nameParamsLowerCase).setParameter("description", nameParamsLowerCase)
 				.setParameter("statusId", statusIdParam).getResultList();
@@ -352,15 +352,39 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
-	public ResultObject addCategories() {
-		// TODO Auto-generated method stub
-		return null;
+	public ResultObject addCategories(Category c) {
+		// TODO ro needed?
+		ResultObject result = new ResultObject();
+
+		em.persist(c);
+
+		return result;
 	}
 
 	@Override
-	public ResultObject removeCategories() {
+	public ResultObject removeCategories(Category c) {
 		// TODO Auto-generated method stub
-		return null;
+		Category categoryToRemove = em.find(Category.class,c.getId());
+		List<CodeResource> resourcesWithCategory;
+		try {
+			resourcesWithCategory = em
+					.createQuery("" + "SELECT cr FROM CodeResource cr " + "WHERE topic.id = :idToDelete",
+							CodeResource.class)
+					.setParameter("idToDelete", categoryToRemove.getId()).getResultList();
+			for(int i = 0; i < resourcesWithCategory.size(); i++){
+				resourcesWithCategory.get(i).setCategory(em.find(Category.class,1));
+			}
+			
+		} catch (NoResultException nre) {
+			System.out.println("NO RESULT:" + nre);
+		}
+		
+		em.remove(categoryToRemove);
+		
+		// select all resource with this cateogry
+		// change them to id one, which should be a default value
+		// remove category
+		return new ResultObject();
 	}
 
 	@Override
@@ -370,14 +394,18 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
-	public ResultObject addTopics() {
-		// TODO Auto-generated method stub
-		return null;
+	public ResultObject addTopics(Topic t) {
+		// TODO ro needed?
+		ResultObject result = new ResultObject();
+		em.persist(t);
+
+		return result;
 	}
 
 	@Override
 	public ResultObject removeTopics() {
 		// TODO Auto-generated method stub
+
 		return null;
 	}
 

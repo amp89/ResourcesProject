@@ -21,6 +21,10 @@ currentUser = ${currentUser.firstName}
 <button type="submit">Contribute resources</button>
 </form>
 
+<form action="setUpManageCategoriesAndTopics.do">
+	<button type="submit">ManageCategoriesAndTopics</button>
+</form>
+
 
 
 
