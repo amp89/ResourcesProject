@@ -87,7 +87,7 @@ public interface ResourcesDAO {
 		//search then remove from list
 	
 	//view saved resources
-	public List<CodeResource> getSavedResources(User user);
+	public List<CodeResource> getSavedResources(SearchParam searchParam);
 		//could populate dropdowns with specific stuff
 		//like get resources page, except with own shit
 	

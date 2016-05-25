@@ -374,11 +374,51 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
-	public List<CodeResource> getSavedResources(User user) {
-		// TODO Auto-generated method stub
+	public List<CodeResource> getSavedResources(SearchParam searchParam) {
+		System.out.println("QUERY STRING: " + searchParam.getQueryString());
+		String[] queryWords;
+		if(searchParam.getQueryString() == null || searchParam.getQueryString().equals("")){
+			queryWords = new String[1];
+			queryWords[0] = " "; 
+		}else{
+			queryWords = searchParam.getQueryString().split(" ");			
+		}
+		List<String> nameParamsLowerCase = new ArrayList<>();
 
-		return null;
+		for (String string : queryWords) {
+			nameParamsLowerCase.add("%" + string.trim().toLowerCase() + "%");
+			System.out.println(string);
+		}
+
+		List<UserResource> userResources = em.createQuery("SELECT ur FROM UserResource ur WHERE user.id = :userId",UserResource.class)
+				.setParameter("userId",searchParam.getUserId()).getResultList();
+			
+		//TODO this could be combined into an jpql query
+		List<CodeResource> resourceList = new ArrayList();
+		if(queryWords.length > 0){
+			
+		}
+		for(int i = 0; i < userResources.size(); i++){
+			for(int j = 0; j< queryWords.length; j++){
+				if(queryWords[j].length() > 0){
+				if(userResources.get(i).getResource().getName().contains(queryWords[j])){
+					resourceList.add(userResources.get(i).getResource());
+				}
+				}else{
+					resourceList.add(userResources.get(i).getResource());
+					
+				}
+			}
+		}
+		
+		
+		
+		
+		
+		return resourceList;
 	}
+
+		
 
 	@Override
 	public ResultObject addCategories(Category c) {

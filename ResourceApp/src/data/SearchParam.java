@@ -10,6 +10,8 @@ public class SearchParam {
 	
 	private Integer topicId;
 
+	private Integer userId;
+	
 	public String getQueryString() {
 		return queryString;
 	}
@@ -46,6 +48,14 @@ public class SearchParam {
 	public String toString() {
 		return "SearchParam [queryString=" + queryString + ", minimumStatus=" + minimumStatus + ", categoryId="
 				+ categoryId + ", topicId=" + topicId + "]";
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	

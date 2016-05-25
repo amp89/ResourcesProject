@@ -489,8 +489,34 @@ public class ResourcesController {
 		return mv;
 	}
 	
+	/*
+	 * manage own resources
+	 */
+	@RequestMapping("setUpSearchUserResources.do")
+	public ModelAndView setUpSearchUserResources(@ModelAttribute("currentUser") CurrentUser currentUser){
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("searchUserResources.jsp");
+		mv.addObject("currentUser",currentUser);
+		mv.addObject("searchParam",new SearchParam());
+		mv.addObject("categoryList",dao.getCategoryList());
+		mv.addObject("topicList",dao.getTopicList());
+		return mv;
+	}
 	
-//	@RequestMapping("searchMethods")
+	@RequestMapping("searchUserResources.do")
+	public ModelAndView searchUserResources(@ModelAttribute("currentUser") CurrentUser currentUser, SearchParam searchParam){
+		ModelAndView mv = new ModelAndView();
+		searchParam.setUserId(currentUser.getId());
+		List<CodeResource> resourceList = dao.getSavedResources(searchParam);
+		
+		mv.addObject("currentUser",currentUser);
+		mv.addObject("resultList",resourceList);
+		mv.setViewName("userResourceResult.jsp");
+		return mv;
+	
+	}
+	//	@RequestMapping("searchMethods")
 
 	// @RequestMapping("deleteAccount.do"){
 	// //TODO unfinished method

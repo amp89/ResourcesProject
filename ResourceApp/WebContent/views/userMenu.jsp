@@ -25,6 +25,11 @@ currentUser = ${currentUser.firstName}
 	<button type="submit">ManageCategoriesAndTopics</button>
 </form>
 
+<form action="setUpSearchUserResources.do">
+	<button type="submit">search my stuff</button>
+</form>
+
+
 
 
 <%@ include file="/includes/footer.jsp"%>

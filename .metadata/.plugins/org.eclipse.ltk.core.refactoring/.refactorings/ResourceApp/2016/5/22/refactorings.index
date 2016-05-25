@@ -13,3 +13,4 @@
 1464156718200	Delete element
 1464156995377	Rename resource 'addCategoryAndTopic'
 1464157197170	Rename resource 'manageCategoriesAndTopics'
+1464170076767	Encapsulate field 'userId'
