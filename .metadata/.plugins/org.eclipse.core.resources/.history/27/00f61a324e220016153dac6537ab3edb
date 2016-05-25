@@ -365,16 +365,15 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	public ResultObject removeCategories(Category c) {
 		// TODO Auto-generated method stub
 		Category categoryToRemove = em.find(Category.class,c.getId());
-		System.out.println("DAO. Cat to remove: " + categoryToRemove);
 		List<CodeResource> resourcesWithCategory;
 		try {
 			resourcesWithCategory = em
-					.createQuery("SELECT cr FROM CodeResource cr WHERE category = :category",
+					.createQuery("" + "SELECT cr FROM CodeResource cr " + "WHERE topic.id = :idToDelete",
 							CodeResource.class)
-					.setParameter("category", categoryToRemove).getResultList();
+					.setParameter("idToDelete", categoryToRemove.getId()).getResultList();
 			
 			for(int i = 0; i < resourcesWithCategory.size(); i++){
-				System.out.println(resourcesWithCategory.get(i));
+				System.out.println(resourcesWithCategory);
 			}
 			for(int i = 0; i < resourcesWithCategory.size(); i++){
 				resourcesWithCategory.get(i).setCategory(em.find(Category.class,1));
