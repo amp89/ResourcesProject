@@ -1,5 +1,6 @@
 package entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -23,6 +24,30 @@ public class UserResource {
 	@ManyToOne
 	@JoinColumn(name="resources_id")
 	private CodeResource resource;
+	
+	@Column(name="date_added")
+	private Long dateAdded;
+
+	@Column(name="comments")
+	private String comments;
+	
+	
+	
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	public Long getDateAdded() {
+		return dateAdded;
+	}
+
+	public void setDateAdded(Long dateAdded) {
+		this.dateAdded = dateAdded;
+	}
 
 	public int getId() {
 		return id;

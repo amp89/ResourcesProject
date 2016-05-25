@@ -461,12 +461,26 @@ public class ResourcesController {
 	 * saving user resources
 	 */
 	
-	@RequestMapping("saveResource.do")
-	public ModelAndView saveResource(@ModelAttribute("currentUser") CurrentUser currentUser, @RequestParam("resourceId") Integer resourceId){
+	@RequestMapping("viewResource.do")
+	public ModelAndView viewResource(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("resourceId") Integer resourceId){
 		ModelAndView mv = new ModelAndView();
 		CodeResource cr = new CodeResource();
 		cr.setId(resourceId);
-		dao.saveResource(currentUser, cr);
+		mv.addObject("resource",dao.getResource(cr));
+		
+		mv.addObject("currentUser",currentUser);
+		mv.setViewName("viewResource.jsp");
+		System.out.println("SUPPOSED TO GO TO VIEW RESOURCE JSP FILE");
+		return mv;
+	}
+	
+	@RequestMapping("saveResource.do")
+	public ModelAndView saveResource(@ModelAttribute("currentUser") CurrentUser currentUser, @RequestParam("resourceId") Integer resourceId, @RequestParam("comments") String comments){
+		ModelAndView mv = new ModelAndView();
+		CodeResource cr = new CodeResource();
+		cr.setId(resourceId);
+		dao.saveResource(currentUser, cr, comments);
 		
 		//TODO add  a more sensible view name (returning to that page or something)
 		mv.setViewName("userMenu.jsp");

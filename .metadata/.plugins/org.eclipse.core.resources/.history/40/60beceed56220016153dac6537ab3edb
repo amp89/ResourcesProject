@@ -1,0 +1,10 @@
+
+<%@ include file="/includes/header.jsp"%>
+<%@ include file="/includes/debugInfo.jsp"%>
+view resource jsp
+<br>
+<br>
+${resource.}
+
+
+<%@ include file="/includes/footer.jsp"%>

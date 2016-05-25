@@ -60,6 +60,8 @@ public interface ResourcesDAO {
 	//submit resource
 	public ResultObject submitResource(CurrentUser CurrentUser, CodeResourceToAdd codeResourceToAdd);
 	
+	public CodeResource getResource(CodeResource codeResource);
+	
 	public List<CodeResource> getResources(SearchParam searchParam);
 	//get resources
 		
@@ -74,7 +76,7 @@ public interface ResourcesDAO {
 	
 	public ResultObject removeResource(CodeResource codeResource);
 	
-	public ResultObject saveResource(CurrentUser currentUser, CodeResource codeResource);
+	public ResultObject saveResource(CurrentUser currentUser, CodeResource codeResource, String comments);
 	//save resources
 		
 		//get parameters

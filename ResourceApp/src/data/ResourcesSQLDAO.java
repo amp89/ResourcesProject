@@ -295,9 +295,24 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
+	public CodeResource getResource(CodeResource codeResource){
+		CodeResource resource = em.find(CodeResource.class, codeResource.getId());
+		
+		
+		return resource;
+	}
+	
+	@Override
 	public List<CodeResource> getResources(SearchParam searchParam) {
 		// List<CodeResource> resourceList = em.createQuery(arg0)
-		String[] queryWords = searchParam.getQueryString().split(" ");
+		System.out.println("QUERY STRING: " + searchParam.getQueryString());
+		String[] queryWords;
+		if(searchParam.getQueryString() == null || searchParam.getQueryString().equals("")){
+			queryWords = new String[1];
+			queryWords[0] = " "; 
+		}else{
+			queryWords = searchParam.getQueryString().split(" ");			
+		}
 		List<String> nameParamsLowerCase = new ArrayList<>();
 
 		for (String string : queryWords) {
@@ -306,18 +321,24 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		}
 
 		// TODO logic for these
-
+		List<CodeResource> resourceList = null;
+		try{
 		int statusIdParam = searchParam.getMinimumStatus();
 		// TODO FOREACH KEYWORD ARRAY
 		System.out.println(searchParam);
-		List<CodeResource> resourceList = em
+		resourceList = em
 				.createQuery(
 						"SELECT cr FROM CodeResource cr WHERE"
 								+ " (LOWER(name) LIKE :name OR LOWER(description) LIKE :description) AND status.id >= :statusId",
 						CodeResource.class)
 				.setParameter("name", nameParamsLowerCase).setParameter("description", nameParamsLowerCase)
 				.setParameter("statusId", statusIdParam).getResultList();
-
+		}catch(NullPointerException npe){
+			//TODO why is it doing this
+			//TODO i had path instead of action in a form so the behavior was unexpected
+			//can revert file back to previous state, try/catch was only for debugging purposes			
+			System.out.println("ITS THROWING NULL POINTERS HERE FOR SOME REASON");
+		}
 		return resourceList;
 	}
 
@@ -334,11 +355,14 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
-	public ResultObject saveResource(CurrentUser currentUser, CodeResource codeResource) {
+	public ResultObject saveResource(CurrentUser currentUser, CodeResource codeResource, String comments) {
 		// TODO Auto-generated method stub
 		UserResource userResource = new UserResource();
 		userResource.setUser(em.find(User.class, currentUser.getId()));
 		userResource.setResource(em.find(CodeResource.class, codeResource.getId()));
+		Date d = new Date();
+		userResource.setDateAdded(d.getTime());
+		userResource.setComments(comments);
 		em.persist(userResource);
 		return null;
 	}

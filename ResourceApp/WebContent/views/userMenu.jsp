@@ -27,5 +27,4 @@ currentUser = ${currentUser.firstName}
 
 
 
-
 <%@ include file="/includes/footer.jsp"%>
