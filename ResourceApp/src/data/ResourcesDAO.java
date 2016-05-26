@@ -83,7 +83,7 @@ public interface ResourcesDAO {
 		//get parameters
 		//persist new save
 	
-	public ResultObject deleteSavedResource(CodeResource codeResource);
+	public ResultObject deleteSavedResource(Integer userResourceId, Integer userId);
 	//delete saved resources
 		//search then remove from list
 	

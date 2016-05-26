@@ -73,7 +73,13 @@ public class UserResource {
 		this.resource = resource;
 	}
 
-	
+//	@Override
+//	public String toString() {
+//		return "UserResource [id=" + id + ", user=" + user + ", resource=" + resource + ", dateAdded=" + dateAdded
+//				+ ", comments=" + comments + "]";
+//	}
+//
+//	
 	
 	
 }

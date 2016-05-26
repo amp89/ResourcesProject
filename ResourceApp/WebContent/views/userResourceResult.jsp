@@ -7,11 +7,15 @@ user resource result jsp
 	${result.name} ${result.description} <br> 
 	<form action="viewResource.do" method="POST">
 		<input type="hidden" name="resourceId" value="${result.id }" />		
-		
 		<button type="submit">View</button>
 	</form>
+	<form action="deleteResource.do" method="POST">
+
+		<input type="hidden" name="resourceId" value="${result.id}" />
+		
+	<button type="submit">delete</button>
+	</form>
 	
-	<button>delete</button>
 	<button>?</button>
 	<button>?</button>
 	manage save edit whatever here<br><br><br>

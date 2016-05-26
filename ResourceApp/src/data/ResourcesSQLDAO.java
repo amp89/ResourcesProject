@@ -379,7 +379,6 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		return new ResultObject();
 	}
 
-	@Override
 	public ResultObject removeResource(CodeResource codeResource) {
 		// TODO Auto-generated method stub
 		return null;
@@ -395,12 +394,24 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		userResource.setDateAdded(d.getTime());
 		userResource.setComments(comments);
 		em.persist(userResource);
+		
+		
+		
+		
 		return null;
 	}
 
 	@Override
-	public ResultObject deleteSavedResource(CodeResource codeResource) {
-		// TODO Auto-generated method stub
+	public ResultObject deleteSavedResource(Integer resourceId, Integer userId) {
+		
+//		user Resource id is list of CODE RESOURCES ids
+		UserResource ur = em.createQuery("SELECT ur FROM UserResource ur WHERE "
+				+ "user.id = :userId AND resource.id = :resourceId",UserResource.class)
+				.setParameter("userId",userId).setParameter("resourceId", resourceId)
+				.getSingleResult();
+//		user id is obvious
+		em.remove(ur);
+		
 		return null;
 	}
 

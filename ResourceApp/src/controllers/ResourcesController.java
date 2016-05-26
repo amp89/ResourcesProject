@@ -206,6 +206,20 @@ public class ResourcesController {
 		mv.setViewName("index.jsp");
 		return mv;
 	}
+	
+	private void refreshUser(@ModelAttribute("currentUser") CurrentUser currentUser){
+		CurrentUser placeholder = currentUser;
+		System.out.println("Print current user " + currentUser);
+
+		currentUser = null;
+		System.out.println("Print current user " + currentUser);
+
+		currentUser = new CurrentUser();
+		currentUser = placeholder;
+		
+		
+	}
+
 
 	@RequestMapping("manageMyAccount.do")
 	public ModelAndView manageMyAccount(@ModelAttribute("currentUser") CurrentUser currentUser) {
@@ -589,7 +603,26 @@ public class ResourcesController {
 		
 	}
 	
-	
+	//add are you sure javascript confrim
+	@RequestMapping("deleteResource.do")
+	public ModelAndView deleteResource(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("resourceId") Integer userResourceId){
+		ModelAndView mv = new ModelAndView();
+		System.out.println(userResourceId);
+		dao.deleteSavedResource(userResourceId, currentUser.getId());
+		//not updating
+		//force signout and signin to see if it updates
+//		refreshUser(currentUser);
+		
+		
+		mv.setViewName("searchUserResources.jsp");
+		mv.addObject("currentUser",currentUser);
+		mv.addObject("searchParam",new SearchParam());
+		mv.addObject("categoryList",dao.getCategoryList());
+		mv.addObject("topicList",dao.getTopicList());
+		return mv;
+		
+	}
 	
 	
 	
