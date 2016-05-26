@@ -624,16 +624,78 @@ public class ResourcesController {
 		
 	}
 	
+	/*
+	 * 
+	 * user management
+	 */
 	
-	
-	//	@RequestMapping("searchMethods")
+	@RequestMapping("setUpManageUsers.do")
+	public ModelAndView setUpManageUsers(@ModelAttribute("currentUser") CurrentUser currentUser){
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("user", new User());
+		mv.setViewName("manageUsers.jsp");
+			
+		return mv;
 
-	// @RequestMapping("deleteAccount.do"){
-	// //TODO unfinished method
-	// dao.removeUser(user);
-	// mv.setViewName
-	// }
-	//
+	}
+	@RequestMapping("getUserList.do")
+	public ModelAndView getUserList(@ModelAttribute("currentUser") CurrentUser currentUser, User user){
+		ModelAndView mv = new ModelAndView();
+		List<User> userList = dao.getUsers(user);
+		
+		mv.addObject("userList",userList);
+		mv.addObject("currentUser",currentUser);
+		mv.setViewName("userList.jsp");
+		
+		
+		return mv;
+	}
+	
+	@RequestMapping("viewUser.do")
+	public ModelAndView viewUser(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("userId") Integer userId){
+		ModelAndView mv = new ModelAndView();
+
+		mv.addObject("user",dao.getUser(userId));
+		mv.addObject("currentUser",currentUser);
+		mv.addObject("userTypeList",dao.getUserTypeList());
+		mv.setViewName("viewUser.jsp");
+		return mv;
+	}
+	
+//	@RequestMapping("deleteUser.do")
+	@RequestMapping("modifyUser.do")
+	public ModelAndView modifyUser(@ModelAttribute("currentUser") CurrentUser currentUser,
+			User user, @RequestParam("userTypeId") Integer userTypeId){
+		ModelAndView mv = new ModelAndView();
+		user.setUserType(dao.getUserTypeById(userTypeId));
+		System.out.println(user);
+		//TODO, important **** set only things changed with gets/sets in dao
+		mv.addObject("user",user);
+		mv.addObject("currentUser",currentUser);
+		mv.addObject("userTypeList",dao.getUserTypeList());
+		mv.addObject("message","modified user");
+		mv.setViewName("viewUser.jsp");
+		return mv;
+		
+	}
+	
+	
+
+	 @RequestMapping("deleteUser.do")
+	 public ModelAndView deleteUser(@ModelAttribute("currentUser") CurrentUser currentUser,
+			 @RequestParam("userId") Integer userId){
+		 ModelAndView mv = new ModelAndView();
+		 System.out.println("USER TO DELETE = " + dao.getUser(userId));
+		 //TODO add delete method with cascade (manual) in dao.
+		 
+			mv.addObject("user", new User());
+			mv.setViewName("manageUsers.jsp");
+				
+		 return mv;
+	
+	 }
+	
 
 }
 

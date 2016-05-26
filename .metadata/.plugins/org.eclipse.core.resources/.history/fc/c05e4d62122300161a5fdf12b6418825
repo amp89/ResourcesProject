@@ -1,0 +1,20 @@
+
+<%@ include file="/includes/header.jsp"%>
+<%@ include file="/includes/debugInfo.jsp"%>
+
+<c:forEach var="singleUser" items="${userList}">
+
+	${singleUser.id}<br>
+	${singleUser.userName}<br>
+	${singleUser.firstName}<br>
+	${singleUser.lastName}<br>
+	${singleUser.email}<br>
+	${singleUser.password}<br>
+	${singleUser.userConfirmationKey}<br>
+	${singleUser.dateJoined}<br>
+
+
+</c:forEach>
+
+
+<%@ include file="/includes/footer.jsp"%>

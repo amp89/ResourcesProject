@@ -29,6 +29,11 @@ currentUser = ${currentUser.firstName}
 	<button type="submit">search my stuff</button>
 </form>
 
+<form action="setUpManageUsers.do">
+	<button type="submit">Manage Users</button>
+</form>
+
+
 
 
 

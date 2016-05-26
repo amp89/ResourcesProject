@@ -1,0 +1,57 @@
+
+<%@ include file="/includes/header.jsp"%>
+<%@ include file="/includes/debugInfo.jsp"%>
+
+	<form:form modelAttribute="user" action="signUp.do">
+		<table>
+			<tr>
+				<td>username</td>
+				<td><form:input path="userName" /></td>
+			</tr>
+			<tr>
+				<td>Firstname</td>
+				<td><form:input path="firstName" /></td>
+			</tr>
+			
+			<tr>
+				<td>Lastname</td>
+				<td><form:input path="lastName" /></td>
+			</tr>
+			
+			<tr>
+				<td>email</td>
+				<td><form:input path="email" /></td>
+			</tr>
+			
+			<tr>
+				<td>password</td>
+				<td><form:input path="password" /></td>
+			</tr>
+			
+			<tr>
+				<td>username</td>
+				<td><form:input path="userName" /></td>
+			</tr>
+			<tr>
+				<td>confirmation key</td>
+				<td><form:input path="userConfirmationKey" /></td>
+			</tr>
+			
+			
+			
+			
+			<c:forEach var="userType" items="${userTypeList}">
+				
+			</c:forEach>
+			
+
+			
+		</table>
+		<button type="submit">Submit Changes</button>
+	</form:form>
+	<form action="deleteUser">
+		<input type="hidden" name="userId" value="${user.id}">
+		<button type="submit">Delete</button>
+	</form>
+	
+<%@ include file="/includes/footer.jsp"%>

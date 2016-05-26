@@ -250,9 +250,36 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
+	public List<UserType> getUserTypeList(){
+		List<UserType> userTypeList = em.createQuery("SELECT ut FROM UserType ut").getResultList();
+		return userTypeList;
+	}
+	
+	@Override
+	public User getUser(Integer userId){
+		return em.find(User.class, userId);
+	}
+	
+	@Override
+	public UserType getUserTypeById(Integer userTypeId){
+		return em.find(UserType.class, userTypeId);
+	}
+	
+	@Override
 	public List<User> getUsers(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		//by email
+		System.out.println(user);
+		String email = "%"+ user.getEmail() + "%";
+		System.out.println("IN DAO GET USERS EMAIL: " + email);
+		
+//		List<User> userResultList = em.createQuery("SELECT u FROM User u",User.class).getResultList();
+		List<User> userResultList = em.createQuery("SELECT u FROM User u WHERE email LIKE :email",User.class)
+				.setParameter("email", email).getResultList();
+		for (User user2 : userResultList) {
+			System.out.println(user2);
+		}
+		
+		return userResultList;
 	}
 
 	@Override
@@ -290,10 +317,13 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		em.persist(codeResource);
 		ResultObject result = new ResultObject();
 		result.setMessage("Thank you for contributing!");
+		
+	
 		// TODO map to adding user by userresources
 		return result;
 	}
 
+	
 	@Override
 	public CodeResource getResource(CodeResource codeResource){
 		CodeResource resource = em.find(CodeResource.class, codeResource.getId());

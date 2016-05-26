@@ -7,6 +7,7 @@ import entities.CodeResource;
 import entities.Status;
 import entities.Topic;
 import entities.User;
+import entities.UserType;
 
 public interface ResourcesDAO {
 
@@ -131,6 +132,15 @@ public interface ResourcesDAO {
 
 
 	CodeResourceToAdd getResourceWithoutObjects(CodeResource codeResource);
+
+
+	User getUser(Integer userId);
+
+
+	List<UserType> getUserTypeList();
+
+
+	UserType getUserTypeById(Integer userTypeId);
 
 	
 }
