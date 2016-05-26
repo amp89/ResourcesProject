@@ -10,12 +10,24 @@ ${resource.description}<br>
 ${resource.linkTitle}<br>
 ${resource.link}<br>
 ${resource.dateAdded}<br>
-${resource.status}<br>
+${resource.status.id}<br>
 	<form action="saveResource.do" method="POST">
 		<button>save</button>
 		Add comments and save
 		<input type="text" name="comments" />
 		<input type="hidden" name="resourceId" value="${resource.id}"/>
 	</form>
+	
+	<form action="setUpEditResource.do" method="POST">
+		<button>edit</button>
+		<input type="hidden" name="resourceId" value="${resource.id}"/>
+	</form>
+	<form action="setUpSetResourceStatus.do" method="POST">
+		<button>set status</button>
+		<input type="hidden" name="resourceId" value="${resource.id}"/>
+	
+	</form>
+
+	<button>delete</button>
 
 <%@ include file="/includes/footer.jsp"%>

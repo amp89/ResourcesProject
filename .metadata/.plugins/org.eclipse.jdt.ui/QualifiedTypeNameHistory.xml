@@ -9,7 +9,6 @@
 <fullyQualifiedTypeName name="org.apache.catalina.realm.JNDIRealm.User"/>
 <fullyQualifiedTypeName name="entities.Resources"/>
 <fullyQualifiedTypeName name="entities.Resource"/>
-<fullyQualifiedTypeName name="entities.UserResource"/>
 <fullyQualifiedTypeName name="javax.persistence.FetchType"/>
 <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
 <fullyQualifiedTypeName name="javax.inject.Scope"/>
@@ -23,7 +22,10 @@
 <fullyQualifiedTypeName name="javax.mail.PasswordAuthentication"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMethod"/>
 <fullyQualifiedTypeName name="entities.User"/>
-<fullyQualifiedTypeName name="entities.Category"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="entities.Status"/>
+<fullyQualifiedTypeName name="entities.Category"/>
+<fullyQualifiedTypeName name="entities.Topic"/>
+<fullyQualifiedTypeName name="entities.UserResource"/>
+<fullyQualifiedTypeName name="entities.CodeResource"/>
 </qualifiedTypeNameHistroy>

@@ -516,6 +516,83 @@ public class ResourcesController {
 		return mv;
 	
 	}
+	
+	
+	@RequestMapping("setUpEditResource.do")
+	public ModelAndView setUpEditResource(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("resourceId") Integer resourceId){
+		ModelAndView mv = new ModelAndView();
+		CodeResource cr = new CodeResource();
+		cr.setId(resourceId);
+		CodeResourceToAdd resourceToEdit = dao.getResourceWithoutObjects(cr);
+		System.out.println("resource to edit page: " + resourceToEdit);
+		mv.addObject("codeResource",resourceToEdit);
+		mv.addObject("currentUser",currentUser);
+		mv.addObject("categoryList",dao.getCategoryList());
+		mv.addObject("topicList",dao.getTopicList());
+		mv.setViewName("editResource.jsp");
+		
+		return mv;
+		
+		
+	}
+	
+	@RequestMapping("editResource.do")
+	public ModelAndView editResource(@ModelAttribute("currentUser") CurrentUser currentUser,
+			CodeResourceToAdd codeResource){
+		ModelAndView mv = new ModelAndView();
+	
+		System.out.println("Resource to modify: " + codeResource);
+		dao.modifyResource(codeResource);
+		
+		mv.addObject("message","Resource updated");
+		mv.addObject("codeResource",codeResource);
+		mv.addObject("currentUser",currentUser);
+		mv.addObject("categoryList",dao.getCategoryList());
+		mv.addObject("topicList",dao.getTopicList());
+		mv.setViewName("editResource.jsp");
+		return mv;
+		
+	}
+	
+	@RequestMapping("setUpSetResourceStatus.do")
+	public ModelAndView setUpSetResourceStatus(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("resourceId") Integer resourceId){
+		ModelAndView mv = new ModelAndView();
+		CodeResource cr = new CodeResource();
+		cr.setId(resourceId);
+		mv.addObject("codeResource",dao.getResource(cr));
+		mv.addObject("statusList",dao.getStatusList());
+		mv.addObject("currentUser",currentUser);
+		mv.setViewName("setStatus.jsp");
+				
+		return mv;
+		
+		
+	}
+	
+	@RequestMapping("setResourceStatus.do")
+	public ModelAndView setResourceStatus(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("resourceId") Integer resourceId,
+			@RequestParam("statusId") Integer statusId){
+		ModelAndView mv = new ModelAndView();
+		dao.changeReviewStatus(resourceId, statusId);
+		CodeResource cr = new CodeResource();
+		cr.setId(resourceId);
+		
+		mv.addObject("currentUser",currentUser);
+		mv.addObject("resource",dao.getResource(cr));
+		mv.addObject("message","this resource's status has been updated");
+		mv.setViewName("viewResource.jsp");
+		
+		return mv;
+		
+	}
+	
+	
+	
+	
+	
 	//	@RequestMapping("searchMethods")
 
 	// @RequestMapping("deleteAccount.do"){

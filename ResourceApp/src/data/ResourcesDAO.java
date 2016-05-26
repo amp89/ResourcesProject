@@ -4,6 +4,7 @@ import java.util.List;
 
 import entities.Category;
 import entities.CodeResource;
+import entities.Status;
 import entities.Topic;
 import entities.User;
 
@@ -72,7 +73,7 @@ public interface ResourcesDAO {
 		//by category
 		//review y/n
 	
-	public ResultObject modifyResource(CodeResource codeResource);
+	public ResultObject modifyResource(CodeResourceToAdd codeResource);
 	
 	public ResultObject removeResource(CodeResource codeResource);
 	
@@ -114,7 +115,7 @@ public interface ResourcesDAO {
 			//modify OWN posts
 			//ADMIN: modify all posts
 			//TODO this should be a button on the normal search
-	public ResultObject changeReviewStatus();
+	public ResultObject changeReviewStatus(Integer resourceId, Integer statusId);
 			//ADMIN: change review status
 	public ResultObject deletePost();
 			//ADMIN: delete
@@ -125,6 +126,11 @@ public interface ResourcesDAO {
 	public List<Category> getCategoryList();
 	
 	public List<Topic> getTopicList();
+	
+	public List<Status> getStatusList();
+
+
+	CodeResourceToAdd getResourceWithoutObjects(CodeResource codeResource);
 
 	
 }

@@ -302,6 +302,26 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		return resource;
 	}
 	
+	//gets resources with id's instead of objects
+	@Override
+	public CodeResourceToAdd getResourceWithoutObjects(CodeResource codeResource){
+	CodeResourceToAdd cr = new CodeResourceToAdd();
+	CodeResource resource = em.find(CodeResource.class, codeResource.getId());
+	cr.setId(resource.getId());
+	cr.setName(resource.getName());
+	cr.setDescription(resource.getDescription());
+	cr.setLinkTitle(resource.getLinkTitle());
+	cr.setLink(resource.getLink());
+	cr.setTopicId(resource.getTopic().getId());
+	cr.setCategoryId(resource.getCategory().getId());
+	cr.setCodeSnippet(resource.getCodeSnippet());
+	
+	
+	return cr;
+		
+	}
+
+	
 	@Override
 	public List<CodeResource> getResources(SearchParam searchParam) {
 		// List<CodeResource> resourceList = em.createQuery(arg0)
@@ -343,9 +363,20 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
-	public ResultObject modifyResource(CodeResource codeResource) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResultObject modifyResource(CodeResourceToAdd codeResource) {
+		CodeResource resourceToModify = em.find(CodeResource.class, codeResource.getId());
+		resourceToModify.setName(codeResource.getName());
+		resourceToModify.setDescription(codeResource.getDescription());
+		resourceToModify.setLinkTitle(codeResource.getLinkTitle());
+		resourceToModify.setLink(codeResource.getLink());
+//		resourceToModify.setDateAdded(codeResource.getDateAdded());
+//		resourceToModify.setStatus(codeResource.getStatus());
+		resourceToModify.setTopic(em.find(Topic.class, codeResource.getTopicId()));
+		resourceToModify.setCategory(em.find(Category.class, codeResource.getCategoryId()));
+		resourceToModify.setCodeSnippet(codeResource.getCodeSnippet());
+		
+		
+		return new ResultObject();
 	}
 
 	@Override
@@ -524,8 +555,10 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
-	public ResultObject changeReviewStatus() {
-		// TODO Auto-generated method stub
+	public ResultObject changeReviewStatus(Integer resourceId, Integer statusId) {
+		CodeResource resource = em.find(CodeResource.class, resourceId);
+		Status status = em.find(Status.class, statusId);
+		resource.setStatus(status);
 		return null;
 	}
 
@@ -594,6 +627,12 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	public List<Topic> getTopicList() {
 		List<Topic> topicList = em.createQuery("SELECT t FROM Topic t", Topic.class).getResultList();
 		return topicList;
+	}
+	
+	@Override
+	public List<Status> getStatusList(){
+		List<Status> statusList = em.createQuery("SELECT s FROM Status s",Status.class).getResultList();
+		return statusList;
 	}
 
 }

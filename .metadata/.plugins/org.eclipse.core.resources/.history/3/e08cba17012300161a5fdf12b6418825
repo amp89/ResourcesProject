@@ -1,0 +1,28 @@
+
+<form method="POST" action="editResource.do">
+<input type="hidden" name="${ codeResource.id }"/>
+	<table>
+	
+		<tr>
+			<td>Topic</td>
+			<td><select name="statusId" required="required">
+						<option>select one</option>
+					<c:forEach var="topic" items="${statusList}">
+						<option value="${statusList.id}"
+						
+			<c:if test="${statusList.id == codeResource.status.id}">
+							
+							selected="selected"
+							</c:if>
+						
+						>${status.name}</option>
+					</c:forEach>
+				</select></td>
+		</tr>
+
+	</table>
+
+
+	<button type="submit">Submit Changes</button>
+
+</form:form>
