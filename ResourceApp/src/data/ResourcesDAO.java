@@ -43,13 +43,20 @@ public interface ResourcesDAO {
 	public List<User> getUsers(User user);
 
 	//user self stuff
-	public ResultObject updateUser(User user);
-		//statements to change shit
+	public ResultObject updateUser(User user, Integer userTypeId);
+	
+	
+	
+	//statements to change shit
 		//if change email
 			//most of this stuff could probably just call the sign up methods
 				//change generated key
 				//confirm account
 	//delete own account
+	
+	
+	
+	
 	public ResultObject updatePassword(String newPassword, String oldPassword, CurrentUser currentUser);
 		
 	public ResultObject updateEmail(CurrentUser CurrentUser, User newParams);

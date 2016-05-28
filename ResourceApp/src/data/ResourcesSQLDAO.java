@@ -283,9 +283,47 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
-	public ResultObject updateUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResultObject updateUser(User user, Integer userTypeId) {
+		System.out.println("update dao");
+		System.out.println(user);
+		System.out.println(userTypeId);
+		
+		ResultObject result = new ResultObject();
+		
+		User userToModify = em.find(User.class, user.getId());
+		boolean emailInUse = true;
+		try{
+			User queriedByEmail = em.createQuery("SELECT u FROM User u WHERE LOWER(u.email) = :email",User.class).setParameter("email",user.getEmail()).getSingleResult();
+			if(queriedByEmail.getEmail().equals(userToModify.getEmail())){
+				System.out.println("email matches prev");
+				emailInUse = false;
+			}else{
+				System.out.println("email is in use");
+				emailInUse = true;
+				
+			}
+			
+		}catch(NoResultException nre ){
+			emailInUse = false;
+			System.out.println("no result thrown (good), email not in use");
+		}
+		
+		
+		if(!emailInUse){
+			userToModify.setUserName(user.getUserName());
+			userToModify.setFirstName(user.getFirstName());
+			userToModify.setLastName(user.getLastName());
+			userToModify.setEmail(user.getEmail());
+			userToModify.setPassword(user.getPassword());
+			userToModify.setUserType(em.find(UserType.class,userTypeId));
+			result.setMessage("User updated");
+			result.setErrorMessage(null);
+			
+		}else{
+			
+			result.setErrorMessage("email address is in use by another user");
+		}
+		return result;
 	}
 
 	@Override

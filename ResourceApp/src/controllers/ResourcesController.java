@@ -207,7 +207,7 @@ public class ResourcesController {
 		return mv;
 	}
 	
-	private void refreshUser(@ModelAttribute("currentUser") CurrentUser currentUser){
+	private CurrentUser refreshUser(CurrentUser currentUser){
 		CurrentUser placeholder = currentUser;
 		System.out.println("Print current user " + currentUser);
 
@@ -216,6 +216,7 @@ public class ResourcesController {
 
 		currentUser = new CurrentUser();
 		currentUser = placeholder;
+		return currentUser;
 		
 		
 	}
@@ -665,14 +666,23 @@ public class ResourcesController {
 	
 //	@RequestMapping("deleteUser.do")
 	@RequestMapping("modifyUser.do")
-	public ModelAndView modifyUser(@ModelAttribute("currentUser") CurrentUser currentUser,
-			User user, @RequestParam("userTypeId") Integer userTypeId){
+	public ModelAndView modifyUser(User user,
+			@RequestParam("userTypeId") Integer userTypeId){
+		//i took the current user thing out of here and then it started working.
+		//TODO maybe i don't need to pass it each time... wow
 		ModelAndView mv = new ModelAndView();
+//		System.out.println("first stop controller, cu:" + currentUser);
+		System.out.println("\tuser from form: " + user);
+		
 		user.setUserType(dao.getUserTypeById(userTypeId));
 		System.out.println(user);
 		//TODO, important **** set only things changed with gets/sets in dao
+		dao.updateUser(user,userTypeId);
+//		System.out.println("Back in controller.  CU: " + currentUser);
+		System.out.println("\tand user" + user);
+
 		mv.addObject("user",user);
-		mv.addObject("currentUser",currentUser);
+//		mv.addObject("currentUser",currentUser);
 		mv.addObject("userTypeList",dao.getUserTypeList());
 		mv.addObject("message","modified user");
 		mv.setViewName("viewUser.jsp");

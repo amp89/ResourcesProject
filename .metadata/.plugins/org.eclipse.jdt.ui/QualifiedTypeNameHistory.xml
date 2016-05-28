@@ -23,9 +23,11 @@
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMethod"/>
 <fullyQualifiedTypeName name="entities.User"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="entities.Status"/>
 <fullyQualifiedTypeName name="entities.Category"/>
 <fullyQualifiedTypeName name="entities.Topic"/>
 <fullyQualifiedTypeName name="entities.UserResource"/>
 <fullyQualifiedTypeName name="entities.CodeResource"/>
+<fullyQualifiedTypeName name="data.CodeResourceToAdd"/>
+<fullyQualifiedTypeName name="entityTesting.ResourceTest"/>
+<fullyQualifiedTypeName name="entities.Status"/>
 </qualifiedTypeNameHistroy>
