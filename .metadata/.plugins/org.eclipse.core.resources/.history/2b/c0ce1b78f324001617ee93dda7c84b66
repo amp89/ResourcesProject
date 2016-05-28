@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
-import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import entities.Category;
@@ -334,12 +333,12 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		//fk constraint removeal
 		//remove all saves
 		List<UserResource> ur = userToRemove.getUserResources();
-//		TODO finish fixing this method so we can delete the users resources
-//		for(int i = 0; i < ur.size(); i++){
-//			
-//			ur.get(i)
-//			
-//		}
+		
+		for(int i = 0; i < ur.size(); i++){
+			
+			ur.get(i)
+			
+		}
 		
 		
 		
@@ -475,33 +474,14 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	@Override
 	public ResultObject saveResource(CurrentUser currentUser, CodeResource codeResource, String comments) {
 		// TODO Auto-generated method stub
-		//stop it from going twice
-		boolean idAlreadySaved = true;
-		try{
-			em.createQuery("SELECT ur FROM UserResource ur WHERE ur.user.id = :userId AND "
-					+ "ur.resource.id = :resourceId",UserResource.class)
-			.setParameter("userId",currentUser.getId())
-			.setParameter("resourceId",codeResource.getId())
-			.getSingleResult();
+		UserResource userResource = new UserResource();
+		userResource.setUser(em.find(User.class, currentUser.getId()));
+		userResource.setResource(em.find(CodeResource.class, codeResource.getId()));
+		Date d = new Date();
+		userResource.setDateAdded(d.getTime());
+		userResource.setComments(comments);
+		em.persist(userResource);
 		
-		}catch(NoResultException nre){
-			idAlreadySaved = false;
-		}
-		if(!idAlreadySaved){
-			UserResource userResource = new UserResource();
-			userResource.setUser(em.find(User.class, currentUser.getId()));
-			userResource.setResource(em.find(CodeResource.class, codeResource.getId()));
-			Date d = new Date();
-			userResource.setDateAdded(d.getTime());
-			userResource.setComments(comments);
-			em.persist(userResource);
-			
-			
-		}else{
-			ResultObject resultObject = new ResultObject();
-			resultObject.setErrorMessage("COULDn't add it man");
-			System.out.println("ADD FAAAAIILLLEEEDDD");
-		}
 		
 		
 		
@@ -519,8 +499,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 //		user id is obvious
 		for(int i = 0; i < ur.size(); i++){
 			em.remove(ur.get(i));
-			System.out.println("deleted a resource");
-
+			
 		}
 		
 		return null;

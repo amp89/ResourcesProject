@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
-import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import entities.Category;
@@ -485,23 +484,17 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 			.getSingleResult();
 		
 		}catch(NoResultException nre){
-			idAlreadySaved = false;
-		}
-		if(!idAlreadySaved){
-			UserResource userResource = new UserResource();
-			userResource.setUser(em.find(User.class, currentUser.getId()));
-			userResource.setResource(em.find(CodeResource.class, codeResource.getId()));
-			Date d = new Date();
-			userResource.setDateAdded(d.getTime());
-			userResource.setComments(comments);
-			em.persist(userResource);
 			
-			
-		}else{
-			ResultObject resultObject = new ResultObject();
-			resultObject.setErrorMessage("COULDn't add it man");
-			System.out.println("ADD FAAAAIILLLEEEDDD");
 		}
+		
+		UserResource userResource = new UserResource();
+		userResource.setUser(em.find(User.class, currentUser.getId()));
+		userResource.setResource(em.find(CodeResource.class, codeResource.getId()));
+		Date d = new Date();
+		userResource.setDateAdded(d.getTime());
+		userResource.setComments(comments);
+		em.persist(userResource);
+		
 		
 		
 		

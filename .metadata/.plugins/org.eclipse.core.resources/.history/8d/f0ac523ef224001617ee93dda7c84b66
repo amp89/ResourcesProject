@@ -698,7 +698,7 @@ public class ResourcesController {
 		 ModelAndView mv = new ModelAndView();
 		 System.out.println("USER TO DELETE = " + dao.getUser(userId));
 		 //TODO add delete method with cascade (manual) in dao.
-		 dao.removeUser(dao.getUser(userId));
+		 
 			mv.addObject("user", new User());
 			mv.setViewName("manageUsers.jsp");
 				
