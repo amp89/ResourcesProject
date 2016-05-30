@@ -30,4 +30,5 @@
 <fullyQualifiedTypeName name="data.CodeResourceToAdd"/>
 <fullyQualifiedTypeName name="entityTesting.ResourceTest"/>
 <fullyQualifiedTypeName name="entities.Status"/>
+<fullyQualifiedTypeName name="org.springframework.core.io.support.ResourcePatternUtils"/>
 </qualifiedTypeNameHistroy>

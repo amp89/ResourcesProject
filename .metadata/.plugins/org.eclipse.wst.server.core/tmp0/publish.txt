@@ -1,4 +1,4 @@
 #Tomcat publish data
-#Sat May 28 10:57:39 MDT 2016
+#Mon May 30 16:52:36 MDT 2016
 org.eclipse.jst.jee.server\:/binary\:/Users/alex/.m2/repository/org/springframework/spring-web/4.2.4.RELEASE/spring-web-4.2.4.RELEASE.jar=WEB-INF/lib/spring-web-4.2.4.RELEASE.jar
 org.eclipse.jst.j2ee.server\:ResourceJPA=WEB-INF/lib/ResourceJPA.jar

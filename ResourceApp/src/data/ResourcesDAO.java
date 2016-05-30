@@ -149,5 +149,8 @@ public interface ResourcesDAO {
 
 	UserType getUserTypeById(Integer userTypeId);
 
+
+	ResultObject deleteAllOfUsersResources(User user);
+
 	
 }

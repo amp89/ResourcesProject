@@ -328,25 +328,47 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
+	public ResultObject deleteAllOfUsersResources(User user){
+		
+		User userToRemove = em.find(User.class,user.getId());
+		List<UserResource> ur = userToRemove.getUserResources();
+
+		//TODO gobackhere
+		for(int i = 0; i < ur.size(); i++){
+			System.out.println("sending to delete method: " + ur.get(i));
+			em.remove(ur.get(i));
+//			deleteSavedResource(ur.get(i).getId(),user.getId());
+			
+			
+			
+		}
+//		
+//		for(int i = 0; i < ur.size(); i++){
+//			System.out.println("Dleteing this one: " + ur.get(i).getResource());
+//			em.remove(ur.get(i));
+//			System.out.println("deleted a resource");
+//
+//		}
+		
+		
+		userToRemove.setUserResources(null);
+		
+		System.out.println("user's resources hsould be gone now");
+		return null;
+	}
+	
+	
+	@Override
 	public ResultObject removeUser(User user) {
 		User userToRemove = em.find(User.class, user.getId());
 		
 		//fk constraint removeal
 		//remove all saves
-		List<UserResource> ur = userToRemove.getUserResources();
-//		TODO finish fixing this method so we can delete the users resources
-//		for(int i = 0; i < ur.size(); i++){
-//			
-//			ur.get(i)
-//			
-//		}
-		
-		
-		
+
 		
 		
 		em.remove(userToRemove);
-		
+		System.out.println("User deleted");
 		
 		return null;
 	}
@@ -510,14 +532,21 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 
 	@Override
 	public ResultObject deleteSavedResource(Integer resourceId, Integer userId) {
-		
+		System.out.println(resourceId);
+		System.out.println(userId);
 //		user Resource id is list of CODE RESOURCES ids
 		List<UserResource> ur = em.createQuery("SELECT ur FROM UserResource ur WHERE "
 				+ "user.id = :userId AND resource.id = :resourceId",UserResource.class)
 				.setParameter("userId",userId).setParameter("resourceId", resourceId)
 				.getResultList();
 //		user id is obvious
+		//TODO THIS LIST IS NOT PUPULATING
+		
+		for (UserResource userResource : ur) {
+			System.out.println("deleting " + userResource);
+		}
 		for(int i = 0; i < ur.size(); i++){
+			System.out.println("Dleteing this one: " + ur.get(i).getResource());
 			em.remove(ur.get(i));
 			System.out.println("deleted a resource");
 
