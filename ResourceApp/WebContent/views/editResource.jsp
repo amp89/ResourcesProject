@@ -72,7 +72,7 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 
 	</table>
 
-
+	<input type="hidden" name="currentUserId" value="${currentUser.id}" />
 	<button type="submit">Submit Changes</button>
 
 </form:form>

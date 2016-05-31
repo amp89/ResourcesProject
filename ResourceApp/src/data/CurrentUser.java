@@ -17,7 +17,9 @@ public class CurrentUser {
 	private List<UserResource> userResources;
 	
 	
-	public CurrentUser(){}
+	public CurrentUser(){
+		super();
+	}
 	
 	
 	public CurrentUser(int id, String userName, String firstName, String lastName, String email, UserType userType, long dateJoined,

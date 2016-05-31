@@ -495,7 +495,15 @@ public class ResourcesController {
 		ModelAndView mv = new ModelAndView();
 		CodeResource cr = new CodeResource();
 		cr.setId(resourceId);
+		System.out.println("cu: " + currentUser);
+		System.out.println("cr: " + cr);
+		System.out.println("comment: " + comments);
 		dao.saveResource(currentUser, cr, comments);
+		//refresh user 
+		int signedInUserId = currentUser.getId();
+		currentUser = null;
+		currentUser = dao.getCurrentUser(signedInUserId);
+		
 		
 		//TODO add  a more sensible view name (returning to that page or something)
 		mv.setViewName("userMenu.jsp");
@@ -554,11 +562,17 @@ public class ResourcesController {
 	
 	@RequestMapping("editResource.do")
 	public ModelAndView editResource(@ModelAttribute("currentUser") CurrentUser currentUser,
-			CodeResourceToAdd codeResource){
+			CodeResourceToAdd codeResource,
+			@ModelAttribute("currentUserId") Integer currentUserId){
 		ModelAndView mv = new ModelAndView();
 	
 		System.out.println("Resource to modify: " + codeResource);
 		dao.modifyResource(codeResource);
+		//TODO logout in here otherwise mess up oh no
+//		int userId = currentUser.getId();
+		System.out.println(currentUserId);
+		currentUser = null;
+		currentUser = dao.getCurrentUser(currentUserId);
 		
 		mv.addObject("message","Resource updated");
 		mv.addObject("codeResource",codeResource);

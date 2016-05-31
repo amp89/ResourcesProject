@@ -1,4 +1,5 @@
-DEBUG - currentUser: ${currentUser.firstName}
+DEBUG - currentUser: ${currentUser.firstName}<br>
+DEBUG - currentUserid: ${currentUser.id}<br>
 
-message: ${message}
-error message: ${errorMessage}
+message: ${message}<br>
+error message: ${errorMessage}<br>

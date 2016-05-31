@@ -31,6 +31,19 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		return ul;
 	}
 
+	
+	@Override
+	public CurrentUser getCurrentUser(int userId){
+		User user = em.find(User.class, userId);
+		System.out.println(user);
+		CurrentUser currentUser = new CurrentUser(user.getId(), user.getUserName(), user.getFirstName(),
+				user.getLastName(), user.getEmail(), user.getUserType(), user.getDateJoined(),
+				user.getUserResources());
+		
+		return currentUser;
+	}
+	
+
 	// TODO make this a class
 	private String createConfKey() {
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$%^&*()-_=+|}{[]1234567890";
@@ -570,7 +583,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	public List<CodeResource> getSavedResources(SearchParam searchParam) {
 		System.out.println("QUERY STRING: " + searchParam.getQueryString());
 		String[] queryWords;
-		if(searchParam.getQueryString() == null || searchParam.getQueryString().equals("")){
+		if(searchParam.getQueryString() == null || searchParam.getQueryString().equals("") || searchParam.getQueryString().equals(" ") ){
 			queryWords = new String[1];
 			queryWords[0] = " "; 
 		}else{
@@ -579,7 +592,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		List<String> nameParamsLowerCase = new ArrayList<>();
 
 		for (String string : queryWords) {
-			nameParamsLowerCase.add("%" + string.trim().toLowerCase() + "%");
+			nameParamsLowerCase.add("%" + string.toLowerCase() + "%");
 			System.out.println(string);
 		}
 
