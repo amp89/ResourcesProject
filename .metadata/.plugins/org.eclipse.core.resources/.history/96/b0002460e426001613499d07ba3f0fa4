@@ -112,48 +112,31 @@ public class ResourcesController {
 	}
 	//sends email
 	@RequestMapping("retrieveForgottonLogin.do")
-	public ModelAndView retrieveForgottonLogin(@Valid User user, Errors errors){
+	public ModelAndView retrieveForgottonLogin(User user){
 		ModelAndView mv = new ModelAndView();
-		
-		if(errors.getErrorCount() == 0){
-			ResultObject result = dao.retrieveLogin(user);
-			if(result.getErrorMessage() == null){
-				mv.setViewName("index.jsp");
-				mv.addObject("message","check your email for your password reset informatoin");
-				mv.addObject("user",new User());
-				
-			}else{
-				mv.setViewName("resetPassword.jsp");
-				mv.addObject("message",result.getErrorMessage());
-				mv.addObject("user",user);
-	
-			}		
+		ResultObject result = dao.retrieveLogin(user);
+		if(result.getErrorMessage() == null){
+			mv.setViewName("index.jsp");
+			mv.addObject("message","check your email for your password reset informatoin");
+			mv.addObject("user",new User());
+			
 		}else{
 			mv.setViewName("resetPassword.jsp");
-			mv.addObject("message","Check your input and try again.");
+			mv.addObject("message",result.getErrorMessage());
 			mv.addObject("user",user);
+	
 			
 		}
 		return mv;
 	
 	}
-	
 	//resets password
-	//TODO what exactly is this for
 	@RequestMapping("resetLogin.do")
-	public ModelAndView resetLostLogin(@Valid User user, Errors errors, @ModelAttribute("currentUser") CurrentUser currentUser) {
-		
+	public ModelAndView resetLostLogin(User user, @ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
-		if(errors.getErrorCount() == 0){
-			ResultObject result = dao.resetLogin(user);
-			mv.setViewName("userMenu.jsp");
-			mv.addObject("currentUser",result.getCurrentUser());
-			
-		}else{
-			
-		}
-
-		
+		ResultObject result = dao.resetLogin(user);
+		mv.setViewName("userMenu.jsp");
+		mv.addObject("currentUser",result.getCurrentUser());
 		return mv;
 	}
 
