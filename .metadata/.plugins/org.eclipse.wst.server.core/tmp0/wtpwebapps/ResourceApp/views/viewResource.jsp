@@ -28,6 +28,10 @@ ${resource.status.id}<br>
 	
 	</form>
 
+<form action="deleteCodeResource.do">
+		<input type="hidden" name="resourceId" value="${resource.id}"/>
+	
 	<button>delete</button>
+</form>
 
 <%@ include file="/includes/footer.jsp"%>

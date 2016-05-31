@@ -17,8 +17,10 @@ Change email address
 
 
 Delete account
-
-
+<form action="deleteSelf.do">
+	<input type="hidden" name="userId" value="${currentUser.id}" />
+	<button type="submit">Delete own account</button>
+</form>
 
 
 

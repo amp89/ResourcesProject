@@ -9,11 +9,11 @@ user resource result jsp
 		<input type="hidden" name="resourceId" value="${result.id }" />		
 		<button type="submit">View</button>
 	</form>
-	<form action="deleteResource.do" method="POST">
+	<form action="deleteSavedResource.do" method="POST">
 
 		<input type="hidden" name="resourceId" value="${result.id}" />
 		
-	<button type="submit">delete</button>
+	<button type="submit">remove from saves</button>
 	</form>
 	
 	<button>?</button>

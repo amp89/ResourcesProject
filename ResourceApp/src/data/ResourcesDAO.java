@@ -83,7 +83,7 @@ public interface ResourcesDAO {
 	
 	public ResultObject modifyResource(CodeResourceToAdd codeResource);
 	
-	public ResultObject removeResource(CodeResource codeResource);
+	public ResultObject removeResource(Integer resourceId);
 	
 	public ResultObject saveResource(CurrentUser currentUser, CodeResource codeResource, String comments);
 	//save resources

@@ -488,9 +488,20 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		return new ResultObject();
 	}
 
-	public ResultObject removeResource(CodeResource codeResource) {
+	public ResultObject removeResource(Integer resourceId) {
 		// TODO Auto-generated method stub
 		//TODO deleteSavedREsource()
+		CodeResource cr = em.find(CodeResource.class, resourceId);
+		
+		List<UserResource> saves = cr.getUserResources();
+		for (UserResource userResource : saves) {
+			em.remove(userResource);
+		}
+		
+		cr.setUserResources(null);
+		
+		em.remove(cr);
+		
 		return null;
 	}
 

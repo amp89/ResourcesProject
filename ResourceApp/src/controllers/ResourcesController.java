@@ -605,7 +605,7 @@ public class ResourcesController {
 	}
 	
 	//add are you sure javascript confrim
-	@RequestMapping("deleteResource.do")
+	@RequestMapping("deleteSavedResource.do")
 	public ModelAndView deleteResource(@ModelAttribute("currentUser") CurrentUser currentUser,
 			@RequestParam("resourceId") Integer userResourceId){
 		ModelAndView mv = new ModelAndView();
@@ -657,6 +657,8 @@ public class ResourcesController {
 			@RequestParam("userId") Integer userId){
 		ModelAndView mv = new ModelAndView();
 
+		
+		
 		mv.addObject("user",dao.getUser(userId));
 		mv.addObject("currentUser",currentUser);
 		mv.addObject("userTypeList",dao.getUserTypeList());
@@ -706,9 +708,51 @@ public class ResourcesController {
 			mv.setViewName("manageUsers.jsp");
 				
 		 return mv;
+
 	
 	 }
+	 
+	 @RequestMapping("deleteSelf.do")
+	 public ModelAndView deleteSelf(@ModelAttribute("currentUser") CurrentUser currentUser,
+			 @RequestParam("userId") Integer userId){
+		 ModelAndView mv = new ModelAndView();
+		 System.out.println("USER TO DELETE = " + dao.getUser(userId));
+		 //TODO add delete method with cascade (manual) in dao.
+		 User userToDelete = dao.getUser(userId); 
+		 dao.deleteAllOfUsersResources(userToDelete);
+		 //TODO resources are not getting deleted
+		 dao.removeUser(userToDelete);
+		 
+		 currentUser = null;
+		 currentUser = new CurrentUser();
+		 
+		 mv.addObject(currentUser);
+		 mv.addObject("user", new User());
+		 mv.setViewName("index.jsp");
+		 
+		 return mv;
+		 
+	 }
 	
+	@RequestMapping("deleteCodeResource.do")
+	public ModelAndView deleteCodeResource(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("resourceId") Integer resourceId){
+		ModelAndView mv = new ModelAndView();
+		
+		//TODO i am working here
+		
+		dao.removeResource(resourceId);
+		
+		mv.setViewName("search.jsp");
+		mv.addObject("currentUser",currentUser);
+		mv.addObject("searchParam",new SearchParam());
+		mv.addObject("categoryList",dao.getCategoryList());
+		mv.addObject("topicList",dao.getTopicList());
+		return mv;
+		
+		
+	}
+	 
 
 }
 
