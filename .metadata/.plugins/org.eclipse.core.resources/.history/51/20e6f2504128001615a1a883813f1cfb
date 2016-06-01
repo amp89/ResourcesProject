@@ -206,10 +206,12 @@ public class ResourcesController {
 		return mv;
 	}
 
-	//go to own account management page
 	@RequestMapping("selfManage.do")
 	public ModelAndView selfManage(@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
+		
+		
+		
 		mv.addObject("currentUser", currentUser);
 		mv.setViewName("selfManage.jsp");
 		
@@ -219,12 +221,19 @@ public class ResourcesController {
 
 	}
 
-	//logout
 	@RequestMapping("logout.do")
 	public ModelAndView logout(@ModelAttribute("currentUser") CurrentUser currentUser) {
+		System.out.println("DEBUG: TIME TO LOGGOUTTTTT");
 		ModelAndView mv = new ModelAndView();
+
+		System.out.println("Print current user " + currentUser);
+
 		currentUser = null;
+		System.out.println("Print current user " + currentUser);
+
 		currentUser = new CurrentUser();
+
+		System.out.println("Print current user " + currentUser);
 		mv.addObject("user", new User());
 		mv.addObject("currentUser", currentUser);
 		mv.setViewName("index.jsp");

@@ -1,5 +1,6 @@
 
 <%@ include file="/includes/header.jsp"%>
+<%@ include file="/includes/debugInfo.jsp"%>
 
 
 <c:forEach var="singleUser" items="${userList}">

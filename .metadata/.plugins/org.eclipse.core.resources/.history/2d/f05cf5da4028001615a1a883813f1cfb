@@ -32,6 +32,7 @@ public class ResourcesController {
 	@ModelAttribute("currentUser")
 	private CurrentUser initLoggedInUser() {
 		CurrentUser currentUser = new CurrentUser();
+		System.out.println(currentUser);
 		return currentUser;
 	}
 
@@ -40,9 +41,9 @@ public class ResourcesController {
 
 	// initialize the index page
 	@RequestMapping("index.do")
+	// @RequestMapping(path="index.do", method=RequestMethod.POST)
 	public ModelAndView loadIndexPagePost(@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
-		//if there is a user logged in, go to the user's menu.  otherwise, go to the signin (index) page
 		if (currentUser.getUserType() != null && currentUser.getUserType().getAccessLevel() > 0) {
 			mv.addObject("currentUser", currentUser);
 			mv.setViewName("userMenu.jsp");
@@ -55,13 +56,15 @@ public class ResourcesController {
 
 	}
 
-	//sign in page
+	// sign in request
+	// @RequestMapping(path="signIn.do", method=RequestMethod.POST)
 	@RequestMapping("signIn.do")
 	public ModelAndView signIn(@Valid User user, Errors errors, @ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
 		if(errors.getErrorCount() == 0){
-			ResultObject result = dao.signInUser(user);
 			
+			System.out.println("singing in....");
+			ResultObject result = dao.signInUser(user);
 			if (result.getErrorMessage() == null) {
 				currentUser = result.getCurrentUser();
 				mv.addObject("currentUser", currentUser);
@@ -99,7 +102,7 @@ public class ResourcesController {
 			ResultObject result = dao.retrieveLogin(user);
 			if(result.getErrorMessage() == null){
 				mv.setViewName("index.jsp");
-				mv.addObject("message","Check your email for your password reset informatoin");
+				mv.addObject("message","check your email for your password reset informatoin");
 				mv.addObject("user",new User());
 				
 			}else{
@@ -119,10 +122,12 @@ public class ResourcesController {
 	}
 	
 	//resets password
+	//TODO what exactly is this for ???
 	@RequestMapping("resetLogin.do")
 	public ModelAndView resetLostLogin(@Valid User user, Errors errors, @ModelAttribute("currentUser") CurrentUser currentUser) {
 		
 		ModelAndView mv = new ModelAndView();
+		System.out.println("\n\t^%&#**%^&$%*$&6&$%resetLogin.do*&YUHO*&T)*&^*07607(*^0\t\n");
 		if(errors.getErrorCount() == 0){
 			ResultObject result = dao.resetLogin(user);
 			mv.setViewName("userMenu.jsp");
@@ -137,7 +142,7 @@ public class ResourcesController {
 	}
 
 	
-	//set up the sign up page
+	
 	@RequestMapping("setUpSignUp.do")
 	public ModelAndView setUpSignUp() {
 		ModelAndView mv = new ModelAndView();
@@ -146,13 +151,14 @@ public class ResourcesController {
 		return mv;
 	}
 
-	//sign up action
 	@RequestMapping("signUp.do")
 	public ModelAndView signUp(@Valid User user, Errors errors) {
 		
 		ModelAndView mv = new ModelAndView();
 		if(errors.getErrorCount() == 0){
+			System.out.println("signing up...");
 			ResultObject result = dao.signUpUser(user);
+			// null pointer at 97 b/c signUpUser returns nothing
 			if (result.getErrorMessage() == null) {
 				
 				mv.addObject("currentUser", result.getCurrentUser());
@@ -173,7 +179,6 @@ public class ResourcesController {
 		return mv;
 	}
 	
-	//set up the confirmation page
 	@RequestMapping("setUpConfirm.do")
 	public ModelAndView setUpConfirmAccount(){
 		ModelAndView mv = new ModelAndView();
@@ -182,11 +187,11 @@ public class ResourcesController {
 		return mv;
 	}
 
-	//confrim action
 	@RequestMapping(path = "confirm.do", method = RequestMethod.POST)
 	public ModelAndView confirmAccount(@RequestParam("password") String password,
 			@RequestParam("confirmationKey") String confirmationKey, @RequestParam("userName") String userName) {
 		ModelAndView mv = new ModelAndView();
+		System.out.println("in confrim.do request mapping");
 		User toConfirm = new User();
 		toConfirm.setPassword(password);
 		toConfirm.setUserConfirmationKey(confirmationKey);
@@ -206,10 +211,12 @@ public class ResourcesController {
 		return mv;
 	}
 
-	//go to own account management page
 	@RequestMapping("selfManage.do")
 	public ModelAndView selfManage(@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
+		
+		
+		
 		mv.addObject("currentUser", currentUser);
 		mv.setViewName("selfManage.jsp");
 		
@@ -219,12 +226,19 @@ public class ResourcesController {
 
 	}
 
-	//logout
 	@RequestMapping("logout.do")
 	public ModelAndView logout(@ModelAttribute("currentUser") CurrentUser currentUser) {
+		System.out.println("DEBUG: TIME TO LOGGOUTTTTT");
 		ModelAndView mv = new ModelAndView();
+
+		System.out.println("Print current user " + currentUser);
+
 		currentUser = null;
+		System.out.println("Print current user " + currentUser);
+
 		currentUser = new CurrentUser();
+
+		System.out.println("Print current user " + currentUser);
 		mv.addObject("user", new User());
 		mv.addObject("currentUser", currentUser);
 		mv.setViewName("index.jsp");

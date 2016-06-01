@@ -1,18 +1,20 @@
 
 <%@ include file="/includes/header.jsp"%>
+<%@ include file="/includes/debugInfo.jsp"%>
 
 
 <c:forEach var="singleUser" items="${userList}">
 
 <div class="col-xs-12 col-md-4">
 <div class="box">
-	Id: ${singleUser.id}<br>
-	Username: ${singleUser.userName}<br>
-	Name: ${singleUser.firstName} ${singleUser.lastName}<br>
-	Email: ${singleUser.email}<br>
-	Password: ${singleUser.password}<br>
-	Year Joined: ${singleUser.year}<br>
-	UserType: ${singleUser.userType.typeName}<br>
+	${singleUser.id}<br>
+	${singleUser.userName}<br>
+	${singleUser.firstName}<br>
+	${singleUser.lastName}<br>
+	${singleUser.email}<br>
+	${singleUser.password}<br>
+	${singleUser.dateJoined}<br>
+	${singleUser.userType.typeName}<br>
 
 	<form action="viewUser.do" method="POST">
 		<input type="hidden" name="userId" value="${singleUser.id}" />

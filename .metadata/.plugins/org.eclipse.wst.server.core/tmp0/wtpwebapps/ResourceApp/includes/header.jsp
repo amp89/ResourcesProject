@@ -67,8 +67,7 @@
 					<c:if test="${currentUser.userType.accessLevel > 0 }">
 					<li><a href="setUpSearch.do">Search</a></li>
 					<li><a href="setUpSearchUserResources.do">Search saved resources</a></li>
-					<li><a href="manageMyAccount.do">${currentUser.firstName}'s
-							Account</a></li>
+					<li><a href="manageMyAccount.do">Menu</a></li>
 					<li><a href="setUpContribute.do">Contribute</a></li>
 					</c:if>
 

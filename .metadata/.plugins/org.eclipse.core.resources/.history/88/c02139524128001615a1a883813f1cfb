@@ -225,6 +225,8 @@ public class ResourcesController {
 		ModelAndView mv = new ModelAndView();
 		currentUser = null;
 		currentUser = new CurrentUser();
+
+		System.out.println("Print current user " + currentUser);
 		mv.addObject("user", new User());
 		mv.addObject("currentUser", currentUser);
 		mv.setViewName("index.jsp");
