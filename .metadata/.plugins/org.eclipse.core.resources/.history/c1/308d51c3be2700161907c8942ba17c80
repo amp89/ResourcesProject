@@ -448,14 +448,14 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	public List<CodeResource> getResources(SearchParam searchParam) {
 		// List<CodeResource> resourceList = em.createQuery(arg0)
 		System.out.println("QUERY STRING: " + searchParam.getQueryString());
-//		String[] queryWords;
-//		if(searchParam.getQueryString() == null || searchParam.getQueryString().equals("")){
-//			queryWords = new String[1];
-//			queryWords[0] = " "; 
-//		}else{
-//			queryWords = searchParam.getQueryString().split(" ");			
-//		}
-//		List<String> nameParamsLowerCase = new ArrayList<>();
+		String[] queryWords;
+		if(searchParam.getQueryString() == null || searchParam.getQueryString().equals("")){
+			queryWords = new String[1];
+			queryWords[0] = " "; 
+		}else{
+			queryWords = searchParam.getQueryString().split(" ");			
+		}
+		List<String> nameParamsLowerCase = new ArrayList<>();
 
 //		for (String string : queryWords) {
 //			nameParamsLowerCase.add("%" + string.trim().toLowerCase() + "%");
@@ -472,10 +472,10 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 						"SELECT cr FROM CodeResource cr WHERE"
 								+ " (LOWER(name) LIKE :name OR LOWER(description) LIKE :description) AND status.id >= :statusId",
 						CodeResource.class)
-				.setParameter("name", "%"+searchParam.getQueryString().toLowerCase().trim() + "%").setParameter("description", "%" + searchParam.getQueryString().toLowerCase().trim()  + "%")
+				.setParameter("name", searchParam.getQueryString().toLowerCase().trim()).setParameter("description", nameParamsLowerCase.getQueryString().toLowerCase().trim())
 				.setParameter("statusId", statusIdParam).getResultList();
 		
-		return resourceList;
+		resource list
 	}//get resources
 
 	@Override

@@ -448,14 +448,14 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	public List<CodeResource> getResources(SearchParam searchParam) {
 		// List<CodeResource> resourceList = em.createQuery(arg0)
 		System.out.println("QUERY STRING: " + searchParam.getQueryString());
-//		String[] queryWords;
-//		if(searchParam.getQueryString() == null || searchParam.getQueryString().equals("")){
-//			queryWords = new String[1];
-//			queryWords[0] = " "; 
-//		}else{
-//			queryWords = searchParam.getQueryString().split(" ");			
-//		}
-//		List<String> nameParamsLowerCase = new ArrayList<>();
+		String[] queryWords;
+		if(searchParam.getQueryString() == null || searchParam.getQueryString().equals("")){
+			queryWords = new String[1];
+			queryWords[0] = " "; 
+		}else{
+			queryWords = searchParam.getQueryString().split(" ");			
+		}
+		List<String> nameParamsLowerCase = new ArrayList<>();
 
 //		for (String string : queryWords) {
 //			nameParamsLowerCase.add("%" + string.trim().toLowerCase() + "%");

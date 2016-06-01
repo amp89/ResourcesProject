@@ -448,35 +448,44 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	public List<CodeResource> getResources(SearchParam searchParam) {
 		// List<CodeResource> resourceList = em.createQuery(arg0)
 		System.out.println("QUERY STRING: " + searchParam.getQueryString());
-//		String[] queryWords;
-//		if(searchParam.getQueryString() == null || searchParam.getQueryString().equals("")){
-//			queryWords = new String[1];
-//			queryWords[0] = " "; 
-//		}else{
-//			queryWords = searchParam.getQueryString().split(" ");			
-//		}
-//		List<String> nameParamsLowerCase = new ArrayList<>();
+		String[] queryWords;
+		if(searchParam.getQueryString() == null || searchParam.getQueryString().equals("")){
+			queryWords = new String[1];
+			queryWords[0] = " "; 
+		}else{
+			queryWords = searchParam.getQueryString().split(" ");			
+		}
+		List<String> nameParamsLowerCase = new ArrayList<>();
 
-//		for (String string : queryWords) {
-//			nameParamsLowerCase.add("%" + string.trim().toLowerCase() + "%");
-//			System.out.println(string);
-//		}
+		for (String string : queryWords) {
+			nameParamsLowerCase.add("%" + string.trim().toLowerCase() + "%");
+			System.out.println(string);
+		}
 
 		// TODO logic for these
 		List<CodeResource> resourceList = null;
+		try{
 		int statusIdParam = searchParam.getMinimumStatus();
 		// TODO FOREACH KEYWORD ARRAY
 		System.out.println(searchParam);
 		resourceList = em
 				.createQuery(
 						"SELECT cr FROM CodeResource cr WHERE"
-								+ " (LOWER(name) LIKE :name OR LOWER(description) LIKE :description) AND status.id >= :statusId",
+								+ " (LOWER(name) LIKE :name"
+//								+ " OR LOWER(description) LIKE :description) "
+								+ " AND status.id >= :statusId",
 						CodeResource.class)
-				.setParameter("name", "%"+searchParam.getQueryString().toLowerCase().trim() + "%").setParameter("description", "%" + searchParam.getQueryString().toLowerCase().trim()  + "%")
+				.setParameter("name", nameParamsLowerCase)
+				.setParameter("description", nameParamsLowerCase)
 				.setParameter("statusId", statusIdParam).getResultList();
-		
+		}catch(NullPointerException npe){
+			//TODO why is it doing this
+			//TODO i had path instead of action in a form so the behavior was unexpected
+			//can revert file back to previous state, try/catch was only for debugging purposes			
+			System.out.println("ITS THROWING NULL POINTERS HERE FOR SOME REASON");
+		}
 		return resourceList;
-	}//get resources
+	}
 
 	@Override
 	public ResultObject modifyResource(CodeResourceToAdd codeResource) {
