@@ -5,9 +5,11 @@
 
 <c:forEach var="result" items="${resultList}">
 
-	<div class="col-xs-12 col-md-4 box">
-	${result.name}<br> ${result.description} <br>
-	<!-- fix comments -->
+	<div class="col-xs-12 col-md-4">
+	<div class="box">
+	<span class="box-title">${result.name}</span><br>
+	 ${result.description} <br>
+	<%-- fix comments --%>
 	<form action="viewResource.do" method="POST">
 		<input type="hidden" name="resourceId" value="${result.id }" />		
 		<button type="submit">View this resource</button>
@@ -18,7 +20,7 @@
 		
 	<button type="submit">Remove from saved resources</button>
 	</form>
-	
+	</div>
 	</div>
 </c:forEach>
 

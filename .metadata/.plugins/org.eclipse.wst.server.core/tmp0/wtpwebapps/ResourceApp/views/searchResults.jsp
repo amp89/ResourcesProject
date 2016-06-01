@@ -1,19 +1,20 @@
 
 <%@ include file="/includes/header.jsp"%>
-<div class="row">
-	<div class="col-xs-12 col-md-offset-4 col-md-4">
 
 <c:forEach var="result" items="${resultList}">
-	${result.name} ${result.description} <br> 
+	<div class="col-xs-12 col-md-4">
+	<div class="box">
+	<span class="box-title">${result.name}</span><br>
+    ${result.description} <br> 
 
 
 	<form action="viewResource.do" method="POST">
-		<button>view</button>
+		<button>More about this resource</button>
 		<input type="hidden" name="resourceId" value="${result.id}"/>
 	</form>
 	
+	</div>
+  </div>
 </c:forEach>
 
-  </div>
-  </div>
 <%@ include file="/includes/footer.jsp"%>

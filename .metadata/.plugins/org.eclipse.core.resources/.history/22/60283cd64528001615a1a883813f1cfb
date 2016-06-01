@@ -1,0 +1,62 @@
+/* 
+body{
+	background-color:red;
+} */
+
+
+/* fix stuff getting stuck under the navbar */
+
+body{
+	padding-top:10%;
+	background-color:#c5f5ff;
+	color:#005575;
+}
+
+@media (max-width: 620px){
+body{
+	padding-top:20%;
+}
+	
+}
+
+button{
+	background-color:#f7f7f7;
+	color:#066584;
+	border:0px;
+	margin-top:3px;
+}
+button:hover{
+	background-color:#066584;
+	color:#ccf7ff;
+}
+
+
+
+.message{
+	font-size:1.5em;
+	color:rgb(0,255,0);
+}
+.errorMessage{
+	font-size:1.5em;
+	color:rgb(255,0,0);
+}
+
+.center-text{
+	text-align:center;
+}
+
+textarea, input, select{
+	background-color:#dbfdff;
+	margin:1px;
+	border:1px solid rgb(230,230,230);
+	color:rgb(20,20,20);
+	box-shadow: 1px 1px 1px rgb(50,50,50);
+	
+}
+
+.box{
+	border:1px solid rgb(230,230,255);
+	padding:2px;
+	background-color:#99f0ff;
+	margin:2px;
+}

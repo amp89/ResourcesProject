@@ -5,7 +5,7 @@
 
 <br>
 <%-- ${resource.id}<br> --%>
-Name: ${resource.name}<br>
+<span class="box-title">Name: ${resource.name}</span><br>
 Description: ${resource.description}<br>
 Link: <a href="${resource.link}">${resource.linkTitle}</a><br>
 Date Added: ${resource.dateAdded}<br>

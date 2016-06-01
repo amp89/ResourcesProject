@@ -34,43 +34,32 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	@Override
 	public CurrentUser getCurrentUser(int userId) {
 		User user = em.find(User.class, userId);
-		System.out.println(user);
 		CurrentUser currentUser = new CurrentUser(user.getId(), user.getUserName(), user.getFirstName(),
 				user.getLastName(), user.getEmail(), user.getUserType(), user.getDateJoined(), user.getUserResources());
 
 		return currentUser;
 	}
 
-	// TODO make this a class
 	private String createConfKey() {
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$%^&*()-_=+|}{[]1234567890";
-		// TODO: conf key. if exists, then what?
 		StringBuilder confKey = new StringBuilder();
-		System.out.println(characters.length());
 		for (int i = 0; i < 180; i++) {
-
 			int randomCharKey = (int) (Math.random() * characters.length());
 			confKey.append(characters.charAt(randomCharKey));
 		}
-		System.out.println(confKey.toString());
 		return (confKey.toString());
 	}
 
 	@Override
 	public ResultObject signUpUser(User user) {
-		System.out.println(user);
 		ResultObject result = new ResultObject();
 		boolean emailInUse = true;
 		boolean userNameInUse = true;
 		StringBuilder errorMessage = new StringBuilder();
 		UserType userTypeOne = em.find(UserType.class, 1);
 		user.setUserType(userTypeOne);
-		// set confirmation key
-		// TODO change conf key to method call
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$%^&*()-_=+|}{[]1234567890";
-		// TODO: conf key. if exists, then what?
 		StringBuilder confKey = new StringBuilder();
-		System.out.println(characters.length());
 
 		try {
 			User emailCheck = em.createQuery("SELECT u FROM User u WHERE LOWER(email) = :email", User.class)
@@ -100,19 +89,11 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 				int randomCharKey = (int) (Math.random() * characters.length());
 				confKey.append(characters.charAt(randomCharKey));
 			}
-			System.out.println(confKey.toString());
 			user.setUserConfirmationKey(confKey.toString());
-			// 200 char max
-			// add to database
 			Date d = new Date();
 			user.setDateJoined(d.getTime());
-			// send confirmation email
 			sendConfirmationEmail(user);
-
-			System.out.println(user);
-			// makes
 			em.persist(user);
-
 			CurrentUser currentUser = new CurrentUser(user.getId(), user.getUserName(), user.getFirstName(),
 					user.getLastName(), user.getEmail(), user.getUserType(), user.getDateJoined(),
 					user.getUserResources());
@@ -130,15 +111,15 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	private void sendConfirmationEmail(User user) {
 		EMail email = new EMail();
 		email.setSubject("Confirmation for resources app!");
-		email.setTextMessage("Go to conf page (website + setUpConfirm.do) and enter: " + user.getUserConfirmationKey()
-				+ " to sign up.  This will be changed to a link later.  Thanks!");
+		email.setTextMessage("Go to conf page (website url (for example, 12:34:56:78:8080/AppName/ + setUpConfirm.do) and enter: " + user.getUserConfirmationKey()
+				+ " to sign up.  This will be changed to a link later, still under construction.  Thanks!");
 		email.setToEmailAddress(user.getEmail());
 		boolean success = email.sendEMail();
-		// TODO what if email fails?
+		// TODO handle failed email
 
 	}
 
-	// TODO
+	//lost logins
 	@Override
 	public ResultObject retrieveLogin(User user) {
 		ResultObject result = new ResultObject();
@@ -150,16 +131,12 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 					.setParameter("userName", user.getUserName().toLowerCase())
 					.setParameter("email", user.getEmail().toLowerCase()).getSingleResult();
 			result.setErrorMessage(null);
-			// reset confirmation code
-			// new conf code
 			String newConfirmationKey = createConfKey();
 			System.out.println(newConfirmationKey);
 			userToReset.setUserConfirmationKey(newConfirmationKey);
-
-			// send reset email
 			EMail resetEmail = new EMail();
 			resetEmail.setSubject("Reset your password");
-			resetEmail.setTextMessage("Go to the confirmation page.\nEnter " + userToReset.getUserConfirmationKey()
+			resetEmail.setTextMessage("Go to conf page (website url (for example, 12:34:56:78:8080/AppName/ + setUpConfirm.do) and enter: \nEnter " + userToReset.getUserConfirmationKey()
 					+ " to reset your password");
 			resetEmail.setToEmailAddress(userToReset.getEmail());
 			boolean success = resetEmail.sendEMail();
@@ -168,7 +145,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 			result.setErrorMessage("The username or email address does not match any records");
 		}
 
-		// TODO what if email fails?
+		// TODO handle email failure
 		return result;
 	}
 
@@ -191,7 +168,6 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		}
 
 		userToReset.setPassword(user.getPassword());
-		System.out.println("New password:" + userToReset);
 		CurrentUser currentUser = new CurrentUser(userToReset.getId(), userToReset.getUserName(),
 				userToReset.getFirstName(), userToReset.getLastName(), userToReset.getEmail(),
 				userToReset.getUserType(), userToReset.getDateJoined(), userToReset.getUserResources());
@@ -225,7 +201,6 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 			resultObject.setMessage(message);
 
 		} catch (NoResultException nre) {
-			System.out.println("***USERNAME OR PASSWORD NOT FOUND");
 			String message = "Loggin failed, user or password is incorrect.";
 			resultObject.setErrorMessage(message);
 
@@ -237,8 +212,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 
 	@Override
 	public ResultObject sendConfirmation() {
-		// TODO Auto-generated method stub
-		// this might just stay in the signup method
+		//TODO remove this
 		return null;
 	}
 
@@ -254,9 +228,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 			result.setErrorMessage(null);
 		} else {
 			result.setErrorMessage("Account NOT confirmed");
-
 		}
-		System.out.println("setting confirmUser to type 2");
 		confirmUser.setUserType(em.find(UserType.class, 2));
 		return result;
 	}
@@ -279,27 +251,16 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 
 	@Override
 	public List<User> getUsers(User user) {
-		// by email
-		System.out.println(user);
 		String email = "%" + user.getEmail() + "%";
-		System.out.println("IN DAO GET USERS EMAIL: " + email);
 
-		// List<User> userResultList = em.createQuery("SELECT u FROM User
-		// u",User.class).getResultList();
 		List<User> userResultList = em.createQuery("SELECT u FROM User u WHERE email LIKE :email", User.class)
 				.setParameter("email", email).getResultList();
-		for (User user2 : userResultList) {
-			System.out.println(user2);
-		}
 
 		return userResultList;
 	}
 
 	@Override
 	public ResultObject updateUser(User user, Integer userTypeId) {
-		System.out.println("update dao");
-		System.out.println(user);
-		System.out.println(userTypeId);
 
 		ResultObject result = new ResultObject();
 
@@ -309,17 +270,14 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 			User queriedByEmail = em.createQuery("SELECT u FROM User u WHERE LOWER(u.email) = :email", User.class)
 					.setParameter("email", user.getEmail()).getSingleResult();
 			if (queriedByEmail.getEmail().equals(userToModify.getEmail())) {
-				System.out.println("email matches prev");
 				emailInUse = false;
 			} else {
-				System.out.println("email is in use");
 				emailInUse = true;
 
 			}
 
 		} catch (NoResultException nre) {
 			emailInUse = false;
-			System.out.println("no result thrown (good), email not in use");
 		}
 
 		if (!emailInUse) {
@@ -345,20 +303,10 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		User userToRemove = em.find(User.class, user.getId());
 		List<UserResource> ur = userToRemove.getUserResources();
 
-		// TODO gobackhere
 		for (int i = 0; i < ur.size(); i++) {
-			System.out.println("sending to delete method: " + ur.get(i));
 			em.remove(ur.get(i));
-			// deleteSavedResource(ur.get(i).getId(),user.getId());
 
 		}
-		//
-		// for(int i = 0; i < ur.size(); i++){
-		// System.out.println("Dleteing this one: " + ur.get(i).getResource());
-		// em.remove(ur.get(i));
-		// System.out.println("deleted a resource");
-		//
-		// }
 
 		userToRemove.setUserResources(null);
 
@@ -370,11 +318,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	public ResultObject removeUser(User user) {
 		User userToRemove = em.find(User.class, user.getId());
 
-		// fk constraint removeal
-		// remove all saves
-
 		em.remove(userToRemove);
-		System.out.println("User deleted");
 
 		return null;
 	}
@@ -403,18 +347,16 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		ResultObject result = new ResultObject();
 		result.setMessage("Thank you for contributing!");
 
-		// TODO map to adding user by userresources
+		// TODO save adding user's userresources
 		return result;
 	}
 
 	@Override
 	public CodeResource getResource(CodeResource codeResource) {
 		CodeResource resource = em.find(CodeResource.class, codeResource.getId());
-
 		return resource;
 	}
 
-	// gets resources with id's instead of objects
 	@Override
 	public CodeResourceToAdd getResourceWithoutObjects(CodeResource codeResource) {
 		CodeResourceToAdd cr = new CodeResourceToAdd();
@@ -434,24 +376,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 
 	@Override
 	public List<CodeResource> getResources(SearchParam searchParam) {
-		// List<CodeResource> resourceList = em.createQuery(arg0)
-		System.out.println("QUERY STRING: " + searchParam.getQueryString());
-		// String[] queryWords;
-		// if(searchParam.getQueryString() == null ||
-		// searchParam.getQueryString().equals("")){
-		// queryWords = new String[1];
-		// queryWords[0] = " ";
-		// }else{
-		// queryWords = searchParam.getQueryString().split(" ");
-		// }
-		// List<String> nameParamsLowerCase = new ArrayList<>();
-
-		// for (String string : queryWords) {
-		// nameParamsLowerCase.add("%" + string.trim().toLowerCase() + "%");
-		// System.out.println(string);
-		// }
-
-		// TODO logic for these
+		//TODO fix
 		List<CodeResource> resourceList = null;
 		int statusIdParam = searchParam.getMinimumStatus();
 		// TODO FOREACH KEYWORD ARRAY
@@ -475,8 +400,6 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		resourceToModify.setDescription(codeResource.getDescription());
 		resourceToModify.setLinkTitle(codeResource.getLinkTitle());
 		resourceToModify.setLink(codeResource.getLink());
-		// resourceToModify.setDateAdded(codeResource.getDateAdded());
-		// resourceToModify.setStatus(codeResource.getStatus());
 		resourceToModify.setTopic(em.find(Topic.class, codeResource.getTopicId()));
 		resourceToModify.setCategory(em.find(Category.class, codeResource.getCategoryId()));
 		resourceToModify.setCodeSnippet(codeResource.getCodeSnippet());
@@ -485,8 +408,6 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	public ResultObject removeResource(Integer resourceId) {
-		// TODO Auto-generated method stub
-		// TODO deleteSavedREsource()
 		CodeResource cr = em.find(CodeResource.class, resourceId);
 
 		List<UserResource> saves = cr.getUserResources();
@@ -503,8 +424,6 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 
 	@Override
 	public ResultObject saveResource(CurrentUser currentUser, CodeResource codeResource, String comments) {
-		// TODO Auto-generated method stub
-		// stop it from going twice
 		boolean idAlreadySaved = true;
 		try {
 			em.createQuery(
@@ -526,8 +445,8 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 
 		} else {
 			ResultObject resultObject = new ResultObject();
-			resultObject.setErrorMessage("COULDn't add it man");
-			System.out.println("ADD FAAAAIILLLEEEDDD");
+			resultObject.setErrorMessage("This resource is already saved by you.");
+			System.out.println("ADD FAILED - ALREADY SAVED");
 		}
 
 		return null;
@@ -535,33 +454,23 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 
 	@Override
 	public ResultObject deleteSavedResource(Integer resourceId, Integer userId) {
-		System.out.println(resourceId);
-		System.out.println(userId);
-		// user Resource id is list of CODE RESOURCES ids
 		List<UserResource> ur = em
 				.createQuery(
 						"SELECT ur FROM UserResource ur WHERE " + "user.id = :userId AND resource.id = :resourceId",
 						UserResource.class)
 				.setParameter("userId", userId).setParameter("resourceId", resourceId).getResultList();
-		// user id is obvious
-		// TODO THIS LIST IS NOT PUPULATING
 
-		for (UserResource userResource : ur) {
-			System.out.println("deleting " + userResource);
-		}
 		for (int i = 0; i < ur.size(); i++) {
-			System.out.println("Dleteing this one: " + ur.get(i).getResource());
 			em.remove(ur.get(i));
-			System.out.println("deleted a resource");
 
 		}
 
 		return null;
 	}
 
+	//TODO currently queries by part of a string only
 	@Override
 	public List<CodeResource> getSavedResources(SearchParam searchParam) {
-		System.out.println("QUERY STRING: " + searchParam.getQueryString());
 		String[] queryWords;
 		if (searchParam.getQueryString() == null || searchParam.getQueryString().equals("")
 				|| searchParam.getQueryString().equals(" ")) {
@@ -574,22 +483,14 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 
 		for (String string : queryWords) {
 			nameParamsLowerCase.add("%" + string.toLowerCase() + "%");
-			System.out.println(string);
 		}
 
 		List<UserResource> userResources = em
 				.createQuery("SELECT ur FROM UserResource ur WHERE user.id = :userId", UserResource.class)
 				.setParameter("userId", searchParam.getUserId()).getResultList();
 
-		// TODO this could be combined into an jpql query
 		List<CodeResource> resourceList = new ArrayList<>();
-		if (queryWords.length > 0) {
 
-		}
-
-		for (UserResource uresource : userResources) {
-			System.out.println("code resource: " + uresource.getResource().getName());
-		}
 
 		for (int i = 0; i < userResources.size(); i++) {
 			for (int j = 0; j < queryWords.length; j++) {
@@ -609,7 +510,6 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 
 	@Override
 	public ResultObject addCategories(Category c) {
-		// TODO ro needed?
 		ResultObject result = new ResultObject();
 
 		em.persist(c);
@@ -620,7 +520,6 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	@Override
 	public ResultObject removeCategories(Category c) {
 		Category categoryToRemove = em.find(Category.class, c.getId());
-		System.out.println("DAO. Cat to remove: " + categoryToRemove);
 		List<CodeResource> resourcesWithCategory;
 		try {
 			resourcesWithCategory = em
@@ -628,21 +527,15 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 					.setParameter("category", categoryToRemove).getResultList();
 
 			for (int i = 0; i < resourcesWithCategory.size(); i++) {
-				System.out.println(resourcesWithCategory.get(i));
-			}
-			for (int i = 0; i < resourcesWithCategory.size(); i++) {
 				resourcesWithCategory.get(i).setCategory(em.find(Category.class, 1));
 			}
 
 		} catch (NoResultException nre) {
-			System.out.println("NO RESULT:" + nre);
+			System.out.println("NO RESULT FOUND:\n" + nre);
 		}
 
 		em.remove(categoryToRemove);
 
-		// select all resource with this cateogry
-		// change them to id one, which should be a default value
-		// remove category
 		return new ResultObject();
 	}
 
@@ -650,13 +543,11 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	public ResultObject modifyCategories(Category c) {
 		Category categoryToModify = em.find(Category.class, c.getId());
 		categoryToModify.setName(c.getName());
-		// TODO needed?
 		return new ResultObject();
 	}
 
 	@Override
 	public ResultObject addTopics(Topic t) {
-		// TODO ro needed?
 		ResultObject result = new ResultObject();
 		em.persist(t);
 
@@ -666,22 +557,17 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	@Override
 	public ResultObject removeTopics(Topic t) {
 		Topic topicToRemove = em.find(Topic.class, t.getId());
-		System.out.println("DAO. top to remove: " + topicToRemove);
 		List<CodeResource> resourcesWithTopic;
 		try {
 			resourcesWithTopic = em
 					.createQuery("SELECT cr FROM CodeResource cr WHERE topic = :topic", CodeResource.class)
 					.setParameter("topic", topicToRemove).getResultList();
-
-			for (int i = 0; i < resourcesWithTopic.size(); i++) {
-				System.out.println(resourcesWithTopic.get(i));
-			}
 			for (int i = 0; i < resourcesWithTopic.size(); i++) {
 				resourcesWithTopic.get(i).setTopic(em.find(Topic.class, 1));
 			}
 
 		} catch (NoResultException nre) {
-			System.out.println("NO RESULT:" + nre);
+			System.out.println("NO RESULT FOUND:\n" + nre);
 		}
 
 		em.remove(topicToRemove);
@@ -733,13 +619,10 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		ResultObject result = new ResultObject();
 		if (user.getPassword().equals(oldPassword)) {
 			user.setPassword(newPassword);
-			// send password changed email
-			System.out.println("password changed");
 			result.setErrorMessage(null);
+			//TODO password changed email
 		} else {
 			result.setErrorMessage("Password change failed");
-			System.out.println("password change failed :(");
-
 		}
 
 		return result;
