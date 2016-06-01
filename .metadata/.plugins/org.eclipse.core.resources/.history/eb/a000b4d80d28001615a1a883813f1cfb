@@ -1,0 +1,46 @@
+/* 
+body{
+	background-color:red;
+} */
+
+
+/* fix stuff getting stuck under the navbar */
+
+body{
+	padding-top:10%;
+}
+
+@media (max-width: 620px){
+body{
+	padding-top:20%;
+}
+	
+}
+
+
+.message{
+	font-size:1.5em;
+	color:rgb(0,255,0);
+}
+.errorMessage{
+	font-size:1.5em;
+	color:rgb(255,0,0);
+}
+
+.center-text{
+	text-align:center;
+}
+
+textarea, input{
+	background-color:rgb(230,230,255);
+	margin:1px;
+	border:1px solid rgb(230,230,230);
+	color:rgb(20,20,20);
+	
+}
+
+.box{
+	border:1px solid rgb(230,230,255);
+	padding:2px;
+	background-color:rgb(240,240,240);
+}

@@ -6,7 +6,7 @@
 <c:forEach var="singleUser" items="${userList}">
 
 <div class="col-xs-12 col-md-4">
-<div class="userbox">
+<div class="box">
 	${singleUser.id}<br>
 	${singleUser.userName}<br>
 	${singleUser.firstName}<br>

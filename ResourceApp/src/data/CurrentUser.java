@@ -16,6 +16,22 @@ public class CurrentUser {
 	private long dateJoined;
 	private List<UserResource> userResources;
 	
+	public int getYear(){
+		return (int)(dateJoined/31536000000L+1970);
+		
+	};
+//	public int getMonth(){
+//		int days = (int)(dateJoined%=31536000000L)/86400;
+//		return days;
+//		
+//	};
+//	public int getDay(){
+//		int days = (int)(dateJoined%=31536000000L)/86400;
+//		return days;
+//	};
+	
+	public int month;
+	public int day;
 	
 	public CurrentUser(){
 		super();
@@ -33,6 +49,16 @@ public class CurrentUser {
 		this.dateJoined = dateJoined;
 		this.userResources = userResources;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public int getId() {
 		return id;
 	}

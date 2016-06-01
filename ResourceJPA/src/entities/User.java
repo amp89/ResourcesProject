@@ -60,6 +60,21 @@ public class User{
 	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
 	private List<UserResource> userResources;
 
+	public int getYear(){
+		return (int)(dateJoined/31536000000L+1970);
+		
+	};
+//	
+//	public int getMonth(){
+//		int days = (int)(dateJoined%=31536000000L)/86400;
+//		return days;
+//		
+//	};
+//	public int getDay(){
+//		int days = (int)(dateJoined%=31536000000L)/86400;
+//		return days;
+//	};
+//	
 	
 	public String getPassword() {
 		return password;

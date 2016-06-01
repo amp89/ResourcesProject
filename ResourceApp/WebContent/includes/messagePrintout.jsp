@@ -1,7 +1,7 @@
 <c:if test="${!empty(message)}">
 <div class="row center-text">
 <span class="message">
-message: ${message}
+${message}
 </span>
 </div>
 
@@ -9,7 +9,7 @@ message: ${message}
 <c:if test="${!empty(errorMessage)}">
 <div class="row center-text">
 <span class="errorMessage">
-error message: ${errorMessage}
+${errorMessage}
 </span>
 </div>
 

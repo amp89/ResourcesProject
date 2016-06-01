@@ -73,7 +73,6 @@ INDEX VERSION 1.127+/Users/alex/SD/ResourceProject/.metadata/.plugins/org.eclips
 344763394.index
 3134192077.index
 315102428.index
-3795571431.index
 489563832.index
 1091751668.index
 4279314650.index
