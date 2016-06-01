@@ -23,13 +23,13 @@
 
 <c:if test="${currentUser.userType.accessLevel > 3}">
 <form action="setUpManageCategoriesAndTopics.do">
-	<button type="submit">ManageCategoriesAndTopics</button>
+	<button type="submit">Manage Categories and Topics</button>
 </form>
 
 </c:if>
 
 <form action="setUpSearchUserResources.do">
-	<button type="submit">search my stuff</button>
+	<button type="submit">Search your saved resources</button>
 </form>
 
 <c:if test="${currentUser.userType.accessLevel > 4}">

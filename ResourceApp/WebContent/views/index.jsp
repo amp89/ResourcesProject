@@ -11,11 +11,11 @@
 	<table>
 		<tr>
 			<td>Username</td>
-			<td><form:input type="text" path="userName" value="ampeterson" /></td>
+			<td><form:input type="text" path="userName" value="owner" /></td>
 		</tr>
 		<tr>
 			<td>Password</td>
-			<td><form:input type="password" path="password" value="hi" /></td>
+			<td><form:input type="password" path="password" value="password" /></td>
 		</tr>
 		<tr>
 			<td colspan="2"><button type="submit">Sign in</button></td>

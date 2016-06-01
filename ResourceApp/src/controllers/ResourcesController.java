@@ -355,6 +355,9 @@ public class ResourcesController {
 			System.out.println("resource to submit: " + codeResourceToAdd);
 			if(currentUser.getUserType().getAccessLevel() >= 2){
 				result = dao.submitResource(currentUser, codeResourceToAdd);
+				int signedInUserId = currentUser.getId();
+				currentUser = null;
+				currentUser = dao.getCurrentUser(signedInUserId);
 				mv.setViewName("userMenu.jsp");
 				mv.addObject("currentUser",currentUser);
 				mv.addObject("message",result.getMessage());
@@ -500,7 +503,7 @@ public class ResourcesController {
 		}
 		
 		if(result.getErrorMessage() == null){
-			mv.addObject("message","Topci added");
+			mv.addObject("message","Topic added");
 		}else{
 			mv.addObject("errorMessage",result.getErrorMessage());
 		}

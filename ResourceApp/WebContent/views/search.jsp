@@ -1,7 +1,7 @@
 
 <%@ include file="/includes/header.jsp"%>
 <div class="row">
-	<div class="col-xs-12 col-md-offset-4 col-md-4">
+	<div class="col-xs-12 col-md-offset-3 col-md-6">
 
 
 
@@ -12,11 +12,15 @@
 			<td><form:input type="text" path="queryString"/></td>
 		</tr>
 		<tr>
-			<td>Include Unconfirmed Resources</td>
+			<td>Include Unconfirmed Resources*</td>
 			<td><form:select path="minimumStatus">
 				<option value="2" selected="selected">No</option>
 				<option value="1">Yes</option>
 			</form:select></td>
+		</tr>
+		<tr>
+		<td colspan="2">*Click yes to include resources that were submitted, but not yet approved.
+		</td>
 		</tr>
 		
 		

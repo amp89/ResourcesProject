@@ -31,12 +31,13 @@ Status: ${resource.status.name}<br>
 	
 	<button>delete</button>
 </form>
-
+	<c:if test="${resource.status.id < 3}">
 	<form action="setUpEditResource.do" method="POST">
 		<button>edit</button>
 		<input type="hidden" name="resourceId" value="${resource.id}" />
 	</form>
 
+	</c:if>
 </c:if>
 
   </div>
