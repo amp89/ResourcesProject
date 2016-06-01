@@ -3,8 +3,7 @@
 
 <%@ include file="/includes/debugInfo.jsp"%>
 
-
-userMenu.jsp currentUser = ${currentUser.firstName}
+<c:if test="${currentUser.userType.accessLevel > 3}">
 
 <form:form modelAttribute="codeResource" action="editResource.do">
 <form:input type="hidden" path="id"/>
@@ -77,6 +76,6 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 
 </form:form>
 
-
+</c:if>
 
 <%@ include file="/includes/footer.jsp"%>

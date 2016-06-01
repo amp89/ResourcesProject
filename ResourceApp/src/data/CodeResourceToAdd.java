@@ -11,10 +11,10 @@ public class CodeResourceToAdd {
 	@Size(min=1, max=5000)
 	private String description;
 	
-	@Size(min=1, max=45)
+	@Size(max=45)
 	private String linkTitle;
 	
-	@Size(min=1, max=5000)
+	@Size(max=5000)
 	private String link;
 	
 	
@@ -24,7 +24,7 @@ public class CodeResourceToAdd {
 	private Integer categoryId;
 
 
-	@Size(min=1, max=5000)
+	@Size(max=5000)
 	private String codeSnippet;
 
 	public int getId() {

@@ -1,6 +1,7 @@
 
 <%@ include file="/includes/header.jsp"%>
 
+<%@ include file="/includes/debugInfo.jsp"%>
 
 DEBUG - currentUser: ${currentUser.firstName}
 
@@ -8,11 +9,11 @@ DEBUG - currentUser: ${currentUser.firstName}
 	<table>
 		<tr>
 			<td>Username</td>
-			<td><form:input type="text" path="userName"/></td>
+			<td><form:input type="text" path="userName" value="ampeterson" /></td>
 		</tr>
 		<tr>
 			<td>Password</td>
-			<td><form:input type="text" path="password" /></td>
+			<td><form:input type="password" path="password" value="hi" /></td>
 		</tr>
 		<tr>
 			<td colspan="2"><button type="submit">Sign in</button></td>
@@ -20,15 +21,13 @@ DEBUG - currentUser: ${currentUser.firstName}
 	</table>
 
 </form:form>
-message: ${message}
-error message: ${errorMessage}
-<button>Forgot password</button>
 
-<form:form action="setUpSignUp.do">
-<button>Sign Up</button>
-</form:form>
+<form action="setUpSignUp.do">
+	<button>Sign Up</button>
+</form>
+
 <form action="setUpRetrieveForgottenLogin.do" method="POST">
-<button type="submit" >I forgot my password :(</button>
+	<button type="submit">I forgot my password</button>
 </form>
 
 

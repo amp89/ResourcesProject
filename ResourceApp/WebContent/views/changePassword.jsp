@@ -9,11 +9,11 @@ Change password
 	<table>
 		<tr>
 			<td>Old Password:</td>
-			<td><input type=text name="oldPassword"/></td>
+			<td><input type="password" name="oldPassword"/></td>
 		</tr>
 		<tr>
 			<td>New Password</td>
-			<td><input type=text name="newPassword"/></td>
+			<td><input type="password" name="newPassword"/></td>
 		</tr>
 		<tr>
 			<td>New Password again</td>

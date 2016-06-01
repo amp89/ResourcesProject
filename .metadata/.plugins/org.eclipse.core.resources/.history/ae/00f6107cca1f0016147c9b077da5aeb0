@@ -1,9 +1,0 @@
-
-<%@ include file="/includes/header.jsp"%>
-
-
-userMenu.jsp
-
-LoggedInUser = ${loggedInUser.firstName}
-
-<%@ include file="/includes/footer.jsp"%>

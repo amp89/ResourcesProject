@@ -13,10 +13,6 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 			<td><form:input type="text" path="name" /></td>
 		</tr>
 
-		<tr>
-			<td>Description</td>
-			<td><form:input type="text" path="description" /></td>
-		</tr>
 
 		<tr>
 			<td>Link Title</td>
@@ -31,7 +27,7 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 		<tr>
 			<td>Category</td>
 			<td><form:select path="categoryId" required="required">
-						<option>select one</option>
+					<option>select one</option>
 					<c:forEach var="category" items="${categoryList}">
 						<option value="${category.id}">${category.name}</option>
 					</c:forEach>
@@ -40,7 +36,7 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 		<tr>
 			<td>Topic</td>
 			<td><form:select path="topicId" required="required">
-						<option>select one</option>
+					<option>select one</option>
 					<c:forEach var="topic" items="${topicList}">
 						<option value="${topic.id}">${topic.name}</option>
 					</c:forEach>
@@ -52,11 +48,21 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 		</tr>
 
 	</table>
+	
+			Description<br>
+	<%-- <td><form:input type="text" path="description" /></td> --%>
+	<form:textarea maxlength="5000" rows="10" cols="60" path="description"></form:textarea>
 
 
-	//change this button based on user type
-	<button type="submit">Submit for review</button>
 
+	<c:if test="${currentUser.userType.accessLevel > 2}">
+
+		<button type="submit">Submit</button>
+
+	</c:if>
+	<c:if test="${currentUser.userType.accessLevel < 3}">
+		<button type="submit">Submit for review</button>
+	</c:if>
 </form:form>
 
 

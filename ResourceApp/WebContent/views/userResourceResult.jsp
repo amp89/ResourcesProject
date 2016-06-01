@@ -13,12 +13,9 @@ user resource result jsp
 
 		<input type="hidden" name="resourceId" value="${result.id}" />
 		
-	<button type="submit">remove from saves</button>
+	<button type="submit">Remove from saved resources</button>
 	</form>
 	
-	<button>?</button>
-	<button>?</button>
-	manage save edit whatever here<br><br><br>
 </c:forEach>
 
 

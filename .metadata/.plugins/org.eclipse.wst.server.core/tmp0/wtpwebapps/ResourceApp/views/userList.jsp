@@ -3,7 +3,6 @@
 <%@ include file="/includes/debugInfo.jsp"%>
 
 
-user listsslsdfjds
 <c:forEach var="singleUser" items="${userList}">
 
 	${singleUser.id}<br>

@@ -9,14 +9,9 @@ search result.jsp
 
 	<form action="viewResource.do" method="POST">
 		<button>view</button>
-		THIS SHOULD GO ON THE RESOUCRE, NOT IN THE LIST (UNTIL JAVASCRIPT)
 		<input type="hidden" name="resourceId" value="${result.id}"/>
 	</form>
 	
-	<button>edit</button>
-	<button>?</button>
-	<button>?</button>
-	manage save edit whatever here<br><br><br>
 </c:forEach>
 
 

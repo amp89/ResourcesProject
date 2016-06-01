@@ -57,6 +57,8 @@
 	</table>
 	<button type="submit">Submit Changes</button>
 </form:form>
+
+
 <form action="deleteUser.do">
 	<input type="hidden" name="userId" value="${user.id}">
 	<button type="submit">Delete</button>

@@ -6,9 +6,11 @@
 
 userMenu.jsp currentUser = ${currentUser.firstName}
 
+
+
+	<form action="modifyCategory.do" method="POST">
 <table>
 	<tr>
-	<form action="modifyCategory.do" method="POST">
 		<td>Category</td>
 		<td><select name="categoryId">
 				<option value="">select one</option>
@@ -22,9 +24,9 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 		<td>
 			<button type="submit">Delete/Modify category</button>
 		</td>
-	</form>
 	</tr>
 </table>
+	</form>
 
 <table>
 	<tr>

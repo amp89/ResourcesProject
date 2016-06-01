@@ -1,0 +1,16 @@
+package controllers;
+
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+@ControllerAdvice
+public class ErrorController {
+
+	@ExceptionHandler
+	public String handle(Exception e){
+		System.out.println(e);
+		e.printStackTrace();
+		return "error.jsp";
+	}
+	
+}

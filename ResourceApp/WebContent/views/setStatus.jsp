@@ -2,7 +2,7 @@
 <%@ include file="/includes/header.jsp"%>
 
 <%@ include file="/includes/debugInfo.jsp"%>
-
+<c:if test="${currentUser.userType.accessLevel > 2 }">
 
 userMenu.jsp currentUser = ${currentUser.firstName}
 <form method="POST" action="setResourceStatus.do">
@@ -32,4 +32,7 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 	<button type="submit">Submit Changes</button>
 
 </form>
+
+</c:if>
+
 <%@ include file="/includes/footer.jsp"%>

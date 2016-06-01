@@ -1,8 +1,0 @@
-
-<%@ include file="/includes/header.jsp"%>
-
-
-<form:form 
-
-
-<%@ include file="/includes/footer.jsp"%>

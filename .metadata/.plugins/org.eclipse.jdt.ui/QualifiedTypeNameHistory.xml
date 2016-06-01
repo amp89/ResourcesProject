@@ -31,4 +31,5 @@
 <fullyQualifiedTypeName name="entityTesting.ResourceTest"/>
 <fullyQualifiedTypeName name="entities.Status"/>
 <fullyQualifiedTypeName name="org.springframework.core.io.support.ResourcePatternUtils"/>
+<fullyQualifiedTypeName name="org.springframework.validation.Errors"/>
 </qualifiedTypeNameHistroy>

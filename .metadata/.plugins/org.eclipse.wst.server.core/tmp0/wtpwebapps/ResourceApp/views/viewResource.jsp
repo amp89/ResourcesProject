@@ -17,21 +17,26 @@ ${resource.status.id}<br>
 		<input type="text" name="comments" />
 		<input type="hidden" name="resourceId" value="${resource.id}"/>
 	</form>
-	
-	<form action="setUpEditResource.do" method="POST">
-		<button>edit</button>
-		<input type="hidden" name="resourceId" value="${resource.id}"/>
-	</form>
+<c:if test="${currentUser.userType.accessLevel > 2 }">
+
 	<form action="setUpSetResourceStatus.do" method="POST">
 		<button>set status</button>
-		<input type="hidden" name="resourceId" value="${resource.id}"/>
-	
-	</form>
+		<input type="hidden" name="resourceId" value="${resource.id}" />
 
+	</form>
+</c:if>
+
+<c:if test="${currentUser.userType.accessLevel > 3 }">
 <form action="deleteCodeResource.do">
 		<input type="hidden" name="resourceId" value="${resource.id}"/>
 	
 	<button>delete</button>
 </form>
 
+	<form action="setUpEditResource.do" method="POST">
+		<button>edit</button>
+		<input type="hidden" name="resourceId" value="${resource.id}" />
+	</form>
+
+</c:if>
 <%@ include file="/includes/footer.jsp"%>

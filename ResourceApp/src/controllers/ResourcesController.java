@@ -88,7 +88,7 @@ public class ResourcesController {
 				mv.setViewName("userMenu.jsp");
 			} else {
 				String errorMessage = result.getErrorMessage();
-				mv.addObject("errorMessage", errorMessage);
+				mv.addObject("errorMessage", "Incorrect username or password.  Try again");
 				mv.addObject("user", new User());
 				mv.setViewName("index.jsp");
 			}
@@ -139,11 +139,12 @@ public class ResourcesController {
 	}
 	
 	//resets password
-	//TODO what exactly is this for
+	//TODO what exactly is this for ???
 	@RequestMapping("resetLogin.do")
 	public ModelAndView resetLostLogin(@Valid User user, Errors errors, @ModelAttribute("currentUser") CurrentUser currentUser) {
 		
 		ModelAndView mv = new ModelAndView();
+		System.out.println("\n\t^%&#**%^&$%*$&6&$%resetLogin.do*&YUHO*&T)*&^*07607(*^0\t\n");
 		if(errors.getErrorCount() == 0){
 			ResultObject result = dao.resetLogin(user);
 			mv.setViewName("userMenu.jsp");
@@ -157,6 +158,8 @@ public class ResourcesController {
 		return mv;
 	}
 
+	
+	
 	@RequestMapping("setUpSignUp.do")
 	public ModelAndView setUpSignUp() {
 		ModelAndView mv = new ModelAndView();
@@ -228,8 +231,14 @@ public class ResourcesController {
 	@RequestMapping("selfManage.do")
 	public ModelAndView selfManage(@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
+		
+		
+		
 		mv.addObject("currentUser", currentUser);
 		mv.setViewName("selfManage.jsp");
+		
+		
+		
 		return mv;
 
 	}
@@ -253,7 +262,11 @@ public class ResourcesController {
 		return mv;
 	}
 	
+	
+	///TODO UNUSED
 	private CurrentUser refreshUser(CurrentUser currentUser){
+		
+		
 		CurrentUser placeholder = currentUser;
 		System.out.println("Print current user " + currentUser);
 
@@ -267,18 +280,23 @@ public class ResourcesController {
 		
 	}
 
+	
+	
 
 	@RequestMapping("manageMyAccount.do")
 	public ModelAndView manageMyAccount(@ModelAttribute("currentUser") CurrentUser currentUser) {
+		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("currentUser", currentUser);
 		mv.setViewName("userMenu.jsp");
 
 		return mv;
+		
 	}
 
 	@RequestMapping("setUpChangePassword.do")
-	public ModelAndView setUpChnagePassword() {
+	public ModelAndView setUpChangePassword() {
+		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("changePassword.jsp");
 		return mv;
@@ -335,7 +353,7 @@ public class ResourcesController {
 	@RequestMapping("setUpDeleteAccount.do")
 	public ModelAndView setUpDeleteAccount(@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
-
+		//TODO i stopped
 		mv.addObject("currentUser", currentUser);
 		mv.setViewName("deleteAccount.jsp");
 
@@ -388,14 +406,24 @@ public class ResourcesController {
 	@RequestMapping("contribute.do")
 	public ModelAndView search(@ModelAttribute("currentUser") CurrentUser currentUser, @Valid CodeResourceToAdd codeResourceToAdd, Errors errors){
 		ModelAndView mv = new ModelAndView();
+		ResultObject result;
 		if(errors.getErrorCount() == 0){
 			System.out.println("resource to submit: " + codeResourceToAdd);
-			ResultObject result = dao.submitResource(currentUser, codeResourceToAdd);
-			//TODO Finish this
-			//TODO in dao, autoadd source to user that made it
-			mv.setViewName("userMenu.jsp");
-			mv.addObject("currentUser",currentUser);
-			mv.addObject("message",result.getMessage());
+			if(currentUser.getUserType().getAccessLevel() >= 2){
+				result = dao.submitResource(currentUser, codeResourceToAdd);
+				mv.setViewName("userMenu.jsp");
+				mv.addObject("currentUser",currentUser);
+				mv.addObject("message",result.getMessage());
+				
+			}else{
+				mv.addObject("codeResourceToAdd", codeResourceToAdd);
+				mv.addObject("currentUser",currentUser);
+				mv.addObject("categoryList",dao.getCategoryList());
+				mv.addObject("topicList",dao.getTopicList());
+				mv.addObject("errorMessage","Your account needs to be confirmed before you can contribute resources.");
+				mv.setViewName("addResource.jsp");
+				
+			}
 
 		}else{
 			mv.addObject("codeResourceToAdd", codeResourceToAdd);
@@ -423,27 +451,32 @@ public class ResourcesController {
 	}
 	
 	@RequestMapping("modifyCategory.do")
-	public ModelAndView modifyCategory(@RequestParam("categoryId") Integer categoryId,
+	public ModelAndView modifyCategory(@ModelAttribute("currentUser") CurrentUser currentUser, @RequestParam("categoryId") Integer categoryId,
 			@RequestParam("newCategory") String newCategory){
 		ModelAndView mv = new ModelAndView();
 		System.out.println("CAT ID: " + categoryId + ", NEW CAT: " + newCategory);
 		//if catid is null, attach an error
-		if(categoryId == null){
-			mv.addObject("message","Please select a cateogry and try again");
-		}else{
-			//TODO add delete / modify
-			Category c = new Category();
-			c.setId(categoryId);
-			
-			if(newCategory.equals("")){
-				System.out.println("delete cat");
-				dao.removeCategories(c);
+		if(currentUser.getUserType().getAccessLevel() > 3){
+			if(categoryId == null){
+				mv.addObject("errorMessage","Please select a cateogry and try again");
 			}else{
-				System.out.println("mod cat");
-				c.setName(newCategory);
-				dao.modifyCategories(c);
+				//TODO add delete / modify
+				Category c = new Category();
+				c.setId(categoryId);
+				
+				if(newCategory.equals("")){
+					System.out.println("delete cat");
+					dao.removeCategories(c);
+				}else{
+					System.out.println("mod cat");
+					c.setName(newCategory);
+					dao.modifyCategories(c);
+				}
+				
 			}
 			
+		}else{
+			mv.addObject("errorMessage","you do not have the correct access level to modify and delete categories");
 		}
 
 		//dao method should change all resources to category 1
@@ -456,28 +489,33 @@ public class ResourcesController {
 	
 	
 	@RequestMapping("modifyTopic.do")
-	public ModelAndView modifyTopic(@RequestParam("topicId") Integer topicId,
+	public ModelAndView modifyTopic(@ModelAttribute("currentUser") CurrentUser currentUser, @RequestParam("topicId") Integer topicId,
 			@RequestParam("newTopic") String newTopic){
 		
 		ModelAndView mv = new ModelAndView();
 		System.out.println("TOP ID: " + topicId + ", NEW CAT: " + newTopic);
 		//if top id is null, attach an error
-		if(topicId == null){
-			mv.addObject("message","Please select a topic and try again");
-		}else{
-			//TODO add delete / modify
-			Topic t = new Topic();
-			t.setId(topicId);
-			if(newTopic.equals("")){
-				System.out.println("delete top");
-				dao.removeTopics(t);
+		if(currentUser.getUserType().getAccessLevel() > 3){
+			if(topicId == null){
+				mv.addObject("errorMessage","Please select a topic and try again");
 			}else{
-				System.out.println("mod top");
-				t.setName(newTopic);
-				dao.modifyTopics(t);
-				//TODO add mod meothod
+				//TODO add delete / modify
+				Topic t = new Topic();
+				t.setId(topicId);
+				if(newTopic.equals("")){
+					System.out.println("delete top");
+					dao.removeTopics(t);
+				}else{
+					System.out.println("mod top");
+					t.setName(newTopic);
+					dao.modifyTopics(t);
+					//TODO add mod meothod
+				}
+				
 			}
 			
+		}else{
+			mv.addObject("errorMessage","You do not have the correct access level to modify or delete topics");
 		}
 		
 		//dao method should change all resources to category 1
@@ -489,17 +527,24 @@ public class ResourcesController {
 	
 	
 	@RequestMapping("addCategory.do")
-	public ModelAndView addCategory(@RequestParam("categoryName") String categoryName){
+	public ModelAndView addCategory(@ModelAttribute("currentUser") CurrentUser currentUser, @RequestParam("categoryName") String categoryName){
 		ModelAndView mv = new ModelAndView();
 		
 		System.out.println("New category will be:" + categoryName);
 		Category c = new Category();
 		c.setName(categoryName);
-		ResultObject result = dao.addCategories(c);
-		if(result.getErrorMessage() == null){
-			mv.addObject("message","Category added");
+		ResultObject result;
+		if(currentUser.getUserType().getAccessLevel() > 2){
+			result = dao.addCategories(c);
+			if(result.getErrorMessage() == null){
+				mv.addObject("message","Category added");
+			}else{
+				mv.addObject("errorMessage",result.getErrorMessage());
+			}
+			
+			
 		}else{
-			mv.addObject("errorMessage",result.getErrorMessage());
+			mv.addObject("errorMessage","You do not have the correct access level to add categories");
 		}
 		mv.addObject("topicList",dao.getTopicList());
 		mv.addObject("categoryList",dao.getCategoryList());
@@ -510,13 +555,21 @@ public class ResourcesController {
 	
 	
 	@RequestMapping("addTopic.do")
-	public ModelAndView addTopic(@RequestParam("topicName") String topicName){
+	public ModelAndView addTopic(@ModelAttribute("currentUser") CurrentUser currentUser, @RequestParam("topicName") String topicName){
 		ModelAndView mv = new ModelAndView();
 		
 		System.out.println("New topic will be:" + topicName);
 		Topic t = new Topic();
 		t.setName(topicName);
-		ResultObject result = dao.addTopics(t);
+		ResultObject result = null;
+		
+		if(currentUser.getUserType().getAccessLevel() > 2){
+			result = dao.addTopics(t);
+			mv.addObject("message","Topic added.");
+		}else{
+			mv.addObject("errorMessage","You do not have the correct access level to add topics.");
+		}
+		
 		if(result.getErrorMessage() == null){
 			mv.addObject("message","Topci added");
 		}else{
@@ -624,14 +677,20 @@ public class ResourcesController {
 		ModelAndView mv = new ModelAndView();
 	
 		System.out.println("Resource to modify: " + codeResource);
-		dao.modifyResource(codeResource);
+		if(currentUser.getUserType().getAccessLevel() > 3){
+			dao.modifyResource(codeResource);
+			mv.addObject("message","Resource updated");
+			
+		}else{
+			mv.addObject("errorMessage","You do not have the correct access level to update resources.");
+			
+		}
 		//TODO logout in here otherwise mess up oh no
 //		int userId = currentUser.getId();
 		System.out.println(currentUserId);
 		currentUser = null;
 		currentUser = dao.getCurrentUser(currentUserId);
 		
-		mv.addObject("message","Resource updated");
 		mv.addObject("codeResource",codeResource);
 		mv.addObject("currentUser",currentUser);
 		mv.addObject("categoryList",dao.getCategoryList());
@@ -662,13 +721,18 @@ public class ResourcesController {
 			@RequestParam("resourceId") Integer resourceId,
 			@RequestParam("statusId") Integer statusId){
 		ModelAndView mv = new ModelAndView();
-		dao.changeReviewStatus(resourceId, statusId);
+		if(currentUser.getUserType().getAccessLevel() > 2){
+			
+			dao.changeReviewStatus(resourceId, statusId);
+			mv.addObject("message","this resource's status has been updated");
+		}else{
+			mv.addObject("errorMessage","You do not have the correct access level to approve posts");
+		}
 		CodeResource cr = new CodeResource();
 		cr.setId(resourceId);
 		
 		mv.addObject("currentUser",currentUser);
 		mv.addObject("resource",dao.getResource(cr));
-		mv.addObject("message","this resource's status has been updated");
 		mv.setViewName("viewResource.jsp");
 		
 		return mv;
@@ -704,15 +768,23 @@ public class ResourcesController {
 	@RequestMapping("setUpManageUsers.do")
 	public ModelAndView setUpManageUsers(@ModelAttribute("currentUser") CurrentUser currentUser){
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("user", new User());
-		mv.setViewName("manageUsers.jsp");
+		if(currentUser.getUserType().getAccessLevel() > 4){
+			mv.addObject("user", new User());
+			mv.setViewName("manageUsers.jsp");			
 			
+		}else{
+			mv.addObject("errorMessage","You do not have the correct access level to manage users");
+			mv.addObject("currentUser", currentUser);
+			mv.setViewName("userMenu.jsp");
+		}
 		return mv;
 
 	}
 	@RequestMapping("getUserList.do")
-	public ModelAndView getUserList(@ModelAttribute("currentUser") CurrentUser currentUser, User user){
+	public ModelAndView getUserList(@ModelAttribute("currentUser") CurrentUser currentUser,  User user){
 		ModelAndView mv = new ModelAndView();
+		
+		
 		List<User> userList = dao.getUsers(user);
 		
 		mv.addObject("userList",userList);
@@ -739,26 +811,39 @@ public class ResourcesController {
 	
 //	@RequestMapping("deleteUser.do")
 	@RequestMapping("modifyUser.do")
-	public ModelAndView modifyUser(User user,
+	public ModelAndView modifyUser(@Valid User user, Errors errors,
 			@RequestParam("userTypeId") Integer userTypeId){
 		//i took the current user thing out of here and then it started working.
-		//TODO maybe i don't need to pass it each time... wow
+		//TODO currentUser for security permissions
 		ModelAndView mv = new ModelAndView();
-//		System.out.println("first stop controller, cu:" + currentUser);
-		System.out.println("\tuser from form: " + user);
-		
-		user.setUserType(dao.getUserTypeById(userTypeId));
-		System.out.println(user);
-		//TODO, important **** set only things changed with gets/sets in dao
-		dao.updateUser(user,userTypeId);
+		if(errors.getErrorCount() == 0){
+			System.out.println("\tuser from form: " + user);
+			
+			user.setUserType(dao.getUserTypeById(userTypeId));
+			System.out.println(user);
+			//TODO, important **** set only things changed with gets/sets in dao
+			dao.updateUser(user,userTypeId);
 //		System.out.println("Back in controller.  CU: " + currentUser);
-		System.out.println("\tand user" + user);
-
-		mv.addObject("user",user);
+			System.out.println("\tand user" + user);
+//		System.out.println("first stop controller, cu:" + currentUser);
+			
+			mv.addObject("user",user);
 //		mv.addObject("currentUser",currentUser);
-		mv.addObject("userTypeList",dao.getUserTypeList());
-		mv.addObject("message","modified user");
-		mv.setViewName("viewUser.jsp");
+			mv.addObject("userTypeList",dao.getUserTypeList());
+			mv.addObject("message","modified user");
+			mv.setViewName("viewUser.jsp");
+			
+		}else{
+		
+			
+			mv.addObject("user",dao.getUser(user.getId()));
+			mv.addObject("userTypeList",dao.getUserTypeList());
+			mv.addObject("errorMessage","Check your input, and try again.");
+			mv.setViewName("viewUser.jsp");
+			
+			
+		}
+		
 		return mv;
 		
 	}
@@ -771,10 +856,15 @@ public class ResourcesController {
 		 ModelAndView mv = new ModelAndView();
 		 System.out.println("USER TO DELETE = " + dao.getUser(userId));
 		 //TODO add delete method with cascade (manual) in dao.
-		 User userToDelete = dao.getUser(userId); 
-		 dao.deleteAllOfUsersResources(userToDelete);
-		 //TODO resources are not getting deleted
-		 dao.removeUser(userToDelete);
+		 if(currentUser.getUserType().getAccessLevel() > 4){
+			 User userToDelete = dao.getUser(userId); 
+			 dao.deleteAllOfUsersResources(userToDelete);
+			 //TODO resources are not getting deleted
+			 dao.removeUser(userToDelete);
+			 
+		 }else{
+			 mv.addObject("errorMessage","You do not have the correct access to delete users.");
+		 }
 			mv.addObject("user", new User());
 			mv.setViewName("manageUsers.jsp");
 				
@@ -789,11 +879,15 @@ public class ResourcesController {
 		 ModelAndView mv = new ModelAndView();
 		 System.out.println("USER TO DELETE = " + dao.getUser(userId));
 		 //TODO add delete method with cascade (manual) in dao.
-		 User userToDelete = dao.getUser(userId); 
-		 dao.deleteAllOfUsersResources(userToDelete);
-		 //TODO resources are not getting deleted
-		 dao.removeUser(userToDelete);
 		 
+		 if(currentUser.getId() == userId){
+			 
+			 User userToDelete = dao.getUser(userId); 
+			 dao.deleteAllOfUsersResources(userToDelete);
+			 //TODO resources are not getting deleted
+			 dao.removeUser(userToDelete);
+			 
+		 }
 		 currentUser = null;
 		 currentUser = new CurrentUser();
 		 
@@ -811,8 +905,12 @@ public class ResourcesController {
 		ModelAndView mv = new ModelAndView();
 		
 		//TODO i am working here
-		
-		dao.removeResource(resourceId);
+		if(currentUser.getUserType().getAccessLevel() > 3){
+			dao.removeResource(resourceId);
+			
+		}else{
+			mv.addObject("errorMessage","You do not have the correct access to delete resources.");
+		}
 		
 		mv.setViewName("search.jsp");
 		mv.addObject("currentUser",currentUser);

@@ -9,21 +9,20 @@ Change password
 	<table>
 		<tr>
 			<td>Password:</td>
-			<td><input type=text name="password"/></td>
+			<td><input type="password" name="password"/></td>
 		</tr>
 		<tr>
 			<td>New Email</td>
-			<td><input type=text name="newEmail"/></td>
+			<td><input type="email" name="newEmail"/></td>
 		</tr>
-		<tr>
+<%-- 	add later	<tr>
 			<td>New Email again</td>
 			<td></td>
 		</tr>
-	
+ --%>	
 	</table>
-	
-<!-- 	<input name="oldPassword"></input>
-	<input name="newPassword"><input> -->
+
+
 	<button type="submit">Change Email</button>
 </form>
 

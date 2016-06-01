@@ -19,7 +19,7 @@ DEBUG - currentUser: ${currentUser.firstName}
 	</tr>
 	<tr>
 		<td>Password</td>
-		<td><input type="text" name="password"></td>
+		<td><input type="password" name="password"></td>
 	</tr>
 </table>
 
@@ -27,6 +27,5 @@ DEBUG - currentUser: ${currentUser.firstName}
 
 </form>
 
-${errorMessage }
 
 <%@ include file="/includes/footer.jsp"%>
