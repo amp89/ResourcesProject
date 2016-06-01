@@ -1,0 +1,7 @@
+
+
+/* fix stuff getting stuck under the navbar */
+
+body{
+	padding-top:10%;
+}

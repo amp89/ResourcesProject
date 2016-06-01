@@ -1,9 +1,8 @@
 
 <%@ include file="/includes/header.jsp"%>
 
-<%@ include file="/includes/debugInfo.jsp"%>
+<%-- <%@ include file="/includes/debugInfo.jsp"%> --%>
 
-DEBUG - currentUser: ${currentUser.firstName}
 
 <form:form action="signIn.do" modelAttribute="user" method="POST">
 	<table>
@@ -29,6 +28,7 @@ DEBUG - currentUser: ${currentUser.firstName}
 <form action="setUpRetrieveForgottenLogin.do" method="POST">
 	<button type="submit">I forgot my password</button>
 </form>
+
 
 
 <%@ include file="/includes/footer.jsp"%>

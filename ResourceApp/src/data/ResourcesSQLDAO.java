@@ -133,7 +133,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	private void sendConfirmationEmail(User user) {
 		EMail email = new EMail();
 		email.setSubject("Confirmation for resources app!");
-		email.setTextMessage("Go to conf page and enter: " + user.getUserConfirmationKey() + " to sign up.  Thanks!");
+		email.setTextMessage("Go to conf page (website + setUpConfirm.do) and enter: " + user.getUserConfirmationKey() + " to sign up.  This will be changed to a link later.  Thanks!");
 		email.setToEmailAddress(user.getEmail());
 		boolean success = email.sendEMail();
 		// TODO what if email fails?

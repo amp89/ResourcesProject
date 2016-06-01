@@ -1,0 +1,12 @@
+<c:if test="${!empty(message)}">
+<span class="message">
+message: ${message}
+</span>
+
+</c:if>
+<c:if test="${!empty(errorMessage)}">
+<span class="errorMessage">
+error message: ${errorMessage}
+</span>
+
+</c:if>
