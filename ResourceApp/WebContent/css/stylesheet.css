@@ -38,3 +38,9 @@ textarea, input{
 	color:rgb(20,20,20);
 	
 }
+
+.box{
+	border:1px solid rgb(230,230,255);
+	padding:2px;
+	background-color:rgb(240,240,240);
+}

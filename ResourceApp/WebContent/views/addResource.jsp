@@ -1,11 +1,9 @@
 
 <%@ include file="/includes/header.jsp"%>
 
-<%@ include file="/includes/debugInfo.jsp"%>
 
-
-userMenu.jsp currentUser = ${currentUser.firstName}
-
+<div class="row">
+	<div class="col-xs-12 col-md-offset-4 col-md-4">
 <form:form modelAttribute="codeResourceToAdd" action="contribute.do">
 	<table>
 		<tr>
@@ -43,15 +41,14 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 				</form:select></td>
 		</tr>
 		<tr>
-			<td>Code Snippet</td>
-			<td><form:input type="text" path="codeSnippet" /></td>
 		</tr>
 
 	</table>
-	
-			Description<br>
+	Code Snippet<br>	
+	<form:textarea maxlength="5000" rows="10" cols="60" path="codeSnippet"></form:textarea>
+			<br>Description<br>
 	<%-- <td><form:input type="text" path="description" /></td> --%>
-	<form:textarea maxlength="5000" rows="10" cols="60" path="description"></form:textarea>
+	<form:textarea maxlength="5000" rows="10" cols="60" path="description"></form:textarea><br>
 
 
 
@@ -64,7 +61,8 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 		<button type="submit">Submit for review</button>
 	</c:if>
 </form:form>
-
+</div>
+</div>
 
 
 <%@ include file="/includes/footer.jsp"%>

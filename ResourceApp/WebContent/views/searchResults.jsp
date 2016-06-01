@@ -1,8 +1,8 @@
 
 <%@ include file="/includes/header.jsp"%>
-<%@ include file="/includes/debugInfo.jsp"%>
-search result.jsp
-<br>
+<div class="row">
+	<div class="col-xs-12 col-md-offset-4 col-md-4">
+
 <c:forEach var="result" items="${resultList}">
 	${result.name} ${result.description} <br> 
 
@@ -14,5 +14,6 @@ search result.jsp
 	
 </c:forEach>
 
-
+  </div>
+  </div>
 <%@ include file="/includes/footer.jsp"%>

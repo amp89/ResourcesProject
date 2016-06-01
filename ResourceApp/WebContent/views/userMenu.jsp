@@ -1,10 +1,9 @@
 
 <%@ include file="/includes/header.jsp"%>
 
-<%@ include file="/includes/debugInfo.jsp"%>
+<div class="row">
+	<div class="col-xs-12 col-md-offset-4 col-md-4 center-text">
 
-
-userMenu.jsp currentUser = ${currentUser.firstName}
 
 <form action="logout.do">
 	<button type="submit">Logout</button>
@@ -41,7 +40,8 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 
 </c:if>
 
-
+  </div>
+  </div>
 
 
 

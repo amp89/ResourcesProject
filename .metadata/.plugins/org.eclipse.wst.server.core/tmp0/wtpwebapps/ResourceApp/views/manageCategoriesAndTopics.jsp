@@ -4,7 +4,8 @@
 <%@ include file="/includes/debugInfo.jsp"%>
 
 
-userMenu.jsp currentUser = ${currentUser.firstName}
+<div class="row">
+	<div class="col-xs-12 col-md-offset-4 col-md-4">
 
 
 
@@ -79,6 +80,7 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 
 
 
-
+  </div>
+  </div>
 
 <%@ include file="/includes/footer.jsp"%>

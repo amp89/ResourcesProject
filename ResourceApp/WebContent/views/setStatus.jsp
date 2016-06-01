@@ -1,7 +1,8 @@
 
 <%@ include file="/includes/header.jsp"%>
+<div class="row">
+	<div class="col-xs-12 col-md-offset-4 col-md-4">
 
-<%@ include file="/includes/debugInfo.jsp"%>
 <c:if test="${currentUser.userType.accessLevel > 2 }">
 
 userMenu.jsp currentUser = ${currentUser.firstName}
@@ -34,5 +35,6 @@ userMenu.jsp currentUser = ${currentUser.firstName}
 </form>
 
 </c:if>
-
+  </div>
+  </div>
 <%@ include file="/includes/footer.jsp"%>

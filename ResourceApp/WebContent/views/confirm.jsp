@@ -2,7 +2,8 @@
 <%@ include file="/includes/header.jsp"%>
 
 
-DEBUG - currentUser: ${currentUser.firstName}
+<div class="row">
+	<div class="col-xs-12 col-md-offset-4 col-md-4">
 
 <form action="confirm.do" method="post">
 	
@@ -27,5 +28,6 @@ DEBUG - currentUser: ${currentUser.firstName}
 
 </form>
 
-
+  </div>
+  </div>
 <%@ include file="/includes/footer.jsp"%>

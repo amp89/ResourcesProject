@@ -64,10 +64,12 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
+					<c:if test="${currentUser.userType.accessLevel > 0 }">
 					<li><a href="setUpSearch.do">Search</a></li>
 					<li><a href="manageMyAccount.do">${currentUser.firstName}'s
-							Stuff</a></li>
+							menu</a></li>
 					<li><a href="setUpContribute.do">Contribute</a></li>
+					</c:if>
 
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
@@ -75,13 +77,17 @@
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">About<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="setUpSearch.do">My website</a></li>
-							<li><a href="#">More of my projects</a></li>
+							<li><a target="_blank" href="http://www.alexmpeterson.com">My website</a></li>
+							<li><a target="_blank" href="http://www.alexmpeterson.com/projects.php">More of my projects</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a href="#">About this project</a></li>
 						</ul></li>
+					<c:if test="${currentUser.userType.accessLevel < 1 || currentUser.userType.accessLevel == null}">
 					<li><a href="index.do">Login</a></li>
+					</c:if>
+					<c:if test="${currentUser.userType.accessLevel > 0 }">
 					<li><a href="logout.do">Logout</a></li>
+					</c:if>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->

@@ -1,20 +1,19 @@
 
 <%@ include file="/includes/header.jsp"%>
-<%@ include file="/includes/debugInfo.jsp"%>
-view resource jsp
+<div class="row">
+	<div class="col-xs-12 col-md-offset-4 col-md-4">
+
 <br>
-<br>
-${resource.id}<br>
-${resource.name}<br>
-${resource.description}<br>
-${resource.linkTitle}<br>
-${resource.link}<br>
-${resource.dateAdded}<br>
-${resource.status.id}<br>
+<%-- ${resource.id}<br> --%>
+Name: ${resource.name}<br>
+Description: ${resource.description}<br>
+Link: <a href="${resource.link}">${resource.linkTitle}</a><br>
+Date Added: ${resource.dateAdded}<br>
+Status: ${resource.status.name}<br>
 	<form action="saveResource.do" method="POST">
-		<button>save</button>
 		Add comments and save
-		<input type="text" name="comments" />
+		<button>Save this to your account.</button>
+		<textarea maxlength="5000" rows="10" cols="60" name="comments"></textarea>
 		<input type="hidden" name="resourceId" value="${resource.id}"/>
 	</form>
 <c:if test="${currentUser.userType.accessLevel > 2 }">
@@ -39,4 +38,7 @@ ${resource.status.id}<br>
 	</form>
 
 </c:if>
+
+  </div>
+  </div>
 <%@ include file="/includes/footer.jsp"%>

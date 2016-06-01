@@ -1,8 +1,8 @@
 
 <%@ include file="/includes/header.jsp"%>
 
-${currentUser.userName}
-
+<div class="row">
+	<div class="col-xs-12 col-md-offset-4 col-md-4">
 Change password
 
 <form action="changePassword.do" method="POST">
@@ -26,6 +26,9 @@ Change password
 	<input name="newPassword"><input> -->
 	<button type="submit">Change Password</button>
 </form>
+
+  </div>
+  </div>
 
 
 

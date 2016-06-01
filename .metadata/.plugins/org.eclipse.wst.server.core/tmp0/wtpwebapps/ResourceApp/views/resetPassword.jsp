@@ -3,6 +3,8 @@
 <%@ include file="/includes/debugInfo.jsp"%>
 
 
+<div class="row">
+	<div class="col-xs-12 col-md-offset-4 col-md-4">
 
 <form:form action="retrieveForgottonLogin.do" modelAttribute="user" method="POST">
 	<table>
@@ -21,5 +23,7 @@
 
 </form:form>
 
+  </div>
+  </div>
 
 <%@ include file="/includes/footer.jsp"%>

@@ -1,10 +1,10 @@
 
 <%@ include file="/includes/header.jsp"%>
 <%@ include file="/includes/debugInfo.jsp"%>
-${currentUser.userName}
+<div class="row">
+	<div class="col-xs-12 col-md-offset-4 col-md-4">
 
-${errorMessage}
-${message }
+
 Change password
 <form action="setUpChangePassword.do" method="POST">
 	<button type="submit">Change Password</button>
@@ -23,11 +23,6 @@ Delete account
 </form>
 
 
-
-to submit changes:
-
-
-Request support
-
-
+  </div>
+  </div>
 <%@ include file="/includes/footer.jsp"%>

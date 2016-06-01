@@ -1,6 +1,7 @@
 
 <%@ include file="/includes/header.jsp"%>
-<%@ include file="/includes/debugInfo.jsp"%>
+<div class="row">
+	<div class="col-xs-12 col-md-offset-4 col-md-4">
 
 <form:form modelAttribute="user" action="modifyUser.do">
 	<form:input type="hidden" path="id" />
@@ -64,4 +65,6 @@
 	<button type="submit">Delete</button>
 </form>
 
+  </div>
+  </div>
 <%@ include file="/includes/footer.jsp"%>

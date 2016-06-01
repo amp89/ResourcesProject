@@ -1,0 +1,45 @@
+
+<%@ include file="/includes/header.jsp"%>
+<div class="row">
+	<div class="col-xs-12 col-md-offset-4 col-md-4">
+
+<br>
+<%-- ${resource.id}<br> --%>
+${resource.name}<br>
+${resource.description}<br>
+${resource.linkTitle}<br>
+${resource.link}<br>
+${resource.dateAdded}<br>
+${resource.status.name}<br>
+	<form action="saveResource.do" method="POST">
+		<button>save</button>
+		Add comments and save
+		<input type="text" name="comments" />
+		<input type="hidden" name="resourceId" value="${resource.id}"/>
+	</form>
+<c:if test="${currentUser.userType.accessLevel > 2 }">
+
+	<form action="setUpSetResourceStatus.do" method="POST">
+		<button>set status</button>
+		<input type="hidden" name="resourceId" value="${resource.id}" />
+
+	</form>
+</c:if>
+
+<c:if test="${currentUser.userType.accessLevel > 3 }">
+<form action="deleteCodeResource.do">
+		<input type="hidden" name="resourceId" value="${resource.id}"/>
+	
+	<button>delete</button>
+</form>
+
+	<form action="setUpEditResource.do" method="POST">
+		<button>edit</button>
+		<input type="hidden" name="resourceId" value="${resource.id}" />
+	</form>
+
+</c:if>
+
+  </div>
+  </div>
+<%@ include file="/includes/footer.jsp"%>
