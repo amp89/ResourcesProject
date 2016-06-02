@@ -6,10 +6,14 @@
 <br>
 <%-- ${resource.id}<br> --%>
 <span class="box-title">Name: ${resource.name}</span><br>
-Description: ${resource.description}<br>
-Link: <a href="${resource.link}">${resource.linkTitle}</a><br>
-Date Added: ${resource.dateAdded}<br>
-Status: ${resource.status.name}<br>
+<span class="box-title">Description:</span> ${resource.description}<br>
+<span class="box-title">Link:</span> <a href="${resource.link}">${resource.linkTitle}</a><br>
+<span class="box-title">Date Added:</span> ${resource.dateAdded}<br>
+<span class="box-title">Status:</span> ${resource.status.name}<br>
+<c:if test="${!empty(resource.codeSnippet)}">
+	<span class="box-title">Code snippet:</span><br>
+	${resource.codeSnippet}<br>
+</c:if>
 	<form action="saveResource.do" method="POST">
 		Add comments and save
 		<button>Save this to your account.</button>

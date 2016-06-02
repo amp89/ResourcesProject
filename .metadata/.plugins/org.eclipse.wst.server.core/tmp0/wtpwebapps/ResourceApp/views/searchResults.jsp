@@ -1,12 +1,17 @@
 
 <%@ include file="/includes/header.jsp"%>
 
+<c:if test="${empty(resultList)}">
+No results.  <a href="setUpSearch.do">Search again.</a>
+</c:if>
+
+
 <c:forEach var="result" items="${resultList}">
 	<div class="col-xs-12 col-md-4">
 	<div class="box">
 	<span class="box-title">${result.name}</span><br>
     ${result.description} <br> 
-
+	
 
 	<form action="viewResource.do" method="POST">
 		<button>More about this resource</button>

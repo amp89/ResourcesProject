@@ -80,7 +80,7 @@
 							<li><a target="_blank" href="http://www.alexmpeterson.com">My website</a></li>
 							<li><a target="_blank" href="http://www.alexmpeterson.com/projects.php">More of my projects</a></li>
 							<li role="separator" class="divider"></li>
-							<li><a href="#">About this project</a></li>
+							<li><a target="_blank" href="http://www.alexmpeterson.com/resourceapp.php" href="#">About this project</a></li>
 						</ul></li>
 					<c:if test="${currentUser.userType.accessLevel < 1 || currentUser.userType.accessLevel == null}">
 					<li><a href="index.do">Login</a></li>

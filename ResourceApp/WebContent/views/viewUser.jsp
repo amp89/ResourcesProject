@@ -3,6 +3,10 @@
 <div class="row">
 	<div class="col-xs-12 col-md-offset-4 col-md-4">
 
+<c:if test="${currentUser.userType.accessLevel > 4 }">
+<a href="setUpManageUsers.do">Back to user search</a>
+</c:if>
+
 <form:form modelAttribute="user" action="modifyUser.do">
 	<form:input type="hidden" path="id" />
 	<table>

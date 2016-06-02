@@ -11,9 +11,6 @@ import entities.UserType;
 
 public interface ResourcesDAO {
 
-	//TODO: test method
-	
-	
 	
 	public ResultObject signUpUser(User user);
 	//Add user / sign up
@@ -128,8 +125,6 @@ public interface ResourcesDAO {
 	public ResultObject deletePost();
 			//ADMIN: delete
 	public ResultObject lockPost();
-			//now lsdjfdlsa;f can't modify their own posts
-			//ADMIN: lock post //TODO TODO TODO TODO TODO TODO  add locked/finalized/something status to database
 
 	public List<Category> getCategoryList();
 	

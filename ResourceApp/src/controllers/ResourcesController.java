@@ -26,7 +26,6 @@ import entities.User;
 
 @Controller
 @SessionAttributes({ "currentUser" })
-// maybe i should not use this
 public class ResourcesController {
 
 	@ModelAttribute("currentUser")
@@ -352,7 +351,6 @@ public class ResourcesController {
 		ModelAndView mv = new ModelAndView();
 		ResultObject result;
 		if(errors.getErrorCount() == 0){
-			System.out.println("resource to submit: " + codeResourceToAdd);
 			if(currentUser.getUserType().getAccessLevel() >= 2){
 				result = dao.submitResource(currentUser, codeResourceToAdd);
 				int signedInUserId = currentUser.getId();
@@ -490,7 +488,6 @@ public class ResourcesController {
 	public ModelAndView addTopic(@ModelAttribute("currentUser") CurrentUser currentUser, @RequestParam("topicName") String topicName){
 		ModelAndView mv = new ModelAndView();
 		
-		System.out.println("New topic will be:" + topicName);
 		Topic t = new Topic();
 		t.setName(topicName);
 		ResultObject result = null;
@@ -661,12 +658,12 @@ public class ResourcesController {
 	public ModelAndView deleteResource(@ModelAttribute("currentUser") CurrentUser currentUser,
 			@RequestParam("resourceId") Integer userResourceId){
 		ModelAndView mv = new ModelAndView();
-		System.out.println(userResourceId);
 		dao.deleteSavedResource(userResourceId, currentUser.getId());
 		//not updating
 		//force signout and signin to see if it updates
-//		refreshUser(currentUser);
-		
+		int signedInUserId = currentUser.getId();
+		currentUser = null;
+		currentUser = dao.getCurrentUser(signedInUserId);
 		
 		mv.setViewName("searchUserResources.jsp");
 		mv.addObject("currentUser",currentUser);

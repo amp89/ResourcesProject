@@ -8,8 +8,19 @@
 <form:form modelAttribute="searchParam" action="search.do">
 	<table>
 		<tr>
-			<td>Search Keywords:</td>
+			<td>Search Keywords*:</td>
 			<td><form:input type="text" path="queryString"/></td>
+		</tr>
+		<tr>
+		
+			<td colspan="2"><span class="info">This search only looks for part of the title.*</span></td>
+		
+		</tr>
+		<tr>
+			<td colspan="2"><span class="info">This is still a work in progress, and will be</span></td>
+		</tr>
+		<tr>
+			<td colspan="2"><span class="info">fixed soon.</span></td>
 		</tr>
 		<tr>
 			<td>Include Unconfirmed Resources*</td>
@@ -19,7 +30,7 @@
 			</form:select></td>
 		</tr>
 		<tr>
-		<td colspan="2">*Click yes to include resources that were submitted, but not yet approved.
+		<td colspan="2"><span class="info">*Click yes to include resources that were submitted, but not yet approved.</span>
 		</td>
 		</tr>
 		

@@ -2,6 +2,10 @@
 <%@ include file="/includes/header.jsp"%>
 
 
+<c:if test="${empty(resultList)}">
+No results.  Your search parameters are too specific, or you have not saved any resources. <a href="setUpSearchUserResources.do">Search again.</a>
+</c:if>
+
 
 <c:forEach var="result" items="${resultList}">
 

@@ -1,6 +1,10 @@
 
 <%@ include file="/includes/header.jsp"%>
-
+<div class="row center-text">
+	<span class="title">
+	Coding Resources
+	</span>
+</div>
 <div class="row">
 	<div class="col-xs-12 col-md-offset-4 col-md-4 center-text">
 

@@ -34,7 +34,7 @@ button:hover{
 
 .message{
 	font-size:1.5em;
-	color:rgb(0,255,0);
+	color:#088e00;
 }
 .errorMessage{
 	font-size:1.5em;
@@ -64,4 +64,13 @@ textarea, input, select{
 
 .box-title{
 	font-weight:bold;
+}
+
+.title{
+	font-size:4em;	
+}
+
+.info{
+	color:#072937;
+	font-size:1.1em;
 }
