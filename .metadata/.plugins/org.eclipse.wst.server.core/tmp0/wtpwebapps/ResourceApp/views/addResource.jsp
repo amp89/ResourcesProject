@@ -23,7 +23,7 @@
 		</tr>
 
 		<tr>
-			<td>Category</td>
+			<td>Category (Required)</td>
 			<td><form:select path="categoryId" required="required">
 					<option>select one</option>
 					<c:forEach var="category" items="${categoryList}">
@@ -32,7 +32,7 @@
 				</form:select></td>
 		</tr>
 		<tr>
-			<td>Topic</td>
+			<td>Topic (Required)</td>
 			<td><form:select path="topicId" required="required">
 					<option>select one</option>
 					<c:forEach var="topic" items="${topicList}">
@@ -46,7 +46,7 @@
 	</table>
 	Code Snippet<br>	
 	<form:textarea maxlength="5000" rows="10" cols="60" path="codeSnippet"></form:textarea>
-			<br>Description<br>
+			<br>Description (Required)<br>
 	<%-- <td><form:input type="text" path="description" /></td> --%>
 	<form:textarea maxlength="5000" rows="10" cols="60" path="description"></form:textarea><br>
 

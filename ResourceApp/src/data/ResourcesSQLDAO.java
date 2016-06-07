@@ -2,13 +2,14 @@ package data;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
-import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import entities.Category;
@@ -32,6 +33,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	}
 
 	@Override
+	//get the current user from the database, and return back as a CurrentUser object
 	public CurrentUser getCurrentUser(int userId) {
 		User user = em.find(User.class, userId);
 		CurrentUser currentUser = new CurrentUser(user.getId(), user.getUserName(), user.getFirstName(),
@@ -40,6 +42,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		return currentUser;
 	}
 
+	//get confirmation key
 	private String createConfKey() {
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$%^&*()-_=+|}{[]1234567890";
 		StringBuilder confKey = new StringBuilder();
@@ -377,18 +380,42 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	@Override
 	public List<CodeResource> getResources(SearchParam searchParam) {
 		//TODO fix
-		List<CodeResource> resourceList = null;
-		int statusIdParam = searchParam.getMinimumStatus();
-		// TODO FOREACH KEYWORD ARRAY
-		System.out.println(searchParam);
-		resourceList = em
-				.createQuery(
-						"SELECT cr FROM CodeResource cr WHERE"
-								+ " (LOWER(name) LIKE :name OR LOWER(description) LIKE :description) AND status.id >= :statusId",
-						CodeResource.class)
-				.setParameter("name", "%" + searchParam.getQueryString().toLowerCase().trim() + "%")
-				.setParameter("description", "%" + searchParam.getQueryString().toLowerCase().trim() + "%")
-				.setParameter("statusId", statusIdParam).getResultList();
+//		List<CodeResource> resourceList = null;
+//		int statusIdParam = searchParam.getMinimumStatus();
+//		// TODO FOREACH KEYWORD ARRAY
+//		System.out.println(searchParam);
+//		resourceList = em
+//				.createQuery(
+//						"SELECT cr FROM CodeResource cr WHERE"
+//								+ " (LOWER(name) LIKE :name OR LOWER(description) LIKE :description) AND status.id >= :statusId",
+//						CodeResource.class)
+//				.setParameter("name", "%" + searchParam.getQueryString().toLowerCase().trim() + "%")
+//				.setParameter("description", "%" + searchParam.getQueryString().toLowerCase().trim() + "%")
+//				.setParameter("statusId", statusIdParam).getResultList();
+//		return resourceList;
+
+		Set<CodeResource> resourceSet = new HashSet<>();
+		
+		String[] searchWords = searchParam.getQueryString().split(" ");
+		for (String string : searchWords) {
+			System.out.println(string);
+		}
+		List<CodeResource> resourceList = new ArrayList<>();
+		for(int i = 0; i<searchWords.length; i++){
+			 resourceList.addAll(em.createQuery("SELECT cr FROM CodeResource cr WHERE LOWER(name) LIKE :name OR LOWER(description) LIKE :description",CodeResource.class)
+					 .setParameter("name","%"+searchWords[i].toLowerCase().trim()+"%")
+					 .setParameter("description","%"+searchWords[i].toLowerCase().trim()+"%").getResultList());
+			
+		}
+		
+
+		for (CodeResource codeResource : resourceList) {
+			resourceSet.add(codeResource);
+		}
+
+		
+		resourceList = new ArrayList<>();
+		resourceList.addAll(resourceSet);
 
 		return resourceList;
 	}// get resources
@@ -587,11 +614,7 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		return new ResultObject();
 	}
 
-	@Override
-	public ResultObject modifyPosts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public ResultObject changeReviewStatus(Integer resourceId, Integer statusId) {
@@ -601,15 +624,10 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 		return null;
 	}
 
-	@Override
-	public ResultObject deletePost() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public ResultObject lockPost() {
-		// TODO Auto-generated method stub
+		// TODO this will be used with a post's "final" state
 		return null;
 	}
 
@@ -669,6 +687,18 @@ public class ResourcesSQLDAO implements ResourcesDAO {
 	public List<Status> getStatusList() {
 		List<Status> statusList = em.createQuery("SELECT s FROM Status s", Status.class).getResultList();
 		return statusList;
+	}
+
+	@Override
+	public ResultObject modifyPosts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultObject deletePost() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

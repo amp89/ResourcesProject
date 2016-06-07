@@ -45,7 +45,6 @@
   </div>
   <div class="row center-text">
   <span class="info">
-  *This project is working, but is still a work in progress*<br>
   Test Login, all permissions:<br>
   Username: owner<br>
   Password: password<br>
@@ -54,7 +53,7 @@
   Username: contributor<br>
   Password: password<br>
   
-  For an overview of permissions, check out the <a target="_blank" href="http://www.alexmpeterson.com/resourceapp.php"> project description.</a><br>
+  For an overview of permissions (and the rest of the project), check out the <a target="_blank" href="http://www.alexmpeterson.com/resourceapp.php"> project description.</a><br>
   Feel free to play with the application, however, if you delete things please let me know at <a  href="mailto:mail@alexmpeterson.com?Subject=Resource DB Reset%!"> mail@alexmpeterson.com </a> so I can reset the database.<br>
   
   
