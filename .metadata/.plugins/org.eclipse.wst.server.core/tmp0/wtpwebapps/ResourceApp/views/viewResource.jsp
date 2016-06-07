@@ -7,7 +7,7 @@
 <%-- ${resource.id}<br> --%>
 <span class="box-title">Name: ${resource.name}</span><br>
 <span class="box-title">Description:</span> ${resource.description}<br>
-<span class="box-title">Link:</span> <a href="${resource.link}">${resource.linkTitle}</a><br>
+<span class="box-title">Link:</span> <a target="_blank" href="${resource.link}">${resource.linkTitle}</a><br>
 <span class="box-title">Date Added:</span> ${resource.dateAdded}<br>
 <span class="box-title">Status:</span> ${resource.status.name}<br>
 <c:if test="${!empty(resource.codeSnippet)}">

@@ -41,11 +41,13 @@ public class ResourcesController {
 	@RequestMapping("index.do")
 	public ModelAndView loadIndexPagePost(@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
-		//if there is a user logged in, go to the user's menu.  otherwise, go to the signin (index) page
+		// if there is a user logged in, go to the user's menu.
 		if (currentUser.getUserType() != null && currentUser.getUserType().getAccessLevel() > 0) {
 			mv.addObject("currentUser", currentUser);
 			mv.setViewName("userMenu.jsp");
-		} else {
+		}
+		// if the user is not logged in, go to to index (sign in) page:
+		else {
 			mv.addObject("user", new User());
 			mv.setViewName("index.jsp");
 		}
@@ -54,220 +56,275 @@ public class ResourcesController {
 
 	}
 
-	//sign in page
+	// sign in
 	@RequestMapping("signIn.do")
-	public ModelAndView signIn(@Valid User user, Errors errors, @ModelAttribute("currentUser") CurrentUser currentUser) {
+	public ModelAndView signIn(@Valid User user, Errors errors,
+			@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
-		if(errors.getErrorCount() == 0){
+		// if there are no input errors
+		if (errors.getErrorCount() == 0) {
+			// sign in the user
 			ResultObject result = dao.signInUser(user);
-			
+			// if there are no errors login the user in (in DAO)
 			if (result.getErrorMessage() == null) {
+				// get the current user returned
 				currentUser = result.getCurrentUser();
+				// add the current user to the model and view. this will set the
+				// session attribute "currentUser" to the current user for this
+				// session
 				mv.addObject("currentUser", currentUser);
+				// go to user's menu
 				mv.setViewName("userMenu.jsp");
-			} else {
-				String errorMessage = result.getErrorMessage();
+			}
+			// if there was an error fetching the user (DAO):
+			else {
+				// and an error message and return it to the login page.
 				mv.addObject("errorMessage", "Incorrect username or password.  Try again");
 				mv.addObject("user", new User());
 				mv.setViewName("index.jsp");
 			}
-			
-		}else{
+
+		}
+		// if there are errors loggin in (invalid input), return to the login
+		// page
+		// with an error message
+		else {
 			mv.addObject("errorMessage", "Check your login information and try again.");
 			mv.addObject("user", user);
 			mv.setViewName("index.jsp");
-			
+
 		}
 		return mv;
 	}
 
-	//goes to forget password page
+	// setup forget password page
 	@RequestMapping("setUpRetrieveForgottenLogin.do")
-	public ModelAndView setupForgottenLoginPage(){
-		ModelAndView mv = new ModelAndView();		
+	public ModelAndView setupForgottenLoginPage() {
+		// serve the page to reset passwords
+		ModelAndView mv = new ModelAndView();
 		mv.setViewName("resetPassword.jsp");
-		mv.addObject("user",new User());
+		mv.addObject("user", new User());
 		return mv;
 	}
-	//sends email
+
+	// send password rerieval email
 	@RequestMapping("retrieveForgottonLogin.do")
-	public ModelAndView retrieveForgottonLogin(@Valid User user, Errors errors){
+	public ModelAndView retrieveForgottonLogin(@Valid User user, Errors errors) {
 		ModelAndView mv = new ModelAndView();
-		
-		if(errors.getErrorCount() == 0){
+		// if there are no input errors
+		if (errors.getErrorCount() == 0) {
+			// send the email
 			ResultObject result = dao.retrieveLogin(user);
-			if(result.getErrorMessage() == null){
+			// if there were no errors sending the email, return to the login
+			// page
+			// with success method
+			if (result.getErrorMessage() == null) {
 				mv.setViewName("index.jsp");
-				mv.addObject("message","Check your email for your password reset informatoin");
-				mv.addObject("user",new User());
-				
-			}else{
+				mv.addObject("message", "Check your email for your password reset informatoin");
+				mv.addObject("user", new User());
+
+				// if there were errors sending the email, return to reset page
+				// with an error message
+			} else {
 				mv.setViewName("resetPassword.jsp");
-				mv.addObject("message",result.getErrorMessage());
-				mv.addObject("user",user);
-	
-			}		
-		}else{
+				mv.addObject("message", result.getErrorMessage());
+				mv.addObject("user", user);
+
+			}
+		}
+		// if there were input errors, return to the reset password page with an
+		// error message
+		else {
 			mv.setViewName("resetPassword.jsp");
-			mv.addObject("message","Check your input and try again.");
-			mv.addObject("user",user);
-			
+			mv.addObject("message", "Check your input and try again.");
+			mv.addObject("user", user);
+
 		}
 		return mv;
-	
+
 	}
-	
-	//resets password
+
+	// resets password
 	@RequestMapping("resetLogin.do")
-	public ModelAndView resetLostLogin(@Valid User user, Errors errors, @ModelAttribute("currentUser") CurrentUser currentUser) {
-		
+	public ModelAndView resetLostLogin(@Valid User user, Errors errors,
+			@ModelAttribute("currentUser") CurrentUser currentUser) {
+
 		ModelAndView mv = new ModelAndView();
-		if(errors.getErrorCount() == 0){
+		// if there were no input errors
+		if (errors.getErrorCount() == 0) {
+			// reset the User's login, and go to the user's menu
 			ResultObject result = dao.resetLogin(user);
 			mv.setViewName("userMenu.jsp");
-			mv.addObject("currentUser",result.getCurrentUser());
-			
-		}else{
-			
+			mv.addObject("currentUser", result.getCurrentUser());
+
+		}
+		// if there were input errors, go back to the home (login) page
+		else {
+			mv.addObject("user", new User());
+			mv.setViewName("index.jsp");
 		}
 
-		
 		return mv;
 	}
 
-	
-	//set up the sign up page
+	// set up the sign up page
 	@RequestMapping("setUpSignUp.do")
 	public ModelAndView setUpSignUp() {
+		// go to the sign up page
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("user", new User());
 		mv.setViewName("signUp.jsp");
 		return mv;
 	}
 
-	//sign up action
+	// sign up action
 	@RequestMapping("signUp.do")
 	public ModelAndView signUp(@Valid User user, Errors errors) {
-		
 		ModelAndView mv = new ModelAndView();
-		if(errors.getErrorCount() == 0){
+		// if there are no input errors
+		if (errors.getErrorCount() == 0) {
+			// sign up the user
 			ResultObject result = dao.signUpUser(user);
+			// if the signup worked
 			if (result.getErrorMessage() == null) {
-				
+				// go to the sign up confirmation page
 				mv.addObject("currentUser", result.getCurrentUser());
 				mv.setViewName("signUpConf.jsp");
-				
-			} else {
+
+			}
+			// if the signup didn't work
+			else {
+				// go back to the sign up page with an error message
 				mv.addObject("user", result.getFullUser());
 				mv.addObject("errorMessage", result.getErrorMessage());
 				mv.setViewName("signUp.jsp");
 			}
-			
-		}else{
+
+		}
+		// if there were input errors
+		else {
+			// go back to sign up page w/ error msg.
 			mv.addObject("user", user);
 			mv.addObject("errorMessage", "Please check your information and try again");
 			mv.setViewName("signUp.jsp");
 		}
-		
-		return mv;
-	}
-	
-	//set up the confirmation page
-	@RequestMapping("setUpConfirm.do")
-	public ModelAndView setUpConfirmAccount(){
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("confirm.jsp");
-		
+
 		return mv;
 	}
 
-	//confrim action
+	// set up the confirmation page
+	@RequestMapping("setUpConfirm.do")
+	public ModelAndView setUpConfirmAccount() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("confirm.jsp");
+
+		return mv;
+	}
+
+	// confirm account w/ confirmation key
 	@RequestMapping(path = "confirm.do", method = RequestMethod.POST)
 	public ModelAndView confirmAccount(@RequestParam("password") String password,
 			@RequestParam("confirmationKey") String confirmationKey, @RequestParam("userName") String userName) {
+
 		ModelAndView mv = new ModelAndView();
+		// make a new user to hold the password, confirmation key,
+		// and username to pass to the dao.
 		User toConfirm = new User();
 		toConfirm.setPassword(password);
 		toConfirm.setUserConfirmationKey(confirmationKey);
 		toConfirm.setUserName(userName);
 		ResultObject result = new ResultObject();
+		// pass the toConfirm w/ relevant parameters to the DAO to confirm
+		// the users account
 		result = dao.confirmAccount(toConfirm);
-		// if failed...e tc
+		// if the user's account was created:
 		if (result.getErrorMessage() == null) {
+			// serve thank you page
 			mv.addObject("message", "Thanks for confirming your account!");
 			mv.setViewName("thankYou.jsp");
 
-		} else {
+		}
+		// if there was an error creating the user's account:
+		else {
+			// send an error to the confirmation page
 			mv.addObject("errorMessage", result.getErrorMessage());
-			mv.setViewName("thankYou.jsp");
+			mv.setViewName("confirm.jsp");
 
 		}
 		return mv;
 	}
 
-	//go to own account management page
+	// go to own account management page
 	@RequestMapping("selfManage.do")
 	public ModelAndView selfManage(@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
+		// go to self account management page
 		mv.addObject("currentUser", currentUser);
 		mv.setViewName("selfManage.jsp");
-		
-		
-		
+
 		return mv;
 
 	}
 
-	//logout
+	// logout
 	@RequestMapping("logout.do")
 	public ModelAndView logout(@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
+		// set the currentUser to null and add that object to the ModelAndView.
+		// this sets the session attribute's current user to a blank user.
 		currentUser = null;
 		currentUser = new CurrentUser();
 		mv.addObject("user", new User());
 		mv.addObject("currentUser", currentUser);
+		// return to the login page
 		mv.setViewName("index.jsp");
 		return mv;
 	}
-	
-	//go to user menu
+
+	// go to user menu page
 	@RequestMapping("manageMyAccount.do")
 	public ModelAndView manageMyAccount(@ModelAttribute("currentUser") CurrentUser currentUser) {
-		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("currentUser", currentUser);
 		mv.setViewName("userMenu.jsp");
 
 		return mv;
-		
+
 	}
 
-	//set up password change
+	// set up password change page
 	@RequestMapping("setUpChangePassword.do")
 	public ModelAndView setUpChangePassword() {
-		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("changePassword.jsp");
 		return mv;
 
 	}
 
-	//chnage password
+	// change user's own password
 	@RequestMapping("changePassword.do")
 	public ModelAndView changePassword(@RequestParam("oldPassword") String oldPassword,
 			@RequestParam("newPassword") String newPassword, @ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
+		// call the update method to change the user's password.
 		ResultObject result = dao.updatePassword(newPassword, oldPassword, currentUser);
+		// if the password was changed successfully,
 		if (result.getErrorMessage() == null) {
+			mv.addObject("message", "Password has been changed");
+		}
+		// if the password was not changed
+		else {
+
 			mv.addObject("errorMessage", result.getErrorMessage());
 		}
+		// go back to the self managment page
 		mv.setViewName("selfManage.jsp");
 		mv.addObject("currentUser", currentUser);
 		return mv;
 
 	}
 
-	//set up email change
+	// set up email change
 	@RequestMapping("setUpChangeEmail.do")
 	public ModelAndView setUpChangeEmail() {
 		ModelAndView mv = new ModelAndView();
@@ -276,19 +333,25 @@ public class ResourcesController {
 
 	}
 
-	//change email
+	// change email
 	@RequestMapping("changeEmail.do")
 	public ModelAndView changeEmail(@RequestParam("password") String password,
 			@RequestParam("newEmail") String newEmail, @ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
+		// make a new user object to hold the password and new email fields
 		User newParams = new User();
 		newParams.setPassword(password);
 		newParams.setEmail(newEmail);
+		// update the email
 		ResultObject result = dao.updateEmail(currentUser, newParams);
+		// if email was updated:
 		if (result.getErrorMessage() == null) {
-			mv.addObject("message", result.getMessage());
+			mv.addObject("message","Email has been updated!");
 			mv.setViewName("selfManage.jsp");
-		} else {
+		}
+		// if email was not updated
+		else {
+
 			mv.addObject("errorMessage", result.getErrorMessage());
 			mv.setViewName("changeEmail.jsp");
 
@@ -297,8 +360,7 @@ public class ResourcesController {
 		return mv;
 	}
 
-	//set up account delete
-	//TODO fix fix fix fix
+	//	 set up account delete
 	@RequestMapping("setUpDeleteAccount.do")
 	public ModelAndView setUpDeleteAccount(@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
@@ -307,500 +369,612 @@ public class ResourcesController {
 
 		return mv;
 	}
-	
+
 	// set up search
 	@RequestMapping("setUpSearch.do")
-	public ModelAndView setUpSearch(@ModelAttribute("currentUser") CurrentUser currentUser){
+	public ModelAndView setUpSearch(@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
-		
+		//add all objects necessary for search.jsp to function
 		mv.setViewName("search.jsp");
-		mv.addObject("currentUser",currentUser);
-		mv.addObject("searchParam",new SearchParam());
-		mv.addObject("categoryList",dao.getCategoryList());
-		mv.addObject("topicList",dao.getTopicList());
+		mv.addObject("currentUser", currentUser);
+		mv.addObject("searchParam", new SearchParam());
+		mv.addObject("categoryList", dao.getCategoryList());
+		mv.addObject("topicList", dao.getTopicList());
 		return mv;
 	}
-	
-	//search
+
+	// perform search
 	@RequestMapping("search.do")
-	public ModelAndView search(@ModelAttribute("currentUser") CurrentUser currentUser, SearchParam searchParam){
+	public ModelAndView search(@ModelAttribute("currentUser") CurrentUser currentUser, SearchParam searchParam) {
 		ModelAndView mv = new ModelAndView();
+		//get a list of matching seraches from the dao
 		List<CodeResource> resourceList = dao.getResources(searchParam);
-		
-		mv.addObject("currentUser",currentUser);
-		mv.addObject("resultList",resourceList);
+		//go the search result page
+		mv.addObject("currentUser", currentUser);
+		mv.addObject("resultList", resourceList);
 		mv.setViewName("searchResults.jsp");
 		return mv;
 	}
-	
-	//set up add resource page
+
+	// set up add resource page
 	@RequestMapping("setUpContribute.do")
-	public ModelAndView setUpContribute(@ModelAttribute("currentUser") CurrentUser currentUser){
+	public ModelAndView setUpContribute(@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
+		//add everything necessary for addResoruce.jsp to work
 		mv.addObject("codeResourceToAdd", new CodeResourceToAdd());
-		mv.addObject("currentUser",currentUser);
-		mv.addObject("categoryList",dao.getCategoryList());
-		mv.addObject("topicList",dao.getTopicList());
+		mv.addObject("currentUser", currentUser);
+		mv.addObject("categoryList", dao.getCategoryList());
+		mv.addObject("topicList", dao.getTopicList());
 		mv.setViewName("addResource.jsp");
 		return mv;
 	}
-	
-	//submit resource
+
+	// submit a new resource
 	@RequestMapping("contribute.do")
-	public ModelAndView search(@ModelAttribute("currentUser") CurrentUser currentUser, @Valid CodeResourceToAdd codeResourceToAdd, Errors errors){
+	public ModelAndView search(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@Valid CodeResourceToAdd codeResourceToAdd, Errors errors) {
 		ModelAndView mv = new ModelAndView();
 		ResultObject result;
-		if(errors.getErrorCount() == 0){
-			if(currentUser.getUserType().getAccessLevel() >= 2){
+		//if there are no input errors
+		if (errors.getErrorCount() == 0) {
+			//if the user is a contributor account or higher
+			if (currentUser.getUserType().getAccessLevel() >= 2) {
+//				submit the resource
 				result = dao.submitResource(currentUser, codeResourceToAdd);
+				//set current user to null, and reassign to current user
+				//this ensures that the currentUser's data gets updated
 				int signedInUserId = currentUser.getId();
 				currentUser = null;
 				currentUser = dao.getCurrentUser(signedInUserId);
+				//return the the user menu
 				mv.setViewName("userMenu.jsp");
-				mv.addObject("currentUser",currentUser);
-				mv.addObject("message",result.getMessage());
-				
-			}else{
-				mv.addObject("codeResourceToAdd", codeResourceToAdd);
-				mv.addObject("currentUser",currentUser);
-				mv.addObject("categoryList",dao.getCategoryList());
-				mv.addObject("topicList",dao.getTopicList());
-				mv.addObject("errorMessage","Your account needs to be confirmed before you can contribute resources.");
-				mv.setViewName("addResource.jsp");
-				
-			}
+				mv.addObject("currentUser", currentUser);
+				mv.addObject("message", result.getMessage());
 
-		}else{
+			}
+			//if the account is uncofirmed (level 1)
+			else {
+				//return to the add resource page, and display the error message
+				mv.addObject("codeResourceToAdd", codeResourceToAdd);
+				mv.addObject("currentUser", currentUser);
+				mv.addObject("categoryList", dao.getCategoryList());
+				mv.addObject("topicList", dao.getTopicList());
+				mv.addObject("errorMessage", "Your account needs to be confirmed before you can contribute resources.");
+				mv.setViewName("addResource.jsp");
+
+			}
+		//if there are input errors
+		} else {			
+			//return to the add resource page, and display the error message
 			mv.addObject("codeResourceToAdd", codeResourceToAdd);
-			mv.addObject("currentUser",currentUser);
-			mv.addObject("categoryList",dao.getCategoryList());
-			mv.addObject("topicList",dao.getTopicList());
-			mv.addObject("errorMessage","Check the data and try again");
+			mv.addObject("currentUser", currentUser);
+			mv.addObject("categoryList", dao.getCategoryList());
+			mv.addObject("topicList", dao.getTopicList());
+			mv.addObject("errorMessage", "Check the data and try again");
 			mv.setViewName("addResource.jsp");
 		}
-		
+
 		return mv;
 	}
-	
-	
-	//set up manage categories / topics
+
+	// set up manage categories / topics
 	@RequestMapping("setUpManageCategoriesAndTopics.do")
-	public ModelAndView setUpManageCategoriesAndTopics(@ModelAttribute("currentUser") CurrentUser currentUser){
+	public ModelAndView setUpManageCategoriesAndTopics(@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("topicList",dao.getTopicList());
-		mv.addObject("categoryList",dao.getCategoryList());
-		mv.setViewName("manageCategoriesAndTopics.jsp");	
+		mv.addObject("topicList", dao.getTopicList());
+		mv.addObject("categoryList", dao.getCategoryList());
+		mv.setViewName("manageCategoriesAndTopics.jsp");
 		return mv;
 	}
-	
-	//change or delete category
+
+	// change or delete category
 	@RequestMapping("modifyCategory.do")
-	public ModelAndView modifyCategory(@ModelAttribute("currentUser") CurrentUser currentUser, @RequestParam("categoryId") Integer categoryId,
-			@RequestParam("newCategory") String newCategory){
+	public ModelAndView modifyCategory(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("categoryId") Integer categoryId, @RequestParam("newCategory") String newCategory) {
 		ModelAndView mv = new ModelAndView();
-		if(currentUser.getUserType().getAccessLevel() > 3){
-			if(categoryId == null){
-				mv.addObject("errorMessage","Please select a cateogry and try again");
-			}else{
+		//if the user is an admin or higher
+		if (currentUser.getUserType().getAccessLevel() > 3) {
+			//if the category is blank
+			if (categoryId == null) {
+				mv.addObject("errorMessage", "Please select a cateogry and try again");
+			}
+			//if the category is not
+			else {
 				Category c = new Category();
 				c.setId(categoryId);
-				
-				if(newCategory.equals("")){
+				//delete the category if the input field is blank
+				if (newCategory.equals("")) {
 					dao.removeCategories(c);
-				}else{
+				}
+				//change the category to what is in the input field
+				//if the input field is not blank
+				else {
 					c.setName(newCategory);
 					dao.modifyCategories(c);
 				}
-				
+
 			}
+
+		}
+		//if the user is not admin or higher, add and error message and return to the page
+		else {
 			
-		}else{
-			mv.addObject("errorMessage","you do not have the correct access level to modify and delete categories");
+			mv.addObject("errorMessage", "you do not have the correct access level to modify and delete categories");
 		}
 
-		mv.addObject("topicList",dao.getTopicList());
-		mv.addObject("categoryList",dao.getCategoryList());
+		mv.addObject("topicList", dao.getTopicList());
+		mv.addObject("categoryList", dao.getCategoryList());
 		mv.setViewName("manageCategoriesAndTopics.jsp");
 		return mv;
 	}
-	
-	
-	//change or delete topic
+
+	// change or delete topic
 	@RequestMapping("modifyTopic.do")
-	public ModelAndView modifyTopic(@ModelAttribute("currentUser") CurrentUser currentUser, @RequestParam("topicId") Integer topicId,
-			@RequestParam("newTopic") String newTopic){
-		
+	public ModelAndView modifyTopic(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("topicId") Integer topicId, @RequestParam("newTopic") String newTopic) {
+
 		ModelAndView mv = new ModelAndView();
-		if(currentUser.getUserType().getAccessLevel() > 3){
-			if(topicId == null){
-				mv.addObject("errorMessage","Please select a topic and try again");
-			}else{
+		//if the currrent user is an admin account or higher
+		if (currentUser.getUserType().getAccessLevel() > 3) {
+			//if the topic is blank
+			if (topicId == null) {
+				//add and error message
+				mv.addObject("errorMessage", "Please select a topic and try again");
+			}
+			//if the topic is not blank
+			else {
 				Topic t = new Topic();
 				t.setId(topicId);
-				if(newTopic.equals("")){
+				//delete the topic if the input field is blank
+				if (newTopic.equals("")) {
 					dao.removeTopics(t);
-				}else{
+				} 
+				//change the topic to what is in the input field
+				//if the input field is not blank
+				else {
 					t.setName(newTopic);
 					dao.modifyTopics(t);
 				}
-				
+
 			}
-			
-		}else{
-			mv.addObject("errorMessage","You do not have the correct access level to modify or delete topics");
+
 		}
-		
-		mv.addObject("topicList",dao.getTopicList());
-		mv.addObject("categoryList",dao.getCategoryList());
+		//if the user is not an admin or higher, add an error message
+		else {
+			mv.addObject("errorMessage", "You do not have the correct access level to modify or delete topics");
+		}
+		//return to the manage cateogries page
+		mv.addObject("topicList", dao.getTopicList());
+		mv.addObject("categoryList", dao.getCategoryList());
 		mv.setViewName("manageCategoriesAndTopics.jsp");
 		return mv;
 	}
-	
-	//add a category
+
+	// add a category
 	@RequestMapping("addCategory.do")
-	public ModelAndView addCategory(@ModelAttribute("currentUser") CurrentUser currentUser, @RequestParam("categoryName") String categoryName){
+	public ModelAndView addCategory(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("categoryName") String categoryName) {
 		ModelAndView mv = new ModelAndView();
-		
+
 		Category c = new Category();
 		c.setName(categoryName);
 		ResultObject result;
-		if(currentUser.getUserType().getAccessLevel() > 2){
+		//if the user is a developer account or higher
+		if (currentUser.getUserType().getAccessLevel() > 2) {
+			//add the category
 			result = dao.addCategories(c);
-			if(result.getErrorMessage() == null){
-				mv.addObject("message","Category added");
-			}else{
-				mv.addObject("errorMessage",result.getErrorMessage());
+			//if the category added
+			if (result.getErrorMessage() == null) {
+				//add success message
+				mv.addObject("message", "Category added");
+			} 
+			//if the category didn't add
+			else {
+				//ad a fail message
+				mv.addObject("errorMessage", result.getErrorMessage());
 			}
-			
-			
-		}else{
-			mv.addObject("errorMessage","You do not have the correct access level to add categories");
+
 		}
-		mv.addObject("topicList",dao.getTopicList());
-		mv.addObject("categoryList",dao.getCategoryList());
+		//if the user is not a developer or higher, add error message
+		else {
+			mv.addObject("errorMessage", "You do not have the correct access level to add categories");
+		}
+		
+		//return to page
+		mv.addObject("topicList", dao.getTopicList());
+		mv.addObject("categoryList", dao.getCategoryList());
 		mv.setViewName("manageCategoriesAndTopics.jsp");
-			
+
 		return mv;
 	}
-	
-	//add a topic
+
+	// add a topic
 	@RequestMapping("addTopic.do")
-	public ModelAndView addTopic(@ModelAttribute("currentUser") CurrentUser currentUser, @RequestParam("topicName") String topicName){
+	public ModelAndView addTopic(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("topicName") String topicName) {
 		ModelAndView mv = new ModelAndView();
-		
+
 		Topic t = new Topic();
 		t.setName(topicName);
 		ResultObject result = null;
-		
-		if(currentUser.getUserType().getAccessLevel() > 2){
+		//if the user is a developer account or higher:
+		if (currentUser.getUserType().getAccessLevel() > 2) {
+			//add the topic
 			result = dao.addTopics(t);
-			mv.addObject("message","Topic added.");
-		}else{
-			mv.addObject("errorMessage","You do not have the correct access level to add topics.");
+			mv.addObject("message", "Topic added.");
 		}
-		
-		if(result.getErrorMessage() == null){
-			mv.addObject("message","Topic added");
-		}else{
-			mv.addObject("errorMessage",result.getErrorMessage());
+		//if the user is not a developer account or hgiher
+		else {
+			//add an error message
+			mv.addObject("errorMessage", "You do not have the correct access level to add topics.");
 		}
-		mv.addObject("topicList",dao.getTopicList());
-		mv.addObject("categoryList",dao.getCategoryList());
+		//if the add worked, add a success message
+		if (result.getErrorMessage() == null) {
+			mv.addObject("message", "Topic added");
+		}
+		//if the add failed, add a fail message
+		else {
+			mv.addObject("errorMessage", result.getErrorMessage());
+		}
+		//return to the page
+		mv.addObject("topicList", dao.getTopicList());
+		mv.addObject("categoryList", dao.getCategoryList());
 		mv.setViewName("manageCategoriesAndTopics.jsp");
-	
+
 		return mv;
 	}
-	
-	//view a resource
+
+	// view a resource
 	@RequestMapping("viewResource.do")
 	public ModelAndView viewResource(@ModelAttribute("currentUser") CurrentUser currentUser,
-			@RequestParam("resourceId") Integer resourceId){
+			@RequestParam("resourceId") Integer resourceId) {
 		ModelAndView mv = new ModelAndView();
 		CodeResource cr = new CodeResource();
 		cr.setId(resourceId);
-		mv.addObject("resource",dao.getResource(cr));
-		
-		mv.addObject("currentUser",currentUser);
+		//add the resource to the ModelAndView
+		mv.addObject("resource", dao.getResource(cr));
+		mv.addObject("currentUser", currentUser);
 		mv.setViewName("viewResource.jsp");
 		return mv;
 	}
-	
-	//save a resource
+
+	// save a resource to the user's account
 	@RequestMapping("saveResource.do")
-	public ModelAndView saveResource(@ModelAttribute("currentUser") CurrentUser currentUser, @RequestParam("resourceId") Integer resourceId, @RequestParam("comments") String comments){
+	public ModelAndView saveResource(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("resourceId") Integer resourceId, @RequestParam("comments") String comments) {
 		ModelAndView mv = new ModelAndView();
 		CodeResource cr = new CodeResource();
 		cr.setId(resourceId);
 		dao.saveResource(currentUser, cr, comments);
+		//set the user to null and reassign it, to ensure that the user's
+		//resource lists updates
 		int signedInUserId = currentUser.getId();
 		currentUser = null;
 		currentUser = dao.getCurrentUser(signedInUserId);
-		
+
 		mv.setViewName("userMenu.jsp");
-		mv.addObject("currentUser",currentUser);
+		mv.addObject("currentUser", currentUser);
 		return mv;
 	}
-	
-	/*
-	 * manage own resources
-	 */
+
+	//setup search user's own resources page
 	@RequestMapping("setUpSearchUserResources.do")
-	public ModelAndView setUpSearchUserResources(@ModelAttribute("currentUser") CurrentUser currentUser){
+	public ModelAndView setUpSearchUserResources(@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
-		
+		//add everything necessary for searchUserResources.jsp
 		mv.setViewName("searchUserResources.jsp");
-		mv.addObject("currentUser",currentUser);
-		mv.addObject("searchParam",new SearchParam());
-		mv.addObject("categoryList",dao.getCategoryList());
-		mv.addObject("topicList",dao.getTopicList());
+		mv.addObject("currentUser", currentUser);
+		mv.addObject("searchParam", new SearchParam());
+		mv.addObject("categoryList", dao.getCategoryList());
+		mv.addObject("topicList", dao.getTopicList());
 		return mv;
 	}
-	
+	//search user's resources
 	@RequestMapping("searchUserResources.do")
-	public ModelAndView searchUserResources(@ModelAttribute("currentUser") CurrentUser currentUser, SearchParam searchParam){
+	public ModelAndView searchUserResources(@ModelAttribute("currentUser") CurrentUser currentUser,
+			SearchParam searchParam) {
 		ModelAndView mv = new ModelAndView();
 		searchParam.setUserId(currentUser.getId());
+		//get a list of the user's resources
 		List<CodeResource> resourceList = dao.getSavedResources(searchParam);
-		
-		mv.addObject("currentUser",currentUser);
-		mv.addObject("resultList",resourceList);
+		//add the list, and go to the serach results page
+		mv.addObject("currentUser", currentUser);
+		mv.addObject("resultList", resourceList);
 		mv.setViewName("userResourceResult.jsp");
 		return mv;
-	
+
 	}
-	
-	//edit a resource
+
+	// set up page to edit a user's resource
 	@RequestMapping("setUpEditResource.do")
 	public ModelAndView setUpEditResource(@ModelAttribute("currentUser") CurrentUser currentUser,
-			@RequestParam("resourceId") Integer resourceId){
+			@RequestParam("resourceId") Integer resourceId) {
 		ModelAndView mv = new ModelAndView();
 		CodeResource cr = new CodeResource();
 		cr.setId(resourceId);
+		//get the information needed to display the resource in editResource.jsp
 		CodeResourceToAdd resourceToEdit = dao.getResourceWithoutObjects(cr);
-		mv.addObject("codeResource",resourceToEdit);
-		mv.addObject("currentUser",currentUser);
-		mv.addObject("categoryList",dao.getCategoryList());
-		mv.addObject("topicList",dao.getTopicList());
+		mv.addObject("codeResource", resourceToEdit);
+		mv.addObject("currentUser", currentUser);
+		mv.addObject("categoryList", dao.getCategoryList());
+		mv.addObject("topicList", dao.getTopicList());
+		//go to edit page
 		mv.setViewName("editResource.jsp");
-		
+
 		return mv;
-		
-		
+
 	}
-	//submit resource changes
+
+	// submit resource changes
 	@RequestMapping("editResource.do")
 	public ModelAndView editResource(@ModelAttribute("currentUser") CurrentUser currentUser,
-			CodeResourceToAdd codeResource,
-			@ModelAttribute("currentUserId") Integer currentUserId){
+			CodeResourceToAdd codeResource, @ModelAttribute("currentUserId") Integer currentUserId) {
 		ModelAndView mv = new ModelAndView();
-	
-		if(currentUser.getUserType().getAccessLevel() > 3){
+		//if the current user is admin or higher,
+		if (currentUser.getUserType().getAccessLevel() > 3) {
+//			submit modified resuorce
 			dao.modifyResource(codeResource);
-			mv.addObject("message","Resource updated");
-			
-		}else{
-			mv.addObject("errorMessage","You do not have the correct access level to update resources.");
-			
+			mv.addObject("message", "Resource updated");
+
 		}
+		//if the current user is not admin or higher
+		else {
+			//display erro message
+			mv.addObject("errorMessage", "You do not have the correct access level to update resources.");
+
+		}
+		//reset the current user to ensure the user resourece's list is updated
 		currentUser = null;
 		currentUser = dao.getCurrentUser(currentUserId);
-		
-		mv.addObject("codeResource",codeResource);
-		mv.addObject("currentUser",currentUser);
-		mv.addObject("categoryList",dao.getCategoryList());
-		mv.addObject("topicList",dao.getTopicList());
+
+		//return to edit page
+		mv.addObject("codeResource", codeResource);
+		mv.addObject("currentUser", currentUser);
+		mv.addObject("categoryList", dao.getCategoryList());
+		mv.addObject("topicList", dao.getTopicList());
 		mv.setViewName("editResource.jsp");
 		return mv;
-		
+
 	}
-	
+
+	//change the resource status
 	@RequestMapping("setUpSetResourceStatus.do")
 	public ModelAndView setUpSetResourceStatus(@ModelAttribute("currentUser") CurrentUser currentUser,
-			@RequestParam("resourceId") Integer resourceId){
+			@RequestParam("resourceId") Integer resourceId) {
 		ModelAndView mv = new ModelAndView();
 		CodeResource cr = new CodeResource();
+		//add everything needed for set resource status
 		cr.setId(resourceId);
-		mv.addObject("codeResource",dao.getResource(cr));
-		mv.addObject("statusList",dao.getStatusList());
-		mv.addObject("currentUser",currentUser);
+		//get the resource to modify
+		mv.addObject("codeResource", dao.getResource(cr));
+		mv.addObject("statusList", dao.getStatusList());
+		mv.addObject("currentUser", currentUser);
 		mv.setViewName("setStatus.jsp");
-				
+
 		return mv;
-		
-		
+
 	}
-	
+
+	//set the resource status
 	@RequestMapping("setResourceStatus.do")
 	public ModelAndView setResourceStatus(@ModelAttribute("currentUser") CurrentUser currentUser,
-			@RequestParam("resourceId") Integer resourceId,
-			@RequestParam("statusId") Integer statusId){
+			@RequestParam("resourceId") Integer resourceId, @RequestParam("statusId") Integer statusId) {
 		ModelAndView mv = new ModelAndView();
-		if(currentUser.getUserType().getAccessLevel() > 2){
-			
+		//if the current user is a developer or higher:
+		if (currentUser.getUserType().getAccessLevel() > 2) {
+			//change the review status, and add success method
 			dao.changeReviewStatus(resourceId, statusId);
-			mv.addObject("message","this resource's status has been updated");
-		}else{
-			mv.addObject("errorMessage","You do not have the correct access level to approve posts");
+			mv.addObject("message", "This resource's status has been updated");
+		} else {
+			mv.addObject("errorMessage", "You do not have the correct access level to review resources");
 		}
+
+		//return to the resource's page
+		
 		CodeResource cr = new CodeResource();
 		cr.setId(resourceId);
-		
-		mv.addObject("currentUser",currentUser);
-		mv.addObject("resource",dao.getResource(cr));
+
+		mv.addObject("currentUser", currentUser);
+		mv.addObject("resource", dao.getResource(cr));
 		mv.setViewName("viewResource.jsp");
-		
+
 		return mv;
-		
+
 	}
-	
-	//add are you sure javascript confrim
+
+	// delete resource from current user's list
 	@RequestMapping("deleteSavedResource.do")
 	public ModelAndView deleteResource(@ModelAttribute("currentUser") CurrentUser currentUser,
-			@RequestParam("resourceId") Integer userResourceId){
+			@RequestParam("resourceId") Integer userResourceId) {
 		ModelAndView mv = new ModelAndView();
+		//detete resource from current user's list
 		dao.deleteSavedResource(userResourceId, currentUser.getId());
-		//not updating
-		//force signout and signin to see if it updates
+		// reset current user to ensure user resource list is updated
 		int signedInUserId = currentUser.getId();
 		currentUser = null;
 		currentUser = dao.getCurrentUser(signedInUserId);
-		
+		//return to user's resource search
 		mv.setViewName("searchUserResources.jsp");
-		mv.addObject("currentUser",currentUser);
-		mv.addObject("searchParam",new SearchParam());
-		mv.addObject("categoryList",dao.getCategoryList());
-		mv.addObject("topicList",dao.getTopicList());
+		mv.addObject("currentUser", currentUser);
+		mv.addObject("searchParam", new SearchParam());
+		mv.addObject("categoryList", dao.getCategoryList());
+		mv.addObject("topicList", dao.getTopicList());
 		return mv;
-		
+
 	}
-	
-	/*
-	 * 
-	 * user management
-	 */
-	
+
+	//setup manage user's
 	@RequestMapping("setUpManageUsers.do")
-	public ModelAndView setUpManageUsers(@ModelAttribute("currentUser") CurrentUser currentUser){
+	public ModelAndView setUpManageUsers(@ModelAttribute("currentUser") CurrentUser currentUser) {
 		ModelAndView mv = new ModelAndView();
-		if(currentUser.getUserType().getAccessLevel() > 4){
-			mv.addObject("user", new User());
-			mv.setViewName("manageUsers.jsp");			
-			
-		}else{
-			mv.addObject("errorMessage","You do not have the correct access level to manage users");
-			mv.addObject("currentUser", currentUser);
-			mv.setViewName("userMenu.jsp");
-		}
-		return mv;
-
-	}
-	@RequestMapping("getUserList.do")
-	public ModelAndView getUserList(@ModelAttribute("currentUser") CurrentUser currentUser,  User user){
-		ModelAndView mv = new ModelAndView();
-		
-		
-		List<User> userList = dao.getUsers(user);
-		
-		mv.addObject("userList",userList);
-		mv.addObject("currentUser",currentUser);
-		mv.setViewName("userList.jsp");
-		
-		
-		return mv;
-	}
-	
-	@RequestMapping("viewUser.do")
-	public ModelAndView viewUser(@ModelAttribute("currentUser") CurrentUser currentUser,
-			@RequestParam("userId") Integer userId){
-		ModelAndView mv = new ModelAndView();
-
-		
-		
-		mv.addObject("user",dao.getUser(userId));
-		mv.addObject("currentUser",currentUser);
-		mv.addObject("userTypeList",dao.getUserTypeList());
-		mv.setViewName("viewUser.jsp");
-		return mv;
-	}
-	
-	@RequestMapping("modifyUser.do")
-	public ModelAndView modifyUser(@Valid User user, Errors errors,
-			@RequestParam("userTypeId") Integer userTypeId){
-		ModelAndView mv = new ModelAndView();
-		if(errors.getErrorCount() == 0){
-			user.setUserType(dao.getUserTypeById(userTypeId));
-			dao.updateUser(user,userTypeId);
-			mv.addObject("user",user);
-			mv.addObject("userTypeList",dao.getUserTypeList());
-			mv.addObject("message","modified user");
-			mv.setViewName("viewUser.jsp");
-			
-		}else{
-		
-			mv.addObject("user",dao.getUser(user.getId()));
-			mv.addObject("userTypeList",dao.getUserTypeList());
-			mv.addObject("errorMessage","Check your input, and try again.");
-			mv.setViewName("viewUser.jsp");
-		}
-		return mv;
-	}
-	
-
-	 @RequestMapping("deleteUser.do")
-	 public ModelAndView deleteUser(@ModelAttribute("currentUser") CurrentUser currentUser,
-			 @RequestParam("userId") Integer userId){
-		 ModelAndView mv = new ModelAndView();
-		 if(currentUser.getUserType().getAccessLevel() > 4){
-			 User userToDelete = dao.getUser(userId); 
-			 dao.deleteAllOfUsersResources(userToDelete);
-			 dao.removeUser(userToDelete);
-		 }else{
-			 mv.addObject("errorMessage","You do not have the correct access to delete users.");
-		 }
+		//if the current user has an owner account
+		if (currentUser.getUserType().getAccessLevel() > 4) {
+			//serve mange user's page
 			mv.addObject("user", new User());
 			mv.setViewName("manageUsers.jsp");
-				
-		 return mv;
 
+		}
+		//if the current user does not have an owner account
+		else {
+			//add an error message, and return to the userMenu.
+			mv.addObject("errorMessage", "You do not have the correct access level to manage users");
+			mv.setViewName("userMenu.jsp");
+		}
+		mv.addObject("currentUser", currentUser);
+		return mv;
+
+	}
 	
-	 }
-	 
-	 @RequestMapping("deleteSelf.do")
-	 public ModelAndView deleteSelf(@ModelAttribute("currentUser") CurrentUser currentUser,
-			 @RequestParam("userId") Integer userId){
-		 ModelAndView mv = new ModelAndView();
-		 if(currentUser.getId() == userId){
-			 User userToDelete = dao.getUser(userId); 
-			 dao.deleteAllOfUsersResources(userToDelete);
-			 dao.removeUser(userToDelete);
-		 }
-		 currentUser = null;
-		 currentUser = new CurrentUser();
-		 
-		 mv.addObject(currentUser);
-		 mv.addObject("user", new User());
-		 mv.setViewName("index.jsp");
-		 
-		 return mv;
-		 
-	 }
 	
-	@RequestMapping("deleteCodeResource.do")
-	public ModelAndView deleteCodeResource(@ModelAttribute("currentUser") CurrentUser currentUser,
-			@RequestParam("resourceId") Integer resourceId){
+	//search the user's
+	@RequestMapping("getUserList.do")
+	public ModelAndView getUserList(@ModelAttribute("currentUser") CurrentUser currentUser, User user) {
 		ModelAndView mv = new ModelAndView();
-		if(currentUser.getUserType().getAccessLevel() > 3){
-			dao.removeResource(resourceId);
+		//if the user has an owner account
+		if (currentUser.getUserType().getAccessLevel() > 4) {
 			
-		}else{
-			mv.addObject("errorMessage","You do not have the correct access to delete resources.");
+			//get a list of user's from the dao
+			List<User> userList = dao.getUsers(user);
+			//go to the results page
+			mv.addObject("userList", userList);
+			mv.setViewName("userList.jsp");
+
+		}
+		//if the current user does not have an owner account
+		else {
+			mv.addObject("errorMessage", "You do not have the correct access level to manage users");
+			mv.setViewName("userMenu.jsp");
+		}
+
+
+		mv.addObject("currentUser", currentUser);
+		return mv;
+	}
+
+	//view a user
+	@RequestMapping("viewUser.do")
+	public ModelAndView viewUser(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("userId") Integer userId) {
+		ModelAndView mv = new ModelAndView();
+		//if the user has an owner account
+		if (currentUser.getUserType().getAccessLevel() > 4) {
+
+
+			mv.addObject("user", dao.getUser(userId));
+			mv.addObject("userTypeList", dao.getUserTypeList());
+			mv.setViewName("viewUser.jsp");
+		}
+		//if the current user does not have an owner account
+		else {
+			mv.addObject("errorMessage", "You do not have the correct access level to manage users");
+			mv.setViewName("userMenu.jsp");
 		}
 		
+		mv.addObject("currentUser", currentUser);
+		return mv;
+
+	}
+
+	//change the user
+	@RequestMapping("modifyUser.do")
+	public ModelAndView modifyUser(@Valid User user, Errors errors, @RequestParam("userTypeId") Integer userTypeId) {
+		ModelAndView mv = new ModelAndView();
+		//if the input is valid		
+		if (errors.getErrorCount() == 0) {
+			//update the user, and return to view the user with a success message
+			user.setUserType(dao.getUserTypeById(userTypeId));
+			dao.updateUser(user, userTypeId);
+			mv.addObject("user", user);
+			mv.addObject("userTypeList", dao.getUserTypeList());
+			mv.addObject("message", "modified user");
+			mv.setViewName("viewUser.jsp");
+
+		}
+		//if the input is invalid
+		else {
+			//retrn to view the user with an error message
+			mv.addObject("user", dao.getUser(user.getId()));
+			mv.addObject("userTypeList", dao.getUserTypeList());
+			mv.addObject("errorMessage", "Check your input, and try again.");
+			mv.setViewName("viewUser.jsp");
+		}
+		return mv;
+	}
+
+	//delete the user
+	@RequestMapping("deleteUser.do")
+	public ModelAndView deleteUser(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("userId") Integer userId) {
+		ModelAndView mv = new ModelAndView();
+		//if the user has an owner account
+		if (currentUser.getUserType().getAccessLevel() > 4) {
+			
+			User userToDelete = dao.getUser(userId);
+			//delete all of the user's resources (like manually cascading)
+			dao.deleteAllOfUsersResources(userToDelete);
+			//delete the user
+			dao.removeUser(userToDelete);
+		}
+		//if the user does not have an owner account
+		else {
+			//add error message
+			mv.addObject("errorMessage", "You do not have the correct access to delete users.");
+		}
+		//go back to manage user's page
+		mv.addObject("user", new User());
+		mv.setViewName("manageUsers.jsp");
+
+		return mv;
+
+	}
+
+	//delete own account
+	@RequestMapping("deleteSelf.do")
+	public ModelAndView deleteSelf(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("userId") Integer userId) {
+		ModelAndView mv = new ModelAndView();
+		//double check that the current user's id is equal to the id from the jsp
+		if (currentUser.getId() == userId) {
+			User userToDelete = dao.getUser(userId);
+			//delete all of the user's resources (kind of like a manual cascase);
+			dao.deleteAllOfUsersResources(userToDelete);
+			//remove the user
+			dao.removeUser(userToDelete);
+		}
+		//logout the current user
+		currentUser = null;
+		currentUser = new CurrentUser();
+		//go back to the signin (index.jsp) page
+		mv.addObject(currentUser);
+		mv.addObject("user", new User());
+		mv.setViewName("index.jsp");
+
+		return mv;
+
+	}
+
+	//delete a resources
+	@RequestMapping("deleteCodeResource.do")
+	public ModelAndView deleteCodeResource(@ModelAttribute("currentUser") CurrentUser currentUser,
+			@RequestParam("resourceId") Integer resourceId) {
+		ModelAndView mv = new ModelAndView();
+		//if the user is an admin or higher
+		if (currentUser.getUserType().getAccessLevel() > 3) {
+			//remove resource
+			dao.removeResource(resourceId);
+
+		} 
+		//if the user is not an admin or higher
+		else {
+			//add an erro message
+			mv.addObject("errorMessage", "You do not have the correct access to delete resources.");
+		}
+		//return to the search page
 		mv.setViewName("search.jsp");
-		mv.addObject("currentUser",currentUser);
-		mv.addObject("searchParam",new SearchParam());
-		mv.addObject("categoryList",dao.getCategoryList());
-		mv.addObject("topicList",dao.getTopicList());
+		mv.addObject("currentUser", currentUser);
+		mv.addObject("searchParam", new SearchParam());
+		mv.addObject("categoryList", dao.getCategoryList());
+		mv.addObject("topicList", dao.getTopicList());
 		return mv;
 	}
 

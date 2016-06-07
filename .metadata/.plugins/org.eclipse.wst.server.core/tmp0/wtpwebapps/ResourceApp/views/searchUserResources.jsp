@@ -9,6 +9,9 @@
 			<td>Search Keywords:</td>
 			<td><form:input type="text" path="queryString"/></td>
 		</tr>
+		<tr>
+			<td colspan="2">Leave blank for all results</td>
+		</tr>
 		
 		<tr>
 			<td>Category:</td>

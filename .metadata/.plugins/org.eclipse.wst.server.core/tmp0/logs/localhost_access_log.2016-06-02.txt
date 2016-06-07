@@ -37,3 +37,8 @@
 0:0:0:0:0:0:0:1 - - [02/Jun/2016:00:02:28 -0600] "GET /ResourceApp/navbar-fixed-top.css HTTP/1.1" 404 1058
 0:0:0:0:0:0:0:1 - - [02/Jun/2016:00:02:29 -0600] "POST /ResourceApp/viewResource.do HTTP/1.1" 200 5982
 0:0:0:0:0:0:0:1 - - [02/Jun/2016:00:02:29 -0600] "GET /ResourceApp/navbar-fixed-top.css HTTP/1.1" 404 1058
+0:0:0:0:0:0:0:1 - - [02/Jun/2016:00:40:37 -0600] "GET /ResourceApp/ HTTP/1.1" 500 179
+0:0:0:0:0:0:0:1 - - [02/Jun/2016:00:40:39 -0600] "GET /ResourceApp/index.do HTTP/1.1" 500 179
+0:0:0:0:0:0:0:1 - - [02/Jun/2016:00:43:24 -0600] "GET /TapMinder/ HTTP/1.1" 404 1014
+0:0:0:0:0:0:0:1 - - [02/Jun/2016:01:09:52 -0600] "GET /ResourceApp/ HTTP/1.1" 500 179
+127.0.0.1 - - [02/Jun/2016:01:57:40 -0600] "GET / HTTP/1.1" 404 994

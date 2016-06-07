@@ -20,7 +20,7 @@
 			<td colspan="2"><span class="info">This is still a work in progress, and will be</span></td>
 		</tr>
 		<tr>
-			<td colspan="2"><span class="info">fixed soon.</span></td>
+			<td colspan="2"><span class="info">fixed soon.  LEAVE BLANK TO SHOW ALL RESULTS</span></td>
 		</tr>
 		<tr>
 			<td>Include Unconfirmed Resources*</td>

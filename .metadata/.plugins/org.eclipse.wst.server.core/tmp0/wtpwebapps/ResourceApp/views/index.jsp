@@ -54,7 +54,8 @@
   Username: contributor<br>
   Password: password<br>
   
-  For an overview of permissions, check out the <a target="_blank" href="http://www.alexmpeterson.com/resourceapp.php"> project description.</a>
+  For an overview of permissions, check out the <a target="_blank" href="http://www.alexmpeterson.com/resourceapp.php"> project description.</a><br>
+  Feel free to play with the application, however, if you delete things please let me know at <a  href="mailto:mail@alexmpeterson.com?Subject=Resource DB Reset%!"> mail@alexmpeterson.com </a> so I can reset the database.<br>
   
   
   
